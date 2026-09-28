@@ -1,0 +1,51 @@
+:root {
+  /* Backgrounds */
+  --bg-primary: #080b12;
+  --bg-secondary: #0d111a;
+
+  /* Surfaces */
+  --surface: #111722;
+  --surface-hover: #161d2a;
+  --surface-elevated: #192231;
+
+  /* Borders */
+  --border: #222b3a;
+  --border-hover: #344054;
+
+  /* Brand */
+  --primary: #7c5cfc;
+  --primary-hover: #6d4fe8;
+  --primary-soft: #211a3d;
+  --accent: #a78bfa;
+
+  /* Semantic */
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #38bdf8;
+
+  /* Text */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #7a8699; /* lightened from #64748B to pass WCAG AA on #111722 */
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Spacing (8px grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+}
