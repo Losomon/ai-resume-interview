@@ -1,0 +1,15 @@
+import { PALETTE } from "../utils/constants"; import { Button } from "../components/ui/Button"; import { Badge } from "../components/ui/Badge"; import { Card } from "../components/ui/Card";
+import { Progress } from "../components/ui/Progress"; import { Input } from "../components/ui/Input"; import { Skeleton } from "../components/ui/Skeleton"; import { SparkIcon } from "../components/ui/SparkIcon";
+import { AIOrb } from "../components/ui/AIOrb"; import { CareerSignal } from "../components/ui/CareerSignal";
+const S = ({ t, children }: { t: string; children: React.ReactNode }) => (<section className="py-8 border-t border-line"><h2 className="text-lg font-semibold text-ink mb-4">{t}</h2>{children}</section>);
+/** Living style guide at /design-system. Add every new component here so designers can review it in one place. */
+export default function DesignSystem() {
+  return (<main className="mx-auto max-w-[1100px] px-6 py-12"><h1 className="h-hero !text-[40px] mb-2">Design system</h1><p className="mb-8">Every token and component, live. Source of truth: tailwind.config.ts.</p>
+    <S t="Color"><div className="grid grid-cols-2 md:grid-cols-5 gap-3">{PALETTE.map((c) => (<div key={c.name}><div className="h-16 rounded-lg border border-line" style={{ background: c.hex }} /><p className="mt-1.5 text-sm text-ink">{c.name}</p><p className="text-xs text-mute">{c.hex}, {c.use}</p></div>))}</div></S>
+    <S t="Type"><p className="h-hero !text-[48px]">Your career.</p><p className="text-[30px] font-semibold text-ink mt-3">Dashboard heading 30</p><p className="text-base mt-3">Body 16 / 1.6 in Inter. Secondary text uses soft, captions use mute.</p></S>
+    <S t="Buttons and badges"><div className="flex flex-wrap gap-3 items-center"><Button>Primary 44</Button><Button size="lg">Large 52</Button><Button variant="ghost">Ghost</Button>{(["ai", "ok", "info", "warn", "bad"] as const).map((t) => <Badge key={t} tone={t}>{t}</Badge>)}</div></S>
+    <S t="Inputs and progress"><div className="grid md:grid-cols-2 gap-6"><div className="space-y-4"><Input label="Email" placeholder="you@example.com" /><Input label="Password" type="password" error="Use at least 8 characters" /></div><div className="space-y-4"><Progress label="Resume" value={92} /><Progress label="Skills" value={68} tone="#F59E0B" /></div></div></S>
+    <S t="Cards and loading"><div className="grid md:grid-cols-2 gap-4"><Card>Hover me: border and 2px lift, 180ms.</Card><Card className="space-y-3"><Skeleton className="h-4 w-1/2" /><Skeleton className="h-4 w-full" /><Skeleton className="h-4 w-3/4" /></Card></div></S>
+    <S t="SparkIcon variants"><div className="flex gap-6">{(["static", "pulse", "spin", "glow"] as const).map((a) => <div key={a} className="text-center text-xs"><SparkIcon size={32} animate={a} /><p className="mt-2">{a}</p></div>)}</div></S>
+    <S t="AI orb states"><div className="flex flex-wrap gap-8">{(["idle", "thinking", "speaking"] as const).map((s) => <div key={s} className="text-center text-xs"><AIOrb state={s} size={180} /><p>{s}</p></div>)}</div></S>
+    <S t="Career Signal"><CareerSignal /></S></main>); }
