@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom"; import { Card } from "../ui/Card"; import { SparkIcon } from "../ui/SparkIcon";
-const actions = [{ to: "/ats", t: "Improve your ATS match", d: "Add evidence for 3 missing keywords" }, { to: "/interview", t: "Practice an interview", d: "10 questions, about 15 minutes" }];
-export const RecommendedActions = () => (<Card><h2 className="font-semibold text-ink mb-3">Recommended actions</h2><ul className="space-y-2">{actions.map((a) => (
-  <li key={a.to}><Link to={a.to} className="flex gap-3 rounded-lg p-3 hover:bg-elevated transition-colors"><SparkIcon size={18} className="mt-0.5" /><span><span className="block text-ink text-sm font-medium">{a.t}</span><span className="text-sm">{a.d}</span></span></Link></li>))}</ul></Card>);
+import { Card } from "../ui/Card"; import { Button } from "../ui/Button"; import { SparkIcon } from "../ui/SparkIcon";
+export const RecommendedActions = () => (<Card><p className="flex items-center gap-1.5 text-sm text-mute"><SparkIcon size={12} />Recommended next step</p>
+  <h2 className="mt-1 text-lg font-medium text-ink">Improve your Spring Boot experience section</h2>
+  <p className="mt-1 max-w-xl text-sm">4 of your recent target positions mention Spring Boot experience that isn't currently visible in your resume.</p>
+  <Button to="/resumes" className="mt-4">Review recommendation</Button></Card>);

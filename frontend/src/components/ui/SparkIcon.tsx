@@ -1,6 +1,6 @@
 import clsx from "clsx";
 type Props = { size?: number; className?: string; animate?: "static" | "pulse" | "spin" | "glow"; label?: string };
-const anim = { static: "", pulse: "animate-breathe", spin: "animate-spin360", glow: "animate-breathe drop-shadow-[0_0_8px_#A78BFA]" };
+const anim = { static: "", pulse: "animate-breathe", spin: "animate-spin360", glow: "animate-breathe" };
 /** The one AI mark. Never type the ✦ character. Decorative unless `label` is given. */
 export function SparkIcon({ size = 16, className, animate = "static", label }: Props) {
   return (

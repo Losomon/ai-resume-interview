@@ -1,6 +1,6 @@
-import { motion } from "framer-motion"; import { Card } from "../ui/Card";
-export function ReadinessScore({ value = 82 }: { value?: number }) { const r = 54, c = 2 * Math.PI * r;
-  return (<Card className="grid place-items-center py-8"><p className="text-sm text-mute mb-3">Career readiness</p>
-    <div className="relative"><svg width="140" height="140" viewBox="0 0 140 140" role="img" aria-label={`Readiness ${value} out of 100`}><circle cx="70" cy="70" r={r} fill="none" stroke="#202A3A" strokeWidth="10" />
-      <motion.circle cx="70" cy="70" r={r} fill="none" stroke="#7C5CFC" strokeWidth="10" strokeLinecap="round" strokeDasharray={c} transform="rotate(-90 70 70)" initial={{ strokeDashoffset: c }} animate={{ strokeDashoffset: c * (1 - value / 100) }} transition={{ duration: 1.4, ease: "easeOut" }} /></svg>
-      <span className="absolute inset-0 grid place-items-center text-4xl font-bold text-ink">{value}</span></div></Card>); }
+import { Card } from "../ui/Card"; import { Progress } from "../ui/Progress";
+export function ReadinessScore({ value = 82, delta = 6 }: { value?: number; delta?: number }) {
+  return (<Card><p className="text-sm text-mute">Career readiness</p>
+    <div className="mt-1 flex items-baseline gap-3"><span className="text-3xl font-semibold text-ink tabular-nums">{value}<span className="ml-1 text-base font-normal text-mute">/ 100</span></span><span className="text-sm text-ok">+{delta} this month</span></div>
+    <div className="mt-3"><Progress label="Career readiness" value={value} hideLabel /></div>
+    <p className="mt-3 text-sm">Your profile is progressing well. Three areas need attention.</p></Card>); }
