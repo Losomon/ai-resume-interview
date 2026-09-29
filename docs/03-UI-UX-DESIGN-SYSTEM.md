@@ -1,62 +1,54 @@
 # 03. UI/UX Design System
 
-Live version: run the frontend and open `/design-system`. Source of truth: `tailwind.config.ts`.
+Live version: run the frontend and open `/design-system`. Tokens: CSS variables in `src/index.css`, exposed by `tailwind.config.ts`.
 
-## Direction
-Dark premium SaaS (Linear/Vercel influence), purple AI accent, data-forward. Product UI replaces stock photography.
+## Direction (revised)
+A real product, not AI concept art. Reference: Linear's precision, Notion's usability, Stripe's information design, a modern recruiting platform. **Light by default; dark is an optional theme** (toggle in the topbar, saved as `cf_theme`, follows the OS on first visit).
 
-## Color
-| Token | Hex | Use |
-|---|---|---|
-| bg | `#070A12` | Page |
-| bg2 | `#0B0F19` | Sidebar, inputs |
-| card | `#101624` | Cards |
-| elevated | `#151C2B` | Raised surfaces |
-| line | `#202A3A` | Borders |
-| primary | `#7C5CFC` (hover `#6D4FE8`, glow `#A78BFA`) | **AI intelligence**, brand |
-| info | `#38BDF8` | Information |
-| ok | `#22C55E` | Progress |
-| warn | `#F59E0B` | Attention |
-| bad | `#EF4444` | Problems |
-| ink / soft / mute | `#F8FAFC` / `#CBD5E1` / `#64748B` | Headings / body / captions |
+**Avoid:** glowing orbs, neon purple, glassmorphism, floating cards, decorative gradients or blobs, huge hero metrics, generic AI illustrations, large corner radii, "AI-powered" clichés.
+**Use:** strong typography, 1px borders, compact navigation, dense but breathable layouts, real tables and charts, small radii, hairline shadows, motion only where it communicates.
 
-Purple is for AI only. Do not use it as generic decoration.
+## Color tokens (values differ per theme; see `index.css`)
+| Token | Role |
+|---|---|
+| bg, bg2 | Page, sidebar and inputs |
+| card, elevated | Panels; table headers and insets |
+| line | 1px borders |
+| primary (+hover) | Actions and the small AI marker. One restrained indigo, not a brand wash |
+| ok / warn / bad / info | Positive change / needs attention / problem / information |
+| ink, soft, mute | Headings, body, captions |
+
+Never hardcode hex in components; use tokens so both themes work.
 
 ## Typography (Inter)
-| Role | Size / weight |
-|---|---|
-| Hero | 64 / 700, line-height 1.05, tracking -0.04em (tablet 48, mobile 38) |
-| Dashboard heading | 30 / 600 |
-| Card heading | 16–18 / 600 |
-| Body | 14–16, line-height 1.6 |
+Hero 60/600 (tablet 48, mobile 38), tracking -0.035em. Page title 28/600. Panel title 16–18/500–600. Body 14–16, line-height 1.6. Numbers use `tabular-nums`.
 
-## Shape and spacing
-Cards: 14px radius, 1px `line` border, hover border `#344054` + 2px lift, 180 ms. Buttons: 44px (48px on mobile), 8px radius; large CTA 52px, 10px radius. Content max width 1280px (landing 1200px); dashboard padding 32×40.
+## Shape
+Radius 10px on cards, 8px on buttons and inputs. 1px borders. Shadow: `0 1px 2px` at 4% only. Buttons 44px (48px mobile), large 52px. Content width 1280px, landing 1100–1200px.
 
-## Components (`components/ui`)
-Button, Card, Badge, Progress, Skeleton, Input, Avatar, EmptyState, SparkIcon, AIOrb, CareerSignal. Planned: Select, Modal, Tooltip, Toast.
+## Components
+`ui`: Button (pass `to` for links), Card (`flush` for tables), Badge, Progress (thin, token tones), Skeleton, Input, Avatar, EmptyState, SparkIcon, AIOrb (flat interviewer status marker), CareerProfile. Planned: Select, Modal, Tooltip, Toast, Table, Chart.
 
-## Signature elements
-- **SparkIcon:** the only AI mark. Variants: static, pulse, spin, glow. Never type the ✦ character.
-- **AIOrb:** states `idle` (breathe), `thinking` (spinning ring, particles), `speaking` (expand/contract).
-- **CareerSignal:** line drawing Resume → ATS → Interview → Readiness with a traveling pulse.
+## Information design
+Dashboards show real, specific content: a readiness figure with change and one sentence, resume and ATS panels with an action each, an activity table (date, event, result), and one concrete recommendation with its reason. No decorative metrics.
 
-## Motion rules
-- Page entrance: 300 ms, y 12 → 0, ease-out. Cards stagger 50–80 ms.
-- Landing sections reveal at 20–30% visibility.
-- **Do not:** bounce, spin cards, parallax every section, add a giant robot, or overuse glass effects.
-- Reduced motion: `MotionConfig reducedMotion="user"` plus a CSS media query. Nothing essential may depend on animation.
+## Signature: Career Profile
+One profile built from Resume → Skills → Experience → Jobs → Interviews → Applications. On the landing page it appears as a six-cell editorial grid; in the app, each feature states what it added to the profile.
 
-## Loading and empty states
-Skeleton shimmer instead of "Loading…". AI work shows the SparkIcon with "AI is analyzing" and animated dots. Empty states explain what to do next and offer one action.
+## Landing hero
+The product is the image: a resume beside its ATS analysis (score, *missing evidence*, *skill gap*) with realistic content. No stock photos, no illustration.
+
+## Motion
+Fade and 8px rise, 350–450 ms, once. Progress bars fill once. Status marker animates only while the interviewer is thinking or speaking. Reduced motion is honored globally.
+
+## AI marker
+`SparkIcon` is a small mark beside AI-originated content, never a hero graphic. Never type the ✦ character.
 
 ## Mobile
-- Sidebar becomes a 64px bottom nav (Home, Resume, ATS, AI, More). **Navigation only.**
-- Primary actions are full-width and at least 48px, placed in content or a bottom sheet.
-- Resume builder stacks Editor over Preview; AI opens as a bottom sheet from a floating button.
+Bottom nav (Home, Resume, ATS, AI, More) is navigation only; primary actions are full-width, at least 48px; resume builder stacks editor over preview; AI suggestions open in a bottom sheet.
 
-## Accessibility checklist
-Visible focus ring (2px, purple 60%), label on every input, ARIA values on progress and rings, decorative icons `aria-hidden`, text contrast at least 4.5:1, never color alone for meaning.
+## Accessibility
+Visible 2px focus ring, labeled inputs, ARIA on progress, tables with headers, contrast at least 4.5:1 in both themes, never color alone for meaning (missing evidence vs skill gap also differ by label).
 
 ## Copy voice
-Sentence case, plain verbs, specific CTAs ("Save changes"), errors say what happened and how to fix it, no apologies.
+Sentence case, plain and specific: "Improve your Spring Boot experience section", with the reason beside it.

@@ -39,7 +39,7 @@ Graduates and early-career job seekers, career switchers, and experienced profes
 - **Career Readiness:** composite 0–100 score (resume, ATS, interview, skills).
 - **Missing evidence:** a skill the user may have but the resume doesn't show.
 - **Skill gap:** a skill the user has not demonstrated at all.
-- **Career Signal:** the brand line linking Resume → ATS → Interview → Readiness.
+- **Career Profile:** the single profile (Resume → Skills → Experience → Jobs → Interviews → Applications) that every feature adds to.
 
 ## Document map
 | # | Doc | Status |
