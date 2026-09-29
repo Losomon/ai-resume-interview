@@ -1,0 +1,19 @@
+node_modules
+dist
+build
+coverage
+.vite
+.cache
+.env
+.env.*
+*.min.js
+*.min.css
+package-lock.json
+
+# Generated files
+src/generated
+public/generated
+
+# Backend/runtime files
+logs
+uploads
