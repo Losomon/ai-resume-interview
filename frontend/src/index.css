@@ -1,1 +1,17 @@
-@import './styles/globals.css';
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@tailwind base; @tailwind components; @tailwind utilities;
+@layer base {
+  html { background: #070A12; color-scheme: dark; scroll-behavior: smooth; }
+  body { @apply bg-bg text-soft font-sans antialiased; line-height: 1.6; }
+  :focus-visible { outline: 2px solid rgba(167,139,250,.6); outline-offset: 3px; border-radius: 6px; }
+  ::selection { background: rgba(124,92,252,.4); color: #fff; }
+}
+@layer components {
+  .bg-grid { background-image: linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px); background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 70%); }
+  .h-hero { @apply font-bold text-ink text-[38px] md:text-[48px] lg:text-[64px]; line-height: 1.05; letter-spacing: -.04em; }
+}
+/* Inclusive motion: everything calms down for people who ask for it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}

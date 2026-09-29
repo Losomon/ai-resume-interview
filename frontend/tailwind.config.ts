@@ -1,92 +1,24 @@
-import type { Config } from 'tailwindcss';
-
-/**
- * Single source of truth is src/styles/tokens.css.
- * Every value below mirrors a CSS custom property defined there.
- */
+import type { Config } from "tailwindcss";
 export default {
-  content: ['./index.html', './src/**/*.{ts,tsx}'],
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        bg: {
-          primary: 'var(--bg-primary)',
-          secondary: 'var(--bg-secondary)',
-        },
-        surface: {
-          DEFAULT: 'var(--surface)',
-          hover: 'var(--surface-hover)',
-          elevated: 'var(--surface-elevated)',
-        },
-        border: {
-          DEFAULT: 'var(--border)',
-          hover: 'var(--border-hover)',
-        },
-        primary: {
-          DEFAULT: 'var(--primary)',
-          hover: 'var(--primary-hover)',
-          soft: 'var(--primary-soft)',
-        },
-        accent: 'var(--accent)',
-        success: 'var(--success)',
-        warning: 'var(--warning)',
-        danger: 'var(--danger)',
-        info: 'var(--info)',
-        content: {
-          primary: 'var(--text-primary)',
-          secondary: 'var(--text-secondary)',
-          muted: 'var(--text-muted)',
-        },
+        bg: "#070A12", bg2: "#0B0F19", card: "#101624", elevated: "#151C2B", line: "#202A3A",
+        primary: { DEFAULT: "#7C5CFC", hover: "#6D4FE8", glow: "#A78BFA" },
+        info: "#38BDF8", ok: "#22C55E", warn: "#F59E0B", bad: "#EF4444",
+        ink: "#F8FAFC", soft: "#CBD5E1", mute: "#64748B",
       },
-      fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+      fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"] },
+      borderRadius: { card: "14px" },
+      transitionDuration: { DEFAULT: "180ms" },
+      keyframes: {
+        breathe: { "0%,100%": { transform: "scale(1)", opacity: ".75" }, "50%": { transform: "scale(1.04)", opacity: "1" } },
+        spin360: { to: { transform: "rotate(360deg)" } },
+        shimmer: { "100%": { transform: "translateX(100%)" } },
+        dots: { "0%,80%,100%": { opacity: ".25" }, "40%": { opacity: "1" } },
       },
-      fontSize: {
-        caption: ['12px', { lineHeight: '1.4', fontWeight: '500' }],
-        small: ['13px', { lineHeight: '1.5' }],
-        body: ['15px', { lineHeight: '1.6' }],
-        'body-lg': ['18px', { lineHeight: '1.6' }],
-        h4: ['18px', { lineHeight: '1.4', fontWeight: '600' }],
-        h3: ['24px', { lineHeight: '1.3', fontWeight: '600' }],
-        h2: ['32px', { lineHeight: '1.2', fontWeight: '700' }],
-        h1: ['42px', { lineHeight: '1.1', fontWeight: '700' }],
-        hero: ['64px', { lineHeight: '1.05', fontWeight: '700', letterSpacing: '-0.04em' }],
-      },
-      spacing: {
-        1: 'var(--space-1)',
-        2: 'var(--space-2)',
-        3: 'var(--space-3)',
-        4: 'var(--space-4)',
-        5: 'var(--space-5)',
-        6: 'var(--space-6)',
-        8: 'var(--space-8)',
-        10: 'var(--space-10)',
-        12: 'var(--space-12)',
-        16: 'var(--space-16)',
-        20: 'var(--space-20)',
-        24: 'var(--space-24)',
-      },
-      borderRadius: {
-        sm: 'var(--radius-sm)',
-        DEFAULT: 'var(--radius-md)',
-        md: 'var(--radius-md)',
-        lg: 'var(--radius-lg)',
-        xl: 'var(--radius-xl)',
-        pill: '999px',
-      },
-      boxShadow: {
-        card: '0 4px 20px rgba(0, 0, 0, 0.18)',
-        modal: '0 20px 60px rgba(0, 0, 0, 0.45)',
-        'ai-glow': '0 0 40px rgba(124, 92, 252, 0.15)',
-      },
-      transitionTimingFunction: {
-        'out-quick': 'cubic-bezier(0.4, 0, 0.2, 1)',
-      },
-      transitionDuration: {
-        fast: '150ms',
-        base: '250ms',
-      },
+      animation: { breathe: "breathe 3.2s ease-in-out infinite", spin360: "spin360 14s linear infinite", shimmer: "shimmer 1.6s infinite" },
     },
   },
-  plugins: [],
 } satisfies Config;
