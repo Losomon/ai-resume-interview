@@ -9,9 +9,8 @@
     "types": ["vite/client", "node"],
     "skipLibCheck": true,
     "noEmit": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src", "tailwind.config.ts", "vite.config.ts"]
