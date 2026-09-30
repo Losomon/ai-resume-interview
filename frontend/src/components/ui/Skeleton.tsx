@@ -1,6 +1,29 @@
-import clsx from "clsx";
-export const Skeleton = ({ className }: { className?: string }) => (
-  <div aria-hidden className={clsx("relative overflow-hidden rounded-md bg-line/60", className)}>
-    <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-card/70 to-transparent" />
-  </div>
-);
+import { cn } from '@/utils/cn'
+
+type SkeletonProps = {
+  className?: string
+}
+
+export function Skeleton({ className }: SkeletonProps) {
+  return (
+    <div
+      className={cn(
+        'animate-skeleton rounded-md skeleton-shimmer',
+        className,
+      )}
+    />
+  )
+}
+
+export function SkeletonText({ lines = 3 }: { lines?: number }) {
+  return (
+    <div className="flex flex-col gap-2">
+      {Array.from({ length: lines }).map((_, i) => (
+        <Skeleton
+          key={i}
+          className={cn('h-3.5', i === lines - 1 ? 'w-2/3' : 'w-full')}
+        />
+      ))}
+    </div>
+  )
+}

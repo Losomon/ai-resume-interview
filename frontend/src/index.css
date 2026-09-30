@@ -1,16 +1,67 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
-@tailwind base; @tailwind components; @tailwind utilities;
-:root { --bg:250 250 249; --bg2:244 244 242; --card:255 255 255; --elevated:247 247 245; --line:228 228 224;
-  --primary:67 56 202; --primary-hover:55 48 163; --primary-glow:67 56 202;
-  --info:3 105 161; --ok:21 128 61; --warn:180 83 9; --bad:185 28 28; --ink:17 24 39; --soft:55 65 81; --mute:107 114 128; }
-.dark { color-scheme: dark; --bg:11 13 18; --bg2:15 18 25; --card:20 24 33; --elevated:26 31 43; --line:38 45 58;
-  --primary:99 102 241; --primary-hover:79 70 229; --primary-glow:165 180 252;
-  --info:56 189 248; --ok:74 222 128; --warn:251 191 36; --bad:248 113 113; --ink:245 246 248; --soft:203 209 219; --mute:138 148 163; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer base {
-  html { scroll-behavior: smooth; }
-  body { @apply bg-bg text-soft font-sans antialiased; line-height: 1.6; }
-  :focus-visible { outline: 2px solid rgb(var(--primary) / .7); outline-offset: 2px; border-radius: 4px; }
-  ::selection { background: rgb(var(--primary) / .25); }
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-bg text-text font-sans text-body;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgba(21, 128, 61, 0.5);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
-@layer components { .h-hero { @apply font-semibold text-ink text-[38px] md:text-[48px] lg:text-[60px]; line-height: 1.06; letter-spacing: -.035em; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; } }
+
+@layer utilities {
+  .bg-grid-warm {
+    background-image:
+      linear-gradient(rgba(60, 50, 30, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(60, 50, 30, 0.035) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .bg-glow-green {
+    background: radial-gradient(
+      ellipse at center,
+      rgba(134, 239, 172, 0.35) 0%,
+      rgba(134, 239, 172, 0) 70%
+    );
+  }
+
+  .bg-glow-warm {
+    background: radial-gradient(
+      ellipse at center,
+      rgba(253, 230, 138, 0.45) 0%,
+      rgba(253, 230, 138, 0) 70%
+    );
+  }
+
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, #f7f5ec 0%, #efebdd 50%, #f7f5ec 100%);
+    background-size: 200% 100%;
+  }
+}
