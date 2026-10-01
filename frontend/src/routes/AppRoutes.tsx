@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
+import { ProtectedRoute } from "../components/auth/ProtectedRoute"; // ← NEW
 import { DashboardLayout } from "../components/layout/DashboardLayout";
 
 import Landing from "../pages/Landing";
@@ -36,21 +37,24 @@ export default function AppRoutes() {
       {/* Dev-only design system reference */}
       <Route path="/design-system" element={<DesignSystem />} />
 
-      {/* Focused, no sidebar — per spec §17 */}
-      <Route path="/interview/room" element={<InterviewRoom />} />
+      {/* Auth-guarded — everything below requires a token */}
+      <Route element={<ProtectedRoute />}>
+        {/* Focused, no sidebar — per spec §17 */}
+        <Route path="/interview/room" element={<InterviewRoom />} />
 
-      {/* Dashboard shell */}
-      <Route element={<DashboardLayout />}>
-        <Route path="/dashboard"        element={<Dashboard />} />
-        <Route path="/resumes"          element={<Resumes />} />
-        <Route path="/resumes/:id"      element={<ResumeBuilder />} />
-        <Route path="/ats"              element={<ATSAnalyzer />} />
-        <Route path="/jobs"             element={<Jobs />} />
-        <Route path="/interview"        element={<Interview />} />
-        <Route path="/interview/results" element={<InterviewResults />} />
-        <Route path="/coach"            element={<CareerCoach />} />
-        <Route path="/applications"     element={<Applications />} />
-        <Route path="/settings"         element={<Settings />} />
+        {/* Dashboard shell */}
+        <Route element={<DashboardLayout />}>
+          <Route path="/dashboard"         element={<Dashboard />} />
+          <Route path="/resumes"           element={<Resumes />} />
+          <Route path="/resumes/:id"       element={<ResumeBuilder />} />
+          <Route path="/ats"               element={<ATSAnalyzer />} />
+          <Route path="/jobs"              element={<Jobs />} />
+          <Route path="/interview"         element={<Interview />} />
+          <Route path="/interview/results" element={<InterviewResults />} />
+          <Route path="/coach"             element={<CareerCoach />} />
+          <Route path="/applications"      element={<Applications />} />
+          <Route path="/settings"          element={<Settings />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<NotFound />} />

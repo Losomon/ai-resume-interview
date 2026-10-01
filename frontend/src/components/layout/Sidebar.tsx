@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   FileText,
@@ -9,8 +9,10 @@ import {
   ClipboardCheck,
   Settings,
   HelpCircle,
+  LogOut,
 } from "lucide-react";
 import { AIMark } from "@/components/ui";
+import { useAuthStore } from "@/store/authStore";
 import { cn } from "@/utils/cn";
 
 const primaryNav = [
@@ -29,6 +31,15 @@ const secondaryNav = [
 ] as const;
 
 export function Sidebar() {
+  const navigate = useNavigate();
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
+
+  async function onLogout() {
+    await logout();
+    navigate("/login", { replace: true });
+  }
+
   return (
     <aside
       className={cn(
@@ -78,7 +89,7 @@ export function Sidebar() {
         ))}
       </nav>
 
-      {/* Divider + secondary nav */}
+      {/* Footer: secondary nav + user + logout */}
       <div className="border-t border-border px-3 py-2">
         {secondaryNav.map(({ to, label, icon: Icon }) => (
           <NavLink
@@ -109,6 +120,32 @@ export function Sidebar() {
             )}
           </NavLink>
         ))}
+
+        {/* Divider */}
+        <div className="my-2 border-t border-border" />
+
+        {/* User + logout */}
+        <div className="flex items-center gap-3 rounded-button px-3 py-2">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-tint text-[12px] font-semibold text-green-deep ring-1 ring-border">
+            {user?.name?.charAt(0).toUpperCase() ?? "?"}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-small font-medium text-text">
+              {user?.name ?? "Guest"}
+            </div>
+            <div className="truncate text-[11px] text-text-muted">
+              {user?.email ?? "not signed in"}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onLogout}
+            aria-label="Log out"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-button text-text-muted transition-colors duration-card hover:bg-bg-secondary hover:text-problem"
+          >
+            <LogOut size={16} strokeWidth={2} />
+          </button>
+        </div>
       </div>
     </aside>
   );
