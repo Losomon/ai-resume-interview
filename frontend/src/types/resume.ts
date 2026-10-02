@@ -1,9 +1,4 @@
-export type ResumeSection =
-  | "profile"
-  | "experience"
-  | "education"
-  | "skills"
-  | "projects";
+export type ResumeSection = 'profile' | 'experience' | 'education' | 'skills' | 'projects';
 
 export type ExperienceItem = {
   id: string;
@@ -34,4 +29,19 @@ export type Resume = {
   createdAt: string;
   updatedAt: string;
   atsScore?: number;
+};
+
+/* ---------- Phase 5 additions ---------- */
+
+export type AISuggestion = {
+  id: string;
+  original: string;
+  suggested: string;
+  reason?: string;
+};
+
+export type EditorDraft = {
+  resumeId: string;
+  dirty: boolean;
+  lastSavedAt: string | null;
 };
