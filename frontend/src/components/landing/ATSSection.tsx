@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { Button, Card, Badge, Progress } from "@/components/ui";
-import { ATSScore } from "@/components/ats/ATSScore";
-import { scaleReveal, slideInLeft, viewportOnce } from "./motion";
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { Button, Card, Badge, Progress } from '@/components/ui';
+import { ATSScore } from '@/components/ats/ATSScore';
+import { scaleReveal, slideInLeft, viewportOnce } from './motion';
 
 export function ATSection() {
   return (
@@ -40,7 +40,7 @@ export function ATSection() {
                 Potential gaps
               </div>
               <div className="mt-3 flex flex-wrap gap-1.5">
-                {["Docker", "AWS", "CI/CD"].map((k) => (
+                {['Docker', 'AWS', 'CI/CD'].map((k) => (
                   <span
                     key={k}
                     className="rounded-full border border-attention/20 bg-attention-tint px-2.5 py-0.5 text-xs font-medium text-attention"
@@ -50,8 +50,8 @@ export function ATSection() {
                 ))}
               </div>
               <p className="mt-3 text-xs text-text-muted">
-                These skills are mentioned in the job description but not found
-                in your resume. Only add them if genuinely true.
+                These skills are mentioned in the job description but not found in your resume. Only
+                add them if genuinely true.
               </p>
             </div>
           </Card>
@@ -72,15 +72,15 @@ export function ATSection() {
             resume matches the job.
           </h2>
           <p className="mt-5 max-w-[480px] text-[17px] leading-relaxed text-text-secondary">
-            We tell you the difference between missing evidence and an actual
-            skill gap — and we never suggest you claim something you don't have.
+            We tell you the difference between missing evidence and an actual skill gap — and we
+            never suggest you claim something you don't have.
           </p>
 
           <ul className="mt-7 flex flex-col gap-3">
             {[
-              "Real keyword extraction from the job description",
-              "Score breakdown by keywords, experience, formatting, skills",
-              "Honest gap reporting: evidence vs. real gaps",
+              'Real keyword extraction from the job description',
+              'Score breakdown by keywords, experience, formatting, skills',
+              'Honest gap reporting: evidence vs. real gaps',
             ].map((t) => (
               <li key={t} className="flex items-center gap-3 text-small text-text-secondary">
                 <span className="h-1.5 w-1.5 rounded-full bg-info" />
@@ -107,7 +107,7 @@ function Row({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex items-center gap-4">
       <span className="w-24 text-small text-text-secondary">{label}</span>
-      <Progress value={value} tone={value >= 80 ? "primary" : "success"} />
+      <Progress value={value} tone={value >= 80 ? 'primary' : 'success'} />
       <span className="w-10 text-right text-small font-medium text-text">{value}%</span>
     </div>
   );
