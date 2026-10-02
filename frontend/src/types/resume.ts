@@ -45,3 +45,37 @@ export type EditorDraft = {
   dirty: boolean;
   lastSavedAt: string | null;
 };
+
+/* ---------- Phase 8 additions ---------- */
+
+export type ATSKeywordMatch = {
+  keyword: string;
+  matched: boolean;
+  /** true if the resume would need a *new claim* to match — never auto-suggested */
+  needsEvidence: boolean;
+};
+
+export type ATSScoreBreakdown = {
+  overall: number; // 0–100
+  keywords: number; // 0–100
+  experience: number; // 0–100
+  formatting: number; // 0–100
+  skills: number; // 0–100
+};
+
+export type ATSMissing = {
+  keyword: string;
+  /** "evidence" = probably has it, just not written; "gap" = likely doesn't have it yet */
+  kind: 'evidence' | 'gap';
+};
+
+export type ATSAnalysis = {
+  resumeId: string;
+  jobDescription: string;
+  score: ATSScoreBreakdown;
+  matches: ATSKeywordMatch[];
+  missing: ATSMissing[];
+  strengths: string[];
+  suggestions: string[];
+  analyzedAt: string;
+};
