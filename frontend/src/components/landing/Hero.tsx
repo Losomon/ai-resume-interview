@@ -1,17 +1,167 @@
-import { motion } from "framer-motion"; import { Button } from "../ui/Button"; import { Card } from "../ui/Card"; import { Progress } from "../ui/Progress";
-const fade = (d: number) => ({ initial: { opacity: 0, y: 8 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4, delay: d, ease: "easeOut" as const } });
-const H = ({ children }: { children: React.ReactNode }) => <h3 className="mt-5 mb-1.5 border-b border-line pb-1 text-[11px] font-semibold tracking-[0.1em] text-mute">{children}</h3>;
-const Item = ({ t, d, tone }: { t: string; d: string; tone: string }) => <li className="flex gap-2 text-sm"><span className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full ${tone}`} /><span><span className="text-ink">{t}</span>, {d}</span></li>;
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { Button, Card, Progress, AIMark } from "@/components/ui";
+import { dashboardRise, fadeUp, viewportOnce, stagger } from "./motion";
+
 export function Hero() {
-  return (<section className="pt-32 pb-20"><div className="mx-auto max-w-[1100px] px-6 text-center">
-    <motion.p {...fade(0.05)} className="text-xs font-medium tracking-[0.16em] text-mute">CAREERFORGE</motion.p>
-    <motion.h1 {...fade(0.1)} className="h-hero mt-4">Your career, engineered.</motion.h1>
-    <motion.p {...fade(0.2)} className="mx-auto mt-5 max-w-lg text-lg">Build a stronger resume. Understand how recruiters see it. Practice interviews. Track where you're going.</motion.p>
-    <motion.div {...fade(0.3)} className="mt-8 flex flex-col justify-center gap-3 sm:flex-row"><Button size="lg" to="/register">Build my resume</Button><Button size="lg" variant="ghost" to="/#platform">Explore the platform</Button></motion.div>
-    <motion.div {...fade(0.45)} className="mx-auto mt-16 max-w-3xl text-left"><Card flush className="grid overflow-hidden shadow-md md:grid-cols-[1.4fr_1fr]">
-      <div className="border-b border-line p-6 md:border-b-0 md:border-r md:p-8"><p className="text-xs text-mute">Resume</p><p className="mt-2 text-xl font-semibold text-ink">Solomon Mwangi</p><p className="text-sm">Software Engineer</p>
-        <H>EXPERIENCE</H><p className="text-sm text-ink">Backend Development</p><p className="text-sm">Built and maintained REST services with Java and PostgreSQL.</p>
-        <H>SKILLS</H><p className="text-sm">Java, PostgreSQL, React, REST APIs</p></div>
-      <div className="bg-elevated p-6 md:p-8"><p className="text-xs text-mute">ATS match · Backend Developer</p><div className="mt-2"><Progress label="ATS match" value={87} /></div>
-        <H>MISSING EVIDENCE</H><ul className="space-y-1.5"><Item t="Spring Boot" d="add where you used it" tone="bg-warn" /><Item t="Docker" d="mention container work" tone="bg-warn" /></ul>
-        <H>SKILL GAP</H><ul><Item t="AWS" d="not found in your profile" tone="bg-bad" /></ul></div></Card></motion.div></div></section>); }
+  return (
+    <section className="relative overflow-hidden bg-bg pt-[72px]">
+      {/* Warm grid + green glow */}
+      <div className="pointer-events-none absolute inset-0 bg-grid-warm" />
+      <div className="pointer-events-none absolute -top-32 left-1/2 h-[620px] w-[920px] -translate-x-1/2 bg-glow-green opacity-60" />
+
+      <div className="relative mx-auto max-w-[1280px] px-6 pb-24 pt-16 lg:px-10 lg:pb-32 lg:pt-20">
+        {/* Text */}
+        <motion.div
+          variants={stagger(0.08)}
+          initial="hidden"
+          animate="show"
+          className="mx-auto flex max-w-[760px] flex-col items-center text-center"
+        >
+          <motion.div variants={fadeUp}>
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-text-secondary shadow-card">
+              <AIMark size={14} />
+              Powered by AI — build a stronger career
+            </div>
+          </motion.div>
+
+          <motion.h1
+            variants={fadeUp}
+            className="mt-6 text-hero-sm text-text sm:text-hero-md lg:text-hero"
+          >
+            Your Career.
+            <br />
+            <span className="bg-gradient-to-br from-primary to-green-deep bg-clip-text text-transparent">
+              Engineered.
+            </span>
+          </motion.h1>
+
+          <motion.p
+            variants={fadeUp}
+            className="mt-6 max-w-[560px] text-[17px] leading-relaxed text-text-secondary"
+          >
+            AI-powered tools to build a stronger career with confidence.
+            Resume, ATS, and interview prep — in one place.
+          </motion.p>
+
+          <motion.div
+            variants={fadeUp}
+            className="mt-8 flex flex-col items-center gap-3 sm:flex-row"
+          >
+            <Link to="/register">
+              <Button size="lg">
+                Build My Resume
+                <ArrowRight size={16} />
+              </Button>
+            </Link>
+            <Link to="/register">
+              <Button size="lg" variant="secondary">
+                <Sparkles size={16} />
+                Practice Interview
+              </Button>
+            </Link>
+          </motion.div>
+
+          <motion.p variants={fadeUp} className="mt-6 text-xs text-text-muted">
+            Trusted by 50,000+ job seekers worldwide
+          </motion.p>
+        </motion.div>
+
+        {/* Product preview */}
+        <motion.div
+          variants={dashboardRise}
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportOnce}
+          style={{ perspective: 1200 }}
+          className="relative mx-auto mt-16 max-w-[1080px] lg:mt-20"
+        >
+          {/* Warm halo behind card */}
+          <div className="pointer-events-none absolute -inset-8 bg-glow-warm opacity-40 blur-3xl" />
+
+          <div className="relative rounded-card border border-border bg-card p-3 shadow-card-hover">
+            {/* Mock window chrome */}
+            <div className="flex items-center gap-2 px-3 pb-3 pt-1">
+              <span className="h-2.5 w-2.5 rounded-full bg-border-hover" />
+              <span className="h-2.5 w-2.5 rounded-full bg-border-hover" />
+              <span className="h-2.5 w-2.5 rounded-full bg-border-hover" />
+            </div>
+
+            {/* Dashboard preview */}
+            <div className="grid gap-3 rounded-[10px] bg-bg-secondary p-5 lg:grid-cols-[1fr_320px]">
+              <div className="flex flex-col gap-3">
+                <Card className="p-5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-small font-medium text-text-secondary">
+                      Career Readiness
+                    </span>
+                    <AIMark size={16} />
+                  </div>
+                  <div className="mt-4 flex items-baseline gap-2">
+                    <span className="text-[42px] font-bold leading-none text-text">82</span>
+                    <span className="text-small text-text-muted">/100</span>
+                  </div>
+                  <div className="mt-5 flex flex-col gap-2.5">
+                    <ScoreRow label="Resume"    value={92} />
+                    <ScoreRow label="ATS"       value={78} />
+                    <ScoreRow label="Interview" value={86} />
+                    <ScoreRow label="Skills"    value={68} />
+                  </div>
+                </Card>
+
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <MiniStat label="Resume" value="92%" />
+                  <MiniStat label="ATS" value="87" />
+                  <MiniStat label="Interview" value="84" />
+                </div>
+              </div>
+
+              <Card className="p-5">
+                <span className="text-small font-medium text-text-secondary">
+                  Recommended
+                </span>
+                <div className="mt-4 flex flex-col gap-3">
+                  <RecommendRow text="Improve ATS score" tone="ai" />
+                  <RecommendRow text="Practice interview" tone="progress" />
+                  <RecommendRow text="Update resume" tone="neutral" />
+                </div>
+              </Card>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- small helpers ---------- */
+
+function ScoreRow({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="w-20 text-xs text-text-secondary">{label}</span>
+      <Progress value={value} tone={value >= 80 ? "primary" : value >= 60 ? "success" : "attention"} />
+      <span className="w-9 text-right text-xs font-medium text-text">{value}%</span>
+    </div>
+  );
+}
+
+function MiniStat({ label, value }: { label: string; value: string }) {
+  return (
+    <Card className="p-4">
+      <div className="text-xs text-text-muted">{label}</div>
+      <div className="mt-1 text-[20px] font-semibold text-text">{value}</div>
+    </Card>
+  );
+}
+
+function RecommendRow({ text, tone }: { text: string; tone: "ai" | "progress" | "neutral" }) {
+  const dot = { ai: "bg-primary", progress: "bg-success", neutral: "bg-text-muted" }[tone];
+  return (
+    <div className="flex items-center gap-2.5 text-small text-text-secondary">
+      <span className={`h-1.5 w-1.5 rounded-full ${dot}`} />
+      {text}
+    </div>
+  );
+}
