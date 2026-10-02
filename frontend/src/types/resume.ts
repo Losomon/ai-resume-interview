@@ -1,4 +1,9 @@
-export type ResumeSection = 'profile' | 'experience' | 'education' | 'skills' | 'projects';
+export type ResumeSection =
+  | 'profile'
+  | 'experience'
+  | 'education'
+  | 'skills'
+  | 'projects';
 
 export type ExperienceItem = {
   id: string;
@@ -78,4 +83,53 @@ export type ATSAnalysis = {
   strengths: string[];
   suggestions: string[];
   analyzedAt: string;
+};
+
+/* ---------- Phase 9 additions ---------- */
+
+export type InterviewConfig = {
+  role: string;
+  level: 'junior' | 'mid' | 'senior' | 'lead';
+  type: 'behavioral' | 'technical' | 'mixed';
+  questionCount: number;
+};
+
+export type InterviewQuestion = {
+  id: string;
+  text: string;
+  category: 'behavioral' | 'technical' | 'situational';
+  hint?: string;
+};
+
+export type InterviewAnswer = {
+  questionId: string;
+  text: string;
+  durationSec: number;
+};
+
+export type InterviewScores = {
+  overall: number;
+  communication: number;
+  technical: number;
+  confidence: number;
+};
+
+export type InterviewFeedback = {
+  scores: InterviewScores;
+  strengths: string[];
+  improvements: string[];
+  perQuestion: {
+    questionId: string;
+    note: string;
+  }[];
+};
+
+export type InterviewSession = {
+  id: string;
+  config: InterviewConfig;
+  questions: InterviewQuestion[];
+  answers: InterviewAnswer[];
+  feedback?: InterviewFeedback;
+  startedAt: string;
+  completedAt?: string;
 };
