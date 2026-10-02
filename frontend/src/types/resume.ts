@@ -1,9 +1,4 @@
-export type ResumeSection =
-  | 'profile'
-  | 'experience'
-  | 'education'
-  | 'skills'
-  | 'projects';
+export type ResumeSection = 'profile' | 'experience' | 'education' | 'skills' | 'projects';
 
 export type ExperienceItem = {
   id: string;
@@ -132,4 +127,31 @@ export type InterviewSession = {
   feedback?: InterviewFeedback;
   startedAt: string;
   completedAt?: string;
+};
+
+/* ---------- Phase 10 additions ---------- */
+
+export type CoachMessage = {
+  id: string;
+  role: 'user' | 'coach';
+  text: string;
+  createdAt: string;
+};
+
+export type LearningPlanStep = {
+  id: string;
+  title: string;
+  description: string;
+  category: 'skill' | 'portfolio' | 'certification' | 'interview' | 'resume';
+  /** Rough time commitment in hours */
+  estimatedHours: number;
+  completed: boolean;
+};
+
+export type LearningPlan = {
+  id: string;
+  goal: string;
+  summary: string;
+  steps: LearningPlanStep[];
+  createdAt: string;
 };
