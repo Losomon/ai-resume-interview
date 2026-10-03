@@ -46,6 +46,23 @@ export type EditorDraft = {
   lastSavedAt: string | null;
 };
 
+/* ---------- Phase 7 additions ---------- */
+
+export type AISuggestionTone = 'balanced' | 'concise' | 'metrics' | 'leadership' | 'technical';
+
+export type AISuggestionOption = {
+  id: string;
+  text: string;
+  label: string; // short reason shown as a tab title
+};
+
+/** Snapshot used for undo after accepting a suggestion */
+export type AIUndoSnapshot = {
+  apply: (text: string) => void;
+  previous: string;
+  label: string;
+};
+
 /* ---------- Phase 8 additions ---------- */
 
 export type ATSKeywordMatch = {
