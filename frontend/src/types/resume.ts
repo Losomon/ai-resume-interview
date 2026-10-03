@@ -155,3 +155,37 @@ export type LearningPlan = {
   steps: LearningPlanStep[];
   createdAt: string;
 };
+
+/* ---------- Phase 11 additions ---------- */
+
+export type JobLevel = 'junior' | 'mid' | 'senior' | 'lead';
+
+export type Job = {
+  id: string;
+  title: string;
+  company: string;
+  companyInitial: string;
+  location: string;
+  remote: boolean;
+  level: JobLevel;
+  salaryMin: number;
+  salaryMax: number;
+  tags: string[];
+  description: string;
+  postedAt: string;
+};
+
+export type JobMatch = {
+  jobId: string;
+  score: number; // 0–100
+  matchedSkills: string[];
+  missingSkills: string[];
+};
+
+export type JobFilters = {
+  query: string;
+  location: string;
+  remoteOnly: boolean;
+  level: JobLevel | 'all';
+  minSalary: number;
+};
