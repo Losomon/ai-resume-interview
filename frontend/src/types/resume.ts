@@ -189,3 +189,31 @@ export type JobFilters = {
   level: JobLevel | 'all';
   minSalary: number;
 };
+
+/* ---------- Phase 13 additions ---------- */
+
+export type ApplicationStage = 'saved' | 'applied' | 'interview' | 'offer' | 'rejected';
+
+export type Application = {
+  id: string;
+  jobId: string;
+  jobTitle: string;
+  company: string;
+  companyInitial: string;
+  location: string;
+  stage: ApplicationStage;
+  notes: string;
+  appliedAt: string | null;
+  updatedAt: string;
+  /** Snapshot of match score at save-time */
+  matchScore?: number;
+};
+
+export type ApplicationDraft = {
+  jobId: string;
+  jobTitle: string;
+  company: string;
+  companyInitial: string;
+  location: string;
+  matchScore?: number;
+};
