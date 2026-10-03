@@ -14,6 +14,7 @@ type ResumeState = {
   create: (title: string) => Promise<Resume>;
   remove: (id: string) => Promise<void>;
   update: (id: string, patch: Partial<Resume>) => Promise<Resume>;
+  duplicate: (id: string) => Promise<Resume>;
 
   // builder
   load: (id: string) => Promise<Resume>;
@@ -63,6 +64,12 @@ export const useResumeStore = create<ResumeState>((set, get) => ({
       resumes: s.resumes.map((r) => (r.id === id ? updated : r)),
     }));
     return updated;
+  },
+
+  async duplicate(id) {
+    const copy = await resumeApi.duplicate(id);
+    set((s) => ({ resumes: [copy, ...s.resumes] }));
+    return copy;
   },
 
   /* ---------- builder ---------- */

@@ -1,6 +1,6 @@
-import type { Resume } from "@/types/resume";
+import type { Resume } from '@/types/resume';
 
-const STORAGE_KEY = "careerforge-resumes";
+const STORAGE_KEY = 'careerforge-resumes';
 const LATENCY = 400;
 
 function delay<T>(value: T): Promise<T> {
@@ -9,7 +9,7 @@ function delay<T>(value: T): Promise<T> {
 
 function read(): Resume[] {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]") as Resume[];
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]') as Resume[];
   } catch {
     return [];
   }
@@ -27,9 +27,9 @@ function emptyResume(title: string): Resume {
   return {
     id: makeId(),
     title,
-    fullName: "",
-    headline: "",
-    summary: "",
+    fullName: '',
+    headline: '',
+    summary: '',
     experience: [],
     education: [],
     skills: [],
@@ -49,7 +49,7 @@ export const resumeApi = {
   },
 
   async create(title: string): Promise<Resume> {
-    const next = emptyResume(title || "Untitled Resume");
+    const next = emptyResume(title || 'Untitled Resume');
     const all = read();
     all.push(next);
     write(all);
@@ -59,7 +59,7 @@ export const resumeApi = {
   async update(id: string, patch: Partial<Resume>): Promise<Resume> {
     const all = read();
     const idx = all.findIndex((r) => r.id === id);
-    if (idx === -1) throw new Error("Resume not found");
+    if (idx === -1) throw new Error('Resume not found');
     all[idx] = { ...all[idx], ...patch, updatedAt: new Date().toISOString() };
     write(all);
     return delay(all[idx]);
@@ -69,5 +69,26 @@ export const resumeApi = {
     const all = read().filter((r) => r.id !== id);
     write(all);
     return delay(undefined);
+  },
+
+  async duplicate(id: string): Promise<Resume> {
+    const all = read();
+    const source = all.find((r) => r.id === id);
+    if (!source) throw new Error('Resume not found');
+
+    const now = new Date().toISOString();
+    const copy: Resume = {
+      ...source,
+      id: makeId(),
+      title: `Copy of ${source.title}`,
+      createdAt: now,
+      updatedAt: now,
+      // Fresh ATS score — old score was for the old resume
+      atsScore: undefined,
+    };
+
+    all.push(copy);
+    write(all);
+    return delay(copy);
   },
 };
