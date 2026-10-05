@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#FDFCF7"/>
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#1C1917" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#86EFAC" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#86EFAC" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <ellipse cx="600" cy="250" rx="500" ry="280" fill="url(#glow)"/>
+
+  <g transform="translate(552, 130)">
+    <path
+      d="M48 12
+         C48 12 30 36 30 60
+         C30 79 40 89 48 95
+         C56 89 66 79 66 60
+         C66 36 48 12 48 12 Z"
+      fill="#15803D"
+    />
+    <path
+      d="M48 95
+         C39 95 33 102 33 111
+         C33 119 40 125 48 125
+         C56 125 63 119 63 111
+         C63 102 57 95 48 95 Z"
+      fill="#166534"
+    />
+  </g>
+
+  <text x="600" y="330" text-anchor="middle"
+        font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+        font-size="52" font-weight="700" fill="#1C1917" letter-spacing="-1">
+    CareerForge
+  </text>
+  <text x="600" y="400" text-anchor="middle"
+        font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+        font-size="32" font-weight="500" fill="#57534E">
+    Your Career. Engineered.
+  </text>
+  <text x="600" y="470" text-anchor="middle"
+        font-family="Inter, ui-sans-serif, system-ui, sans-serif"
+        font-size="20" font-weight="400" fill="#A8A29E">
+    AI-powered resume, ATS, and interview prep
+  </text>
+</svg>

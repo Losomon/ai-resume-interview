@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+Disallow: /design-system
+Disallow: /dashboard
+Disallow: /resumes
+Disallow: /ats
+Disallow: /interview
+Disallow: /coach
+Disallow: /jobs
+Disallow: /applications
+Disallow: /settings
