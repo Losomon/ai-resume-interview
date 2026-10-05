@@ -71,3 +71,10 @@ Breaking changes bump `/v2`. AI endpoints are rate-limited per user (proposal: 3
 - Streaming (rewrite, coach) uses Server-Sent Events: `Content-Type: text/event-stream`, flush each chunk, and stop the LLM call when the client disconnects.
 - CORS: allow only the frontend origin; add `credentials: true` if cookies are used. An open `cors()` is acceptable for local step 1 only.
 - Keep ATS keyword matching and scoring on the server. Browser-computed scores can be edited by the user and must not be trusted or stored as truth.
+
+## As implemented in `backend/` (this section wins over the proposal above)
+- **Auth is cookie-based.** `register` and `login` return `{ user }` and set httpOnly cookies `cf_at` (15 min) and `cf_rt` (30 days, path `/api/v1/auth`); there is no token in the body. `/auth/refresh` rotates the refresh token; `/auth/logout` clears both.
+- Frontend calls use `credentials: "include"`. In dev, Vite proxies `/api` to the backend.
+- AI path is `POST /api/v1/ai/rewrite` with body `{ text, tone }` (tones: professional, concise, impactful, technical, friendly). SSE events: `{delta}` chunks, then `{done:true}`, or `event: error`.
+- ATS: `POST /ats/analyze` returns `{ score, breakdown{keywords,experience,skills,formatting}, matched[], missingEvidence[], skillGaps[], suggestions[], modelVersion }`; `422 NO_KEYWORDS_FOUND` when no known skills are recognised. History: `GET /ats/history/:resumeId`.
+- Resumes list returns summaries only; `GET /resumes/:id` returns `content`.

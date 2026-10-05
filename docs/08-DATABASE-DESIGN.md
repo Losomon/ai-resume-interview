@@ -51,3 +51,6 @@ Versioned migrations only (Flyway, Liquibase or the framework's tool), never man
 - **PostgreSQL + Drizzle ORM.** Define the tables above as Drizzle schemas; generate versioned migrations with drizzle-kit and commit them.
 - Use real foreign keys with `ON DELETE CASCADE` for user-owned data so account deletion (doc 10) is one statement.
 - Hosted Postgres (for example Neon) needs a pooled connection string for the API and a direct one for migrations. Check the provider's current free-tier limits before relying on them.
+
+## As implemented in `backend/src/db/schema.ts` (this section wins)
+Built: `users`, `refresh_tokens` (SHA-256 hashed), `resumes` (one validated JSONB `content` instead of `resume_sections`), `ats_analyses` (adds `suggestions`), `interviews`, `interview_answers`, `applications`. Still to add with their routes: `jobs`, `job_matches`, `skills`, `coach_messages`, `readiness_snapshots`, `audit_log`.
