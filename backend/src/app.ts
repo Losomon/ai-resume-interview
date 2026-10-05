@@ -1,5 +1,5 @@
 import express from "express"; import cors from "cors"; import helmet from "helmet"; import cookieParser from "cookie-parser";
-import { config } from "./config.js"; import { pool } from "./db/index.js"; import { errorHandler, notFound } from "./middleware/error.js";
+import { config } from "./config.js"; import { pool } from "./db.js"; import { errorHandler, notFound } from "./middleware/error.js";
 import { authRouter } from "./routes/auth.js"; import { resumesRouter } from "./routes/resumes.js"; import { aiRouter } from "./routes/ai.js"; import { atsRouter } from "./routes/ats.js";
 export const app = express();
 app.set("trust proxy", 1); // behind a hosting proxy; needed for correct client IPs in rate limits

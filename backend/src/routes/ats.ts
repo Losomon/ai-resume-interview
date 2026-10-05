@@ -1,5 +1,5 @@
 import { Router } from "express"; import { z } from "zod"; import { and, desc, eq } from "drizzle-orm";
-import { db } from "../db/index.js"; import { resumes, atsAnalyses } from "../db/schema.js"; import { requireAuth } from "../middleware/auth.js"; import { AppError } from "../middleware/error.js"; import { analyze } from "../services/ats.js";
+import { db } from "../db.js"; import { resumes, atsAnalyses } from "@careerforge/database"; import { requireAuth } from "../middleware/auth.js"; import { AppError } from "../middleware/error.js"; import { analyze } from "../services/ats.js";
 export const atsRouter = Router(); atsRouter.use(requireAuth);
 const owned = async (id: string, uid: string) => { const [r] = await db.select().from(resumes).where(and(eq(resumes.id, id), eq(resumes.userId, uid))); if (!r) throw new AppError(404, "NOT_FOUND", "Resume not found"); return r; };
 /** Scoring happens here, never in the browser, so the stored score can be trusted. */

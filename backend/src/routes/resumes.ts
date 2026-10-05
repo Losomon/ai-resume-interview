@@ -1,5 +1,5 @@
 import { Router } from "express"; import { z } from "zod"; import { and, desc, eq } from "drizzle-orm";
-import { db } from "../db/index.js"; import { resumes } from "../db/schema.js"; import { requireAuth } from "../middleware/auth.js"; import { AppError } from "../middleware/error.js"; import { resumeContent } from "../types.js";
+import { db } from "../db.js"; import { resumes } from "@careerforge/database"; import { requireAuth } from "../middleware/auth.js"; import { AppError } from "../middleware/error.js"; import { resumeContent } from "../types.js";
 export const resumesRouter = Router(); resumesRouter.use(requireAuth);
 const idp = z.object({ id: z.string().uuid() });
 const mine = (id: string, uid: string) => and(eq(resumes.id, id), eq(resumes.userId, uid)); // every query is scoped to the owner

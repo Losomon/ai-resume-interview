@@ -1,5 +1,5 @@
 import { Router, type Response } from "express"; import { z } from "zod"; import bcrypt from "bcryptjs"; import jwt from "jsonwebtoken"; import crypto from "node:crypto";
-import { and, eq, gt } from "drizzle-orm"; import { db } from "../db/index.js"; import { users, refreshTokens } from "../db/schema.js"; import { config } from "../config.js";
+import { and, eq, gt } from "drizzle-orm"; import { db } from "../db.js"; import { users, refreshTokens } from "@careerforge/database"; import { config } from "../config.js";
 import { AppError } from "../middleware/error.js"; import { requireAuth } from "../middleware/auth.js"; import { authLimiter } from "../middleware/rateLimit.js";
 export const authRouter = Router();
 const sha = (s: string) => crypto.createHash("sha256").update(s).digest("hex");
