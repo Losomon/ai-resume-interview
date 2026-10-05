@@ -1,0 +1,21 @@
+// Applies every migration to an in-memory Postgres (PGlite) and checks the rules the schema promises. No server needed.
+import { PGlite } from "@electric-sql/pglite"; import fs from "node:fs"; import assert from "node:assert/strict";
+const db = new PGlite(); const dir = new URL("../migrations/", import.meta.url);
+for (const f of fs.readdirSync(dir).filter((x) => x.endsWith(".sql")).sort()) for (const s of fs.readFileSync(new URL(f, dir), "utf8").split("--> statement-breakpoint")) await db.exec(s);
+const one = async (q, p = []) => (await db.query(q, p)).rows[0];
+const rejects = async (q, p = []) => { try { await db.query(q, p); return false; } catch { return true; } };
+const u = (await one("insert into users(name,email,password_hash) values('A','a@b.c','x') returning id")).id;
+const r = (await one("insert into resumes(user_id,title,content) values($1,'R','{}') returning id", [u])).id;
+const ats = (s) => rejects("insert into ats_analyses(resume_id,job_description,score,breakdown,matched,missing_evidence,skill_gaps,suggestions,model_version) values($1,'jd',$2,'{}','[]','[]','[]','[]','v')", [r, s]);
+assert.equal(await ats(80), false, "valid score accepted"); assert.equal(await ats(150), true, "score above 100 rejected");
+await db.query("insert into skills(user_id,name) values($1,'Java')", [u]);
+assert.equal(await rejects("insert into skills(user_id,name) values($1,'java')", [u]), true, "case-variant duplicate skill rejected");
+assert.equal(await rejects("insert into users(name,email,password_hash) values('B','a@b.c','x')"), true, "duplicate email rejected");
+assert.equal(await rejects("insert into applications(user_id,company,title,stage) values($1,'c','t','maybe')", [u]), true, "invalid stage rejected");
+await db.query("insert into jobs(title,company,skills,source,external_id) values('J','C',ARRAY['java','sql'],'seed','s1')");
+assert.equal((await one("select count(*)::int c from jobs where skills @> ARRAY['java']")).c, 1, "array containment query works");
+await db.query("insert into audit_log(user_id,action) values($1,'login')", [u]);
+await db.query("delete from users where id=$1", [u]);
+const left = await one("select (select count(*) from resumes)::int r,(select count(*) from ats_analyses)::int a,(select count(*) from skills)::int s,(select count(*) from audit_log where user_id is null)::int al");
+assert.deepEqual(left, { r: 0, a: 0, s: 0, al: 1 }, "user deletion cascades but keeps the audit trail");
+console.log("database verify: all checks passed");
