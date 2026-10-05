@@ -9,6 +9,9 @@
 - Generic responses on login/reset ("if the account exists...") to prevent account enumeration.
 - Optional later: OAuth (Google, LinkedIn), MFA.
 
+## Stack notes
+Bcrypt cost 12+ or Argon2id; `jsonwebtoken` with a short expiry, a strong secret from the environment, and refresh-token rotation. "A few lines of JWT" is only the happy path: also budget for rate limiting, reset-token flow, logout/revocation and the cookie-vs-header decision above.
+
 ## Authorization
 Every resource is scoped to its owner (`user_id`) in the query itself. Return `404` (not `403`) for other users' ids. Add tests for cross-user access on every endpoint.
 

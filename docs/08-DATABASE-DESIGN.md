@@ -46,3 +46,8 @@ erDiagram
 
 ## Migration approach
 Versioned migrations only (Flyway, Liquibase or the framework's tool), never manual schema edits; every migration reversible where possible.
+
+## Implementation notes (decided stack)
+- **PostgreSQL + Drizzle ORM.** Define the tables above as Drizzle schemas; generate versioned migrations with drizzle-kit and commit them.
+- Use real foreign keys with `ON DELETE CASCADE` for user-owned data so account deletion (doc 10) is one statement.
+- Hosted Postgres (for example Neon) needs a pooled connection string for the API and a direct one for migrations. Check the provider's current free-tier limits before relying on them.

@@ -28,7 +28,7 @@ Graduates and early-career job seekers, career switchers, and experienced profes
 | Layer | Choice |
 |---|---|
 | Frontend | React 18, Vite, TypeScript, Tailwind, Framer Motion, Lucide, Zustand, React Router |
-| Backend | In design (see docs 07, 08, 10; all marked DRAFT) |
+| Backend | **Decided:** Node 20+, TypeScript, Express 5, PostgreSQL, Drizzle ORM, zod, JWT + bcrypt/argon2, official LLM SDK. Contract still DRAFT (docs 07, 08, 10) |
 | AI | Provider-agnostic service layer (doc 09) |
 
 ## Scope

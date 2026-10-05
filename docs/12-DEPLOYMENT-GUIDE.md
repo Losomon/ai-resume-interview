@@ -67,3 +67,9 @@ Daily database backups plus point-in-time recovery, encrypted, restore tested qu
 - [ ] Error tracking and alerts working
 - [ ] Backup restore tested
 - [ ] Privacy policy, terms and account deletion available
+
+## Backend hosting (decided stack)
+Candidate setup: API on Railway (or Render/Fly.io), PostgreSQL on Neon. Free tiers and trial credits change often, so confirm current limits and sleep behavior before sharing a public link. Required env vars: `DATABASE_URL`, `JWT_SECRET` (or cookie secret), `FRONTEND_ORIGIN`, `ANTHROPIC_API_KEY` (or the chosen provider's key). Never commit them. Run `drizzle-kit migrate` as a release step before starting the new API version.
+
+## Backend build order
+1. `GET /health` returns `{ ok: true }`. 2. Postgres + Drizzle schema + first migration. 3. Register/login with hashed passwords and token middleware. 4. Resumes CRUD scoped by `user_id`. 5. `/rewrite` streaming proxy. 6. ATS, interviews, jobs, applications, coach. After each step, switch the matching `services/*.api.ts` and run its E2E journey (doc 11).

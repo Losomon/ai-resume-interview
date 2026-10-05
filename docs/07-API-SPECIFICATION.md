@@ -64,3 +64,10 @@ Breaking changes bump `/v2`. AI endpoints are rate-limited per user (proposal: 3
 - SSE vs WebSocket for streaming?
 - Are ATS and interview scoring synchronous or job-based?
 - File upload path for resume import (multipart vs pre-signed URL)?
+
+## Implementation notes (decided stack)
+- Express 5 (async handlers forward rejected promises to the error middleware; on Express 4 you must wrap them). Layout: `routes/`, `services/`, `db/`, `middleware/`.
+- Validate every request body, query and params with **zod**; map failures to the `VALIDATION_ERROR` format above.
+- Streaming (rewrite, coach) uses Server-Sent Events: `Content-Type: text/event-stream`, flush each chunk, and stop the LLM call when the client disconnects.
+- CORS: allow only the frontend origin; add `credentials: true` if cookies are used. An open `cors()` is acceptable for local step 1 only.
+- Keep ATS keyword matching and scoring on the server. Browser-computed scores can be edited by the user and must not be trusted or stored as truth.
