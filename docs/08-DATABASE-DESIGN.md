@@ -52,5 +52,12 @@ Versioned migrations only (Flyway, Liquibase or the framework's tool), never man
 - Use real foreign keys with `ON DELETE CASCADE` for user-owned data so account deletion (doc 10) is one statement.
 - Hosted Postgres (for example Neon) needs a pooled connection string for the API and a direct one for migrations. Check the provider's current free-tier limits before relying on them.
 
-## As implemented in `backend/src/db/schema.ts` (this section wins)
-Built: `users`, `refresh_tokens` (SHA-256 hashed), `resumes` (one validated JSONB `content` instead of `resume_sections`), `ats_analyses` (adds `suggestions`), `interviews`, `interview_answers`, `applications`. Still to add with their routes: `jobs`, `job_matches`, `skills`, `coach_messages`, `readiness_snapshots`, `audit_log`.
+## As implemented in the `database/` package (this section wins)
+The database is its own package, `@careerforge/database`, that the API imports; schema is split per domain under `database/src/schema/`, with generated migrations in `database/migrations/`. All 16 tables from this document now exist, with these deliberate differences:
+- `resumes.content` is one validated JSONB document (no `resume_sections` table).
+- Interview questions are rows in `interview_answers` (`position`, `question`, nullable `answer`), with no separate questions table.
+- Added: `refresh_tokens`, `password_reset_tokens`, `saved_jobs`, `learning_plan_steps`; `applications` gains `job_id`, `resume_id`, `position`.
+- Postgres enums for interview status, application stage, coach role, job level, skill source.
+- Check constraints on score ranges. User deletion is a hard cascade; `audit_log.user_id` is SET NULL.
+
+Folder guide, index rationale and migration workflow: `database/README.md`.
