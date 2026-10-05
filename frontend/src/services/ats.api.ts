@@ -125,9 +125,9 @@ function buildBreakdown(
 function buildMissing(matches: ATSKeywordMatch[]): ATSMissing[] {
   return matches
     .filter((m) => !m.matched)
-    .map((m) => ({
+    .map((m): ATSMissing => ({
       keyword: m.keyword,
-      kind: m.needsEvidence ? "evidence" : "gap",
+      kind: m.needsEvidence ? 'evidence' : 'gap',
     }))
     .slice(0, 8);
 }

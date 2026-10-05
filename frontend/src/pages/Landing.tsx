@@ -4,7 +4,7 @@ import {
   LivePreview,
   OnePlatform,
   ResumeSection,
-  ATSection,
+  ATSSection,
   InterviewSection,
   CareerReadiness,
   HowItWorks,

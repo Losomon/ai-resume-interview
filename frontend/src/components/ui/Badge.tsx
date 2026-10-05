@@ -1,15 +1,18 @@
 import { type HTMLAttributes } from 'react'
 import { cn } from '@/utils/cn'
 
-type Tone = 'ai' | 'progress' | 'info' | 'attention' | 'problem' | 'neutral'
+type Tone = 'ai' | 'progress' | 'info' | 'attention' | 'warn' | 'problem' | 'neutral' | 'ok' | 'bad'
 
 const tones: Record<Tone, string> = {
   ai:        'bg-primary-tint text-green-deep',
   progress:  'bg-success-tint text-green-deep',
   info:      'bg-info-tint text-info',
   attention: 'bg-attention-tint text-attention',
+  warn:      'bg-attention-tint text-attention',
   problem:   'bg-problem-tint text-problem',
   neutral:   'bg-bg-secondary text-text-secondary',
+  ok:        'bg-success-tint text-green-deep',
+  bad:       'bg-problem-tint text-problem',
 }
 
 type BadgeProps = HTMLAttributes<HTMLSpanElement> & { tone?: Tone }

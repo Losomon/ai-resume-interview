@@ -5,7 +5,7 @@ import { Button, Card, Badge, Progress } from '@/components/ui';
 import { ATSScore } from '@/components/ats/ATSScore';
 import { scaleReveal, slideInLeft, viewportOnce } from './motion';
 
-export function ATSection() {
+export function ATSSection() {
   return (
     <section id="ats" className="bg-bg py-24 lg:py-32">
       <div className="mx-auto grid max-w-[1280px] gap-16 px-6 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-10">
@@ -102,6 +102,8 @@ export function ATSection() {
     </section>
   );
 }
+
+export const ATSection = ATSSection;
 
 function Row({ label, value }: { label: string; value: number }) {
   return (
