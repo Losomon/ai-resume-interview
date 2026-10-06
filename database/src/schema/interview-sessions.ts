@@ -1,0 +1,6 @@
+import { pgTable, integer, jsonb, timestamp, uuid, index } from "drizzle-orm/pg-core"; import { pk, createdAt } from "./_shared.js"; import { interviewStatus } from "./_enums.js"; import { owner } from "./users.js"; import { resumes } from "./resumes.js";
+import type { InterviewConfig, InterviewQuestion, InterviewAnswer, InterviewScores, InterviewFeedback } from "../validation/index.js";
+/** One document per session: questions are generated at start, answers saved as the user goes, scores and feedback written on submit. */
+export const interviewSessions = pgTable("interview_sessions", { id: pk(), userId: owner(), resumeId: uuid("resume_id").references(() => resumes.id, { onDelete: "set null" }), config: jsonb("config").$type<InterviewConfig>().notNull(),
+  questions: jsonb("questions").$type<InterviewQuestion[]>().notNull(), answers: jsonb("answers").$type<InterviewAnswer[]>().notNull().default([]), scores: jsonb("scores").$type<InterviewScores>(), feedback: jsonb("feedback").$type<InterviewFeedback>(),
+  status: interviewStatus("status").notNull().default("active"), startedAt: createdAt(), completedAt: timestamp("completed_at", { withTimezone: true }) }, (t) => [index("interview_user_started_idx").on(t.userId, t.startedAt)]);

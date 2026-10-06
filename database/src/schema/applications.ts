@@ -1,5 +1,5 @@
 import { pgTable, text, integer, timestamp, uuid, index } from "drizzle-orm/pg-core"; import { pk, createdAt, updatedAt } from "./_shared.js"; import { applicationStage } from "./_enums.js"; import { owner } from "./users.js"; import { jobs } from "./jobs.js"; import { resumes } from "./resumes.js";
-/** resume_id records which resume version was sent. position orders cards inside a kanban column. */
+/** resume_id records which resume was sent. position orders cards inside a kanban column. */
 export const applications = pgTable("applications", { id: pk(), userId: owner(), jobId: uuid("job_id").references(() => jobs.id, { onDelete: "set null" }), resumeId: uuid("resume_id").references(() => resumes.id, { onDelete: "set null" }),
   company: text("company").notNull(), title: text("title").notNull(), stage: applicationStage("stage").notNull().default("saved"), position: integer("position").notNull().default(0), notes: text("notes").notNull().default(""),
   appliedAt: timestamp("applied_at", { withTimezone: true }), createdAt: createdAt(), updatedAt: updatedAt() }, (t) => [index("applications_user_stage_pos_idx").on(t.userId, t.stage, t.position)]);
