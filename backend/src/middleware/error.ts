@@ -1,5 +1,4 @@
-import type { ErrorRequestHandler, RequestHandler } from "express"; import { ZodError } from "zod";
-export class AppError extends Error { constructor(public status: number, public code: string, message: string) { super(message); } }
+import type { ErrorRequestHandler, RequestHandler } from "express"; import { ZodError } from "zod"; import { AppError } from "../lib/errors.js"; import { logger } from "../lib/logger.js";
 export const notFound: RequestHandler = (_req, res) => { res.status(404).json({ error: { code: "NOT_FOUND", message: "Route not found" } }); };
 export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   if (err instanceof ZodError) {
@@ -9,5 +8,5 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   if (err instanceof AppError) { res.status(err.status).json({ error: { code: err.code, message: err.message } }); return; }
   const s = (err as { status?: number }).status;
   if (s && s >= 400 && s < 500) { res.status(s).json({ error: { code: "BAD_REQUEST", message: "Malformed request" } }); return; }
-  console.error(err); res.status(500).json({ error: { code: "INTERNAL", message: "Something went wrong" } });
+  logger.error("unhandled", { err: String(err), stack: (err as Error).stack }); res.status(500).json({ error: { code: "INTERNAL", message: "Something went wrong" } }); // never leak a stack trace
 };
