@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -53,64 +53,62 @@
     --cf-text-muted: 168 162 158; /* #A8A29E */
     --cf-text-inverse: 255 255 255; /* #FFFFFF */
 
-    /* Glow utility colors (used by bg-grid-warm, bg-glow-green, etc.) */
+    /* Glow utility colors */
     --cf-grid-line: 60 50 30;
     --cf-glow-green-a: 134 239 172;
     --cf-glow-warm-a: 253 230 138;
     --cf-skeleton-a: 247 245 236;
     --cf-skeleton-b: 239 235 221;
 
-    /* Shadow base (warm brown on light, black on dark) */
+    /* Shadow base */
     --cf-shadow-rgb: 60 50 30;
   }
 
   /* ============================================================
      DARK THEME
-     Same hue family (warm brown + green), inverted lightness.
-     No blue, no slate, no purple.
      ============================================================ */
   .dark {
     color-scheme: dark;
 
     /* Canvas */
-    --cf-bg: 15 14 11; /* #0F0E0B */
-    --cf-bg-secondary: 22 20 15; /* #16140F */
-    --cf-card: 28 26 21; /* #1C1A15 */
-    --cf-card-elevated: 36 32 25; /* #242019 */
-    --cf-border: 46 42 34; /* #2E2A22 */
-    --cf-border-hover: 61 56 48; /* #3D3830 */
+    --cf-bg: 15 14 11;
+    --cf-bg-secondary: 22 20 15;
+    --cf-card: 28 26 21;
+    --cf-card-elevated: 36 32 25;
+    --cf-border: 46 42 34;
+    --cf-border-hover: 61 56 48;
 
-    /* Brand — brighter green for visibility on dark */
-    --cf-primary: 74 222 128; /* #4ADE80 */
-    --cf-primary-hover: 34 197 94; /* #22C55E */
-    --cf-primary-tint: 13 46 26; /* #0D2E1A */
+    /* Brand */
+    --cf-primary: 74 222 128;
+    --cf-primary-hover: 34 197 94;
+    --cf-primary-tint: 13 46 26;
 
-    /* Greens — inverted */
-    --cf-green: 74 222 128; /* #4ADE80 */
-    --cf-green-deep: 134 239 172; /* #86EFAC */
-    --cf-green-tint: 13 46 26; /* #0D2E1A */
+    /* Greens */
+    --cf-green: 74 222 128;
+    --cf-green-deep: 134 239 172;
+    --cf-green-tint: 13 46 26;
 
     /* Info */
-    --cf-info: 34 211 238; /* #22D3EE */
-    --cf-info-tint: 10 42 51; /* #0A2A33 */
+    --cf-info: 34 211 238;
+    --cf-info-tint: 10 42 51;
 
-    /* Semantic — brighter for visibility */
-    --cf-success: 34 197 94; /* #22C55E */
-    --cf-success-tint: 13 46 26; /* #0D2E1A */
-    --cf-attention: 251 191 36; /* #FBBF24 */
-    --cf-attention-tint: 45 30 4; /* #2D1E04 */
-    --cf-problem: 248 113 113; /* #F87171 */
-    --cf-problem-tint: 45 10 10; /* #2D0A0A */
+    /* Semantic */
+    --cf-success: 34 197 94;
+    --cf-success-tint: 13 46 26;
+    --cf-attention: 251 191 36;
+    --cf-attention-tint: 45 30 4;
+    --cf-problem: 248 113 113;
+    --cf-problem-tint: 45 10 10;
 
     /* Glow */
-    --cf-glow: 74 222 128; /* #4ADE80 */
-    --cf-glow-warm: 251 191 36; /* #FBBF24 */
+    --cf-glow: 74 222 128;
+    --cf-glow-warm: 251 191 36;
 
     /* Text */
-    --cf-text: 245 242 232; /* #F5F2E8 */
-    --cf-text-secondary: 184 178 160; /* #B8B2A0 */
-    --cf-text-muted: 122 116 102; /* #7A7466 */
-    --cf-text-inverse: 15 14 11; /* #0F0E0B — for text on green buttons */
+    --cf-text: 245 242 232;
+    --cf-text-secondary: 184 178 160;
+    --cf-text-muted: 122 116 102;
+    --cf-text-inverse: 15 14 11;
 
     /* Glow utility colors */
     --cf-grid-line: 245 242 232;
@@ -119,7 +117,7 @@
     --cf-skeleton-a: 28 26 21;
     --cf-skeleton-b: 36 32 25;
 
-    /* Shadow base — pure black on dark for depth */
+    /* Shadow base */
     --cf-shadow-rgb: 0 0 0;
   }
 
