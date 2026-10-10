@@ -13,24 +13,24 @@ export function analyze(r: ResumeContent, jobDescription: string) {
   const jd = jobDescription.toLowerCase();
   const required = SKILLS.filter((k) => has(jd, k));
   if (required.length === 0) return null;
-  const text = [r.title, r.summary, ...r.skills, ...r.experience.flatMap((e) => [e.role, e.company, ...e.bullets]), ...r.projects.flatMap((p) => [p.name, p.description])].join("\n").toLowerCase();
-  const listed = new Set(r.skills.map((s) => s.toLowerCase().trim()));
+  const text = [r.title, r.summary, ...r.skills, ...r.experience.flatMap((e: { role: string; company: string; bullets: string[] }) => [e.role, e.company, ...e.bullets]), ...r.projects.flatMap((p: { name: string; description: string }) => [p.name, p.description])].join("\n").toLowerCase();
+  const listed = new Set(r.skills.map((s: string) => s.toLowerCase().trim()));
   const matched: string[] = [], missingEvidence: Gap[] = [], skillGaps: Gap[] = [];
   for (const k of required) {
-    const rel = (RELATED[k] ?? []).filter((x) => has(text, x));
+    const rel = (RELATED[k] ?? []).filter((x: string) => has(text, x));
     if (has(text, k)) matched.push(k);
     else if (rel.length) missingEvidence.push({ skill: k, hint: `You show related experience (${rel.join(", ")}). If you have used ${k}, add where.` });
     else skillGaps.push({ skill: k, hint: `Not found in your resume. Build it or leave it off; don't claim it.` });
   }
-  const strongRoles = r.experience.filter((e) => e.bullets.filter((b) => b.trim().length > 20).length >= 2).length;
+  const strongRoles = r.experience.filter((e: { bullets: string[] }) => e.bullets.filter((b: string) => b.trim().length > 20).length >= 2).length;
   const checks = [r.fullName, r.title, r.summary, r.skills.length >= 5, r.experience.length >= 1];
   const breakdown = { keywords: pct(matched.length, required.length), experience: Math.min(100, Math.round((strongRoles / 2) * 100)),
-    skills: pct(required.filter((k) => listed.has(k)).length, required.length), formatting: pct(checks.filter(Boolean).length, checks.length) };
+    skills: pct(required.filter((k: string) => listed.has(k)).length, required.length), formatting: pct(checks.filter(Boolean).length, checks.length) };
   const score = Math.round(0.35 * breakdown.keywords + 0.3 * breakdown.experience + 0.25 * breakdown.skills + 0.1 * breakdown.formatting);
   const suggestions: string[] = [];
   if (breakdown.experience < 100) suggestions.push("Give each recent role at least two specific, measurable bullets.");
   if (!r.summary) suggestions.push("Add a short summary aimed at this role.");
   if (r.skills.length < 5) suggestions.push("List your core skills in a dedicated section.");
-  if (missingEvidence.length) suggestions.push(`Show evidence for: ${missingEvidence.map((m) => m.skill).join(", ")} (only if true).`);
+  if (missingEvidence.length) suggestions.push(`Show evidence for: ${missingEvidence.map((m: Gap) => m.skill).join(", ")} (only if true).`);
   return { score, breakdown, matched, missingEvidence, skillGaps, suggestions, modelVersion: MODEL_VERSION };
 }

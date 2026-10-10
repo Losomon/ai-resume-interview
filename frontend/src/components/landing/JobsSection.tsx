@@ -1,36 +1,36 @@
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight, MapPin } from "lucide-react";
-import { Button, Card, Badge } from "@/components/ui";
-import { fadeUp, stagger, viewportOnce } from "./motion";
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowRight, MapPin } from 'lucide-react';
+import { Button, Card, Badge } from '@/components/ui';
+import { fadeUp, stagger, viewportOnce } from './motion';
 
 const jobs = [
   {
-    company: "Google",
-    role: "Senior Frontend Developer",
-    location: "Remote",
+    company: 'Google',
+    role: 'Senior Frontend Developer',
+    location: 'Remote',
     match: 96,
-    tags: ["React", "TypeScript", "Next.js"],
+    tags: ['React', 'TypeScript', 'Next.js'],
   },
   {
-    company: "Microsoft",
-    role: "Full Stack Developer",
-    location: "Hybrid",
+    company: 'Microsoft',
+    role: 'Full Stack Developer',
+    location: 'Hybrid',
     match: 92,
-    tags: ["React", "Node.js", "PostgreSQL"],
+    tags: ['React', 'Node.js', 'PostgreSQL'],
   },
   {
-    company: "Amazon",
-    role: "Software Engineer",
-    location: "Hybrid",
+    company: 'Amazon',
+    role: 'Software Engineer',
+    location: 'Hybrid',
     match: 88,
-    tags: ["Java", "Spring Boot", "AWS"],
+    tags: ['Java', 'Spring Boot', 'AWS'],
   },
 ];
 
 export function JobsSection() {
   return (
-    <section className="bg-bg py-24 lg:py-32">
+    <section id="jobs" className="bg-bg py-24 lg:py-32">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
         <motion.div
           variants={stagger(0.08)}
@@ -74,14 +74,10 @@ export function JobsSection() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-md bg-bg-secondary text-small font-semibold text-text">
                     {j.company.charAt(0)}
                   </div>
-                  <Badge tone={j.match >= 90 ? "progress" : "attention"}>
-                    {j.match}% match
-                  </Badge>
+                  <Badge tone={j.match >= 90 ? 'progress' : 'attention'}>{j.match}% match</Badge>
                 </div>
 
-                <h3 className="mt-4 text-[15px] font-semibold leading-snug text-text">
-                  {j.role}
-                </h3>
+                <h3 className="mt-4 text-[15px] font-semibold leading-snug text-text">{j.role}</h3>
                 <p className="mt-1 flex items-center gap-1.5 text-xs text-text-muted">
                   {j.company}
                   <span className="text-border-hover">·</span>

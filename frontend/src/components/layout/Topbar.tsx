@@ -1,6 +1,6 @@
-import { Search, Bell } from "lucide-react";
-import { AIMark, Badge } from "@/components/ui";
-import { cn } from "@/utils/cn";
+import { Search, Bell } from 'lucide-react';
+import { AIMark, Badge, ThemeToggle } from '@/components/ui';
+import { cn } from '@/utils/cn';
 
 type TopbarProps = {
   title?: string;
@@ -10,8 +10,8 @@ export function Topbar({ title }: TopbarProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-20 h-[72px]",
-        "border-b border-border bg-bg/85 backdrop-blur-md",
+        'sticky top-0 z-20 h-[72px]',
+        'border-b border-border bg-bg/85 backdrop-blur-md',
       )}
     >
       <div className="mx-auto flex h-full max-w-[1280px] items-center gap-4 px-6 lg:px-10">
@@ -22,21 +22,21 @@ export function Topbar({ title }: TopbarProps) {
         </div>
 
         {/* Optional page title (desktop only) */}
-        {title && (
-          <h1 className="hidden lg:block text-[15px] font-semibold text-text">
-            {title}
-          </h1>
-        )}
+        {title && <h1 className="hidden lg:block text-[15px] font-semibold text-text">{title}</h1>}
 
         {/* Search */}
         <div className="ml-auto hidden md:flex items-center gap-2 w-[280px] lg:w-[320px] h-10 rounded-button border border-border bg-card px-3 text-small text-text-muted hover:border-border-hover transition-colors duration-card">
           <Search size={16} strokeWidth={2} className="shrink-0" />
           <span className="flex-1">Search anything</span>
-          <Badge tone="neutral" className="text-[10px]">⌘K</Badge>
+          <Badge tone="neutral" className="text-[10px]">
+            ⌘K
+          </Badge>
         </div>
 
         {/* Right side */}
         <div className="flex items-center gap-2 ml-auto md:ml-0">
+          <ThemeToggle />
+
           <button
             type="button"
             aria-label="Notifications"
