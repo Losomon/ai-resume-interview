@@ -1,62 +1,30 @@
 import { useEffect, useState } from 'react';
 
-export type Theme = 'light' | 'dark';
+type Theme = 'light' | 'dark';
 
-const STORAGE_KEY = 'cf_theme';
-
-function readStoredTheme(): Theme | null {
-  try {
-    const v = localStorage.getItem(STORAGE_KEY);
-    if (v === 'light' || v === 'dark') return v;
-  } catch {
-    // localStorage unavailable
-  }
-  return null;
-}
-
-function readSystemTheme(): Theme {
+function getInitialTheme(): Theme {
   if (typeof window === 'undefined') return 'light';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
-
-function applyTheme(theme: Theme) {
-  document.documentElement.classList.toggle('dark', theme === 'dark');
+  try {
+    const stored = localStorage.getItem('cf_theme') as Theme | null;
+    if (stored === 'light' || stored === 'dark') return stored;
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+  } catch {}
+  return 'light';
 }
 
 export function useTheme() {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    return readStoredTheme() ?? readSystemTheme();
-  });
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
 
   useEffect(() => {
-    applyTheme(theme);
+    const root = document.documentElement;
+    if (theme === 'dark') root.classList.add('dark');
+    else root.classList.remove('dark');
+    try {
+      localStorage.setItem('cf_theme', theme);
+    } catch {}
   }, [theme]);
 
-  useEffect(() => {
-    const stored = readStoredTheme();
-    if (stored) return;
+  const toggle = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
 
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = (e: MediaQueryListEvent) => {
-      const next: Theme = e.matches ? 'dark' : 'light';
-      setThemeState(next);
-    };
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, []);
-
-  function setTheme(next: Theme) {
-    setThemeState(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // ignore
-    }
-  }
-
-  function toggle() {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  }
-
-  return { theme, setTheme, toggle };
+  return { theme, toggle };
 }
