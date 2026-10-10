@@ -1,32 +1,32 @@
-import { motion } from "framer-motion";
-import { FileText, Target, Mic } from "lucide-react";
-import { Card } from "@/components/ui";
-import { fadeUp, stagger, viewportOnce } from "./motion";
+import { motion } from 'framer-motion';
+import { FileText, Target, Mic } from 'lucide-react';
+import { Card } from '@/components/ui';
+import { fadeUp, stagger, viewportOnce } from './motion';
 
 const steps = [
   {
-    n: "01",
-    title: "Build your resume",
-    body: "Start with a template, add your experience, and let AI tighten every bullet.",
+    n: '01',
+    title: 'Build your resume',
+    body: 'Start with a template, add your experience, and let AI tighten every bullet.',
     icon: FileText,
   },
   {
-    n: "02",
-    title: "Match to the job",
+    n: '02',
+    title: 'Match to the job',
     body: "Paste a job description. We show exactly where you match and where you don't.",
     icon: Target,
   },
   {
-    n: "03",
-    title: "Practice the interview",
-    body: "Run a focused mock session. Get a report and track your readiness score.",
+    n: '03',
+    title: 'Practice the interview',
+    body: 'Run a focused mock session. Get a report and track your readiness score.',
     icon: Mic,
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section className="bg-bg-secondary py-24 lg:py-32">
+    <section id="how-it-works" className="bg-bg-secondary py-24 lg:py-32">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
         <motion.div
           variants={stagger(0.08)}
@@ -69,14 +69,10 @@ export function HowItWorks() {
                   <span className="flex h-11 w-11 items-center justify-center rounded-md bg-primary-tint text-primary">
                     <Icon size={20} />
                   </span>
-                  <span className="text-[28px] font-bold leading-none text-border-hover">
-                    {n}
-                  </span>
+                  <span className="text-[28px] font-bold leading-none text-border-hover">{n}</span>
                 </div>
                 <h3 className="mt-5 text-card text-text">{title}</h3>
-                <p className="mt-2 text-small leading-relaxed text-text-secondary">
-                  {body}
-                </p>
+                <p className="mt-2 text-small leading-relaxed text-text-secondary">{body}</p>
               </Card>
             </motion.div>
           ))}

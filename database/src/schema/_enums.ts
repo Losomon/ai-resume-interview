@@ -3,3 +3,4 @@ import { pgEnum } from "drizzle-orm/pg-core"; import { APPLICATION_STAGES } from
 export const interviewStatus = pgEnum("interview_status", ["draft", "active", "complete"]);
 export const applicationStage = pgEnum("application_stage", APPLICATION_STAGES);
 export const jobLevel = pgEnum("job_level", ["junior", "mid", "senior", "lead"]);
+export const coachRole = pgEnum("coach_role", ["user", "assistant"]);
