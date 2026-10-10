@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight, Zap, RefreshCw, AlertTriangle, X, Check } from "lucide-react";
-import { Button, Card, Badge, Progress } from "@/components/ui";
-import { scaleReveal, slideInLeft, viewportOnce } from "./motion";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowRight, Zap, RefreshCw, AlertTriangle, X, Check } from 'lucide-react';
+import { Button, Card, Badge, Progress } from '@/components/ui';
+import { scaleReveal, slideInLeft, viewportOnce } from './motion';
 
 type ScanResult = {
   score: number;
@@ -14,20 +14,20 @@ type ScanResult = {
 };
 
 const SAMPLE_JD_SKILLS = [
-  "React",
-  "TypeScript",
-  "Node.js",
-  "PostgreSQL",
-  "AWS",
-  "Docker",
-  "Spring Boot",
-  "CI/CD",
-  "GraphQL",
-  "Kubernetes",
+  'React',
+  'TypeScript',
+  'Node.js',
+  'PostgreSQL',
+  'AWS',
+  'Docker',
+  'Spring Boot',
+  'CI/CD',
+  'GraphQL',
+  'Kubernetes',
 ];
 
 const INITIAL_TEXT =
-  "Full Stack Developer with 5 years experience. Built REST APIs in Node.js backed by PostgreSQL. Shipped production React and TypeScript applications. Comfortable with AWS deployments.";
+  'Full Stack Developer with 5 years experience. Built REST APIs in Node.js backed by PostgreSQL. Shipped production React and TypeScript applications. Comfortable with AWS deployments.';
 
 function runScan(text: string): ScanResult {
   const lower = text.toLowerCase();
@@ -37,16 +37,16 @@ function runScan(text: string): ScanResult {
 
   // Related-skill map — mirrors the RELATED table in ats.service.ts
   const related: Record<string, string[]> = {
-    "spring boot": ["java"],
-    docker: ["kubernetes", "ci/cd", "linux"],
-    kubernetes: ["docker"],
-    aws: ["azure", "gcp"],
-    "ci/cd": ["docker", "kubernetes"],
-    graphql: ["rest", "api"],
-    typescript: ["javascript"],
-    react: ["javascript", "typescript"],
-    "node.js": ["javascript", "typescript"],
-    postgresql: ["sql"],
+    'spring boot': ['java'],
+    docker: ['kubernetes', 'ci/cd', 'linux'],
+    kubernetes: ['docker'],
+    aws: ['azure', 'gcp'],
+    'ci/cd': ['docker', 'kubernetes'],
+    graphql: ['rest', 'api'],
+    typescript: ['javascript'],
+    react: ['javascript', 'typescript'],
+    'node.js': ['javascript', 'typescript'],
+    postgresql: ['sql'],
   };
 
   for (const skill of SAMPLE_JD_SKILLS) {
@@ -75,10 +75,10 @@ function runScan(text: string): ScanResult {
     evidence,
     gaps,
     breakdown: [
-      { label: "Keywords",   value: keywordScore },
-      { label: "Experience", value: expScore },
-      { label: "Formatting", value: formatScore },
-      { label: "Skills",     value: skillScore },
+      { label: 'Keywords', value: keywordScore },
+      { label: 'Experience', value: expScore },
+      { label: 'Formatting', value: formatScore },
+      { label: 'Skills', value: skillScore },
     ],
   };
 }
@@ -116,15 +116,15 @@ export function ATSection() {
             resume matches the job.
           </h2>
           <p className="mt-5 max-w-[480px] text-[17px] leading-relaxed text-text-secondary">
-            We tell you the difference between missing evidence and an actual
-            skill gap — and we never suggest you claim something you don't have.
+            We tell you the difference between missing evidence and an actual skill gap — and we
+            never suggest you claim something you don't have.
           </p>
 
           <ul className="mt-7 flex flex-col gap-3">
             {[
-              "Real keyword extraction from the job description",
-              "Score breakdown by keywords, experience, formatting, skills",
-              "Honest gap reporting: evidence vs. real gaps",
+              'Real keyword extraction from the job description',
+              'Score breakdown by keywords, experience, formatting, skills',
+              'Honest gap reporting: evidence vs. real gaps',
             ].map((t) => (
               <li key={t} className="flex items-center gap-3 text-small text-text-secondary">
                 <span className="h-1.5 w-1.5 rounded-full bg-info" />
@@ -155,9 +155,7 @@ export function ATSection() {
             <div className="flex items-center justify-between border-b border-border pb-4">
               <div className="flex items-center gap-2">
                 <Zap size={16} className="text-info" />
-                <span className="text-small font-semibold text-text">
-                  Free ATS scan demo
-                </span>
+                <span className="text-small font-semibold text-text">Free ATS scan demo</span>
               </div>
               <span className="text-xs text-text-muted">Paste & test</span>
             </div>
@@ -179,7 +177,7 @@ export function ATSection() {
             {/* Scan button */}
             <Button onClick={onScan} loading={scanning} className="mt-4 w-full">
               {!scanning && <Zap size={14} />}
-              {scanning ? "Scanning…" : "Run instant scan"}
+              {scanning ? 'Scanning…' : 'Run instant scan'}
             </Button>
 
             {/* Result */}
@@ -199,16 +197,14 @@ export function ATSection() {
                     <span
                       className={
                         result.score >= 80
-                          ? "text-[24px] font-bold leading-none text-green-deep"
+                          ? 'text-[24px] font-bold leading-none text-green-deep'
                           : result.score >= 60
-                            ? "text-[24px] font-bold leading-none text-attention"
-                            : "text-[24px] font-bold leading-none text-problem"
+                            ? 'text-[24px] font-bold leading-none text-attention'
+                            : 'text-[24px] font-bold leading-none text-problem'
                       }
                     >
                       {result.score}
-                      <span className="text-xs font-normal text-text-muted">
-                        /100
-                      </span>
+                      <span className="text-xs font-normal text-text-muted">/100</span>
                     </span>
                   </div>
                   <div className="mt-3">
@@ -216,10 +212,10 @@ export function ATSection() {
                       value={result.score}
                       tone={
                         result.score >= 80
-                          ? "primary"
+                          ? 'primary'
                           : result.score >= 60
-                            ? "success"
-                            : "attention"
+                            ? 'success'
+                            : 'attention'
                       }
                     />
                   </div>
@@ -229,12 +225,10 @@ export function ATSection() {
                 <div className="flex flex-col gap-2 border-t border-border pt-4">
                   {result.breakdown.map((b) => (
                     <div key={b.label} className="flex items-center gap-3">
-                      <span className="w-20 text-[11px] text-text-secondary">
-                        {b.label}
-                      </span>
+                      <span className="w-20 text-[11px] text-text-secondary">{b.label}</span>
                       <Progress
                         value={b.value}
-                        tone={b.value >= 80 ? "primary" : "success"}
+                        tone={b.value >= 80 ? 'primary' : 'success'}
                         className="flex-1"
                       />
                       <span className="w-8 text-right text-[11px] font-medium text-text">
@@ -317,7 +311,7 @@ export function ATSection() {
                 This is a preview. The real analyzer uses your actual resume.
               </p>
             )}
-          </motion.div>
+          </Card>
         </motion.div>
       </div>
     </section>
