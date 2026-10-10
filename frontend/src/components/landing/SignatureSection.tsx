@@ -4,6 +4,7 @@ import { Sparkles, Check, AlertTriangle, X } from 'lucide-react';
 import { Card, Badge, AIMark } from '@/components/ui';
 import { cn } from '@/utils/cn';
 
+/* ---------- data ---------- */
 const JD_KEYWORDS = [
   { word: 'React', group: 'matched' as const },
   { word: 'TypeScript', group: 'matched' as const },
@@ -22,26 +23,33 @@ const GROUP_META = {
   matched: {
     label: 'Matched',
     icon: Check,
+    tone: 'green',
     bgClass: 'bg-primary-tint',
     borderClass: 'border-primary/25',
     textClass: 'text-green-deep',
+    dotClass: 'bg-primary',
   },
   evidence: {
     label: 'Missing evidence',
     icon: AlertTriangle,
+    tone: 'amber',
     bgClass: 'bg-attention-tint',
     borderClass: 'border-attention/25',
     textClass: 'text-attention',
+    dotClass: 'bg-attention',
   },
   gap: {
     label: 'Real gaps',
     icon: X,
+    tone: 'red',
     bgClass: 'bg-problem-tint',
     borderClass: 'border-problem/25',
     textClass: 'text-problem',
+    dotClass: 'bg-problem',
   },
 } as const;
 
+/* ---------- count-up ---------- */
 function CountUp({ to, className }: { to: number; className?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });
@@ -65,6 +73,7 @@ export function SignatureSection() {
   const inView = useInView(ref, { once: true, amount: 0.3 });
   const [stage, setStage] = useState(0);
 
+  /* Staged reveal: 0 = idle, 1 = chips in, 2 = sorted, 3 = reclassified, 4 = done */
   useEffect(() => {
     if (!inView) return;
     const t1 = setTimeout(() => setStage(1), 300);
@@ -79,9 +88,11 @@ export function SignatureSection() {
 
   return (
     <section className="relative overflow-hidden bg-bg py-32 lg:py-44">
+      {/* Full-bleed glow */}
       <div className="pointer-events-none absolute left-1/2 top-1/3 h-[720px] w-[1080px] -translate-x-1/2 bg-glow-green opacity-40 blur-3xl" />
 
       <div className="relative mx-auto max-w-[1440px] px-6 lg:px-16">
+        {/* Header — asymmetric, left-aligned */}
         <div className="mx-auto mb-20 max-w-[720px] text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
             The honest difference
@@ -96,8 +107,10 @@ export function SignatureSection() {
           </p>
         </div>
 
+        {/* The reveal */}
         <div ref={ref} className="mx-auto max-w-[1080px]">
           <Card className="overflow-hidden p-0">
+            {/* Window chrome */}
             <div className="flex items-center justify-between border-b border-border bg-card px-5 py-3">
               <div className="flex items-center gap-2">
                 <AIMark size={16} />
@@ -108,13 +121,17 @@ export function SignatureSection() {
               <Badge tone="info">rules-v1</Badge>
             </div>
 
+            {/* Body */}
             <div className="grid gap-8 bg-bg-secondary p-8 lg:grid-cols-[1fr_360px] lg:p-10">
+              {/* LEFT — the JD keywords */}
               <div className="min-w-0">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-muted">
                   Job description keywords
                 </div>
 
+                {/* Unsorted pile (stage 0) */}
                 <div className="relative mt-5 min-h-[320px]">
+                  {/* Stage 0 — everything mixed */}
                   {stage === 0 && (
                     <div className="flex flex-wrap gap-2">
                       {JD_KEYWORDS.map((k) => (
@@ -123,6 +140,7 @@ export function SignatureSection() {
                     </div>
                   )}
 
+                  {/* Stage 1+ — three columns */}
                   {stage >= 1 && (
                     <div className="grid gap-5 sm:grid-cols-3">
                       {(['matched', 'evidence', 'gap'] as const).map((groupKey, gi) => {
@@ -131,9 +149,12 @@ export function SignatureSection() {
 
                         const words =
                           groupKey === 'evidence' && stage >= 3
-                            ? JD_KEYWORDS.filter(
-                                (k) => k.group === 'evidence' && k.word !== 'Spring Boot',
-                              )
+                            ? [
+                                ...JD_KEYWORDS.filter(
+                                  (k) => k.group === 'evidence' && k.word !== 'Spring Boot',
+                                ),
+                                JD_KEYWORDS.find((k) => k.word === 'Spring Boot')!,
+                              ]
                             : JD_KEYWORDS.filter((k) => k.group === groupKey);
 
                         return (
@@ -163,25 +184,14 @@ export function SignatureSection() {
                                     delay: stage === 1 ? gi * 0.15 + i * 0.04 : 0,
                                   }}
                                 >
-                                  <Chip word={k.word} state={groupKey} />
+                                  <Chip
+                                    word={k.word}
+                                    state={
+                                      k.word === 'Spring Boot' && stage >= 3 ? 'moving' : groupKey
+                                    }
+                                  />
                                 </motion.div>
                               ))}
-
-                              {groupKey === 'matched' && stage >= 3 && (
-                                <motion.div
-                                  layout
-                                  initial={{ opacity: 0, scale: 0.6 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{
-                                    type: 'spring',
-                                    stiffness: 180,
-                                    damping: 20,
-                                    delay: 0.2,
-                                  }}
-                                >
-                                  <Chip word="Spring Boot" state="moving" />
-                                </motion.div>
-                              )}
                             </div>
                           </div>
                         );
@@ -189,11 +199,12 @@ export function SignatureSection() {
                     </div>
                   )}
 
+                  {/* The narrative line */}
                   {stage >= 3 && (
                     <motion.div
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5, duration: 0.5 }}
+                      transition={{ delay: 0.3, duration: 0.5 }}
                       className="mt-6 flex items-start gap-2.5 rounded-button border border-primary/25 bg-primary-tint px-4 py-3"
                     >
                       <Sparkles size={14} className="mt-0.5 shrink-0 text-primary" />
@@ -207,6 +218,7 @@ export function SignatureSection() {
                 </div>
               </div>
 
+              {/* RIGHT — score panel */}
               <div className="flex flex-col gap-6">
                 <Card className="p-6">
                   <div className="flex items-center justify-between">
@@ -246,6 +258,7 @@ export function SignatureSection() {
             </div>
           </Card>
 
+          {/* Caption */}
           <p className="mt-6 text-center text-xs text-text-muted">
             Same rules run in the real analyzer. Deterministic, testable, and open about what it
             doesn't know.
@@ -256,6 +269,7 @@ export function SignatureSection() {
   );
 }
 
+/* ---------- Chip ---------- */
 function Chip({
   word,
   state,
@@ -284,6 +298,7 @@ function Chip({
   );
 }
 
+/* ---------- MiniBar ---------- */
 function MiniBar({
   label,
   value,
