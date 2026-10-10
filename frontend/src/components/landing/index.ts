@@ -3,7 +3,7 @@ export { Hero } from './Hero';
 export { LivePreview } from './LivePreview';
 export { OnePlatform } from './OnePlatform';
 export { ResumeSection } from './ResumeSection';
-export { ATSection } from './ATSection';
+export { SignatureSection } from './SignatureSection';
 export { InterviewSection } from './InterviewSection';
 export { CareerReadiness } from './CareerReadiness';
 export { HowItWorks } from './HowItWorks';

@@ -4,7 +4,7 @@ import {
   LivePreview,
   OnePlatform,
   ResumeSection,
-  ATSection,
+  SignatureSection,
   InterviewSection,
   CareerReadiness,
   HowItWorks,
@@ -14,7 +14,7 @@ import {
   FAQ,
   FinalCTA,
   Footer,
-} from "@/components/landing";
+} from '@/components/landing';
 
 export default function Landing() {
   return (
@@ -25,7 +25,7 @@ export default function Landing() {
         <LivePreview />
         <OnePlatform />
         <ResumeSection />
-        <ATSection />
+        <SignatureSection />
         <InterviewSection />
         <CareerReadiness />
         <HowItWorks />
