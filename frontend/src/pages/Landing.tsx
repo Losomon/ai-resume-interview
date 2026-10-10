@@ -4,7 +4,7 @@ import {
   LivePreview,
   OnePlatform,
   ResumeSection,
-  ATSSection,
+  ATSection,
   InterviewSection,
   CareerReadiness,
   HowItWorks,
@@ -25,7 +25,7 @@ export default function Landing() {
         <LivePreview />
         <OnePlatform />
         <ResumeSection />
-        <ATSSection />
+        <ATSection />
         <InterviewSection />
         <CareerReadiness />
         <HowItWorks />

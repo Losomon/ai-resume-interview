@@ -4,125 +4,83 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Light theme (warm paper) */
+  --bg: #FDFCF7;
+  --bg-secondary: #F7F5EC;
+  --card: #FFFFFF;
+  --card-elevated: #FFFDF6;
+  --border: #E8E4D5;
+  --border-hover: #D6D0BC;
+
+  --primary: #15803D;
+  --primary-hover: #166534;
+  --primary-tint: #DCFCE7;
+
+  --green: #15803D;
+  --green-deep: #14532D;
+  --green-tint: #DCFCE7;
+
+  --info: #0E7490;
+  --info-tint: #CFFAFE;
+
+  --success: #16A34A;
+  --success-tint: #DCFCE7;
+  --attention: #D97706;
+  --attention-tint: #FEF3C7;
+  --problem: #DC2626;
+  --problem-tint: #FEE2E2;
+
+  --glow: #86EFAC;
+  --glow-warm: #FDE68A;
+
+  --text: #1C1917;
+  --text-secondary: #57534E;
+  --text-muted: #A8A29E;
+  --text-inverse: #FFFFFF;
+
+  color-scheme: light;
+}
+
+.dark {
+  /* Dark theme — cool charcoal, same brand green */
+  --bg: #0E1116;
+  --bg-secondary: #131820;
+  --card: #1A2029;
+  --card-elevated: #1F2630;
+  --border: #2A3340;
+  --border-hover: #3A4556;
+
+  --primary: #4ADE80;
+  --primary-hover: #22C55E;
+  --primary-tint: #064E3B;
+
+  --green: #4ADE80;
+  --green-deep: #86EFAC;
+  --green-tint: #064E3B;
+
+  --info: #38BDF8;
+  --info-tint: #0C4A6E;
+
+  --success: #4ADE80;
+  --success-tint: #064E3B;
+  --attention: #FBBF24;
+  --attention-tint: #422006;
+  --problem: #F87171;
+  --problem-tint: #450A0A;
+
+  --glow: #4ADE80;
+  --glow-warm: #FCD34D;
+
+  --text: #E6E9EE;
+  --text-secondary: #A3ACBB;
+  --text-muted: #6B7485;
+  --text-inverse: #0E1116;
+
+  color-scheme: dark;
+}
+
 @layer base {
-  /* ============================================================
-     LIGHT THEME (default)
-     Values are RGB triplets — space-separated, no commas.
-     Tailwind wraps them as `rgb(var(--cf-x) / <alpha-value>)`.
-     ============================================================ */
-  :root {
-    color-scheme: light;
-
-    /* Canvas */
-    --cf-bg: 253 252 247; /* #FDFCF7 */
-    --cf-bg-secondary: 247 245 236; /* #F7F5EC */
-    --cf-card: 255 255 255; /* #FFFFFF */
-    --cf-card-elevated: 255 253 246; /* #FFFDF6 */
-    --cf-border: 232 228 213; /* #E8E4D5 */
-    --cf-border-hover: 214 208 188; /* #D6D0BC */
-
-    /* Brand */
-    --cf-primary: 21 128 61; /* #15803D */
-    --cf-primary-hover: 22 101 52; /* #166534 */
-    --cf-primary-tint: 220 252 231; /* #DCFCE7 */
-
-    /* Greens */
-    --cf-green: 21 128 61; /* #15803D */
-    --cf-green-deep: 20 83 45; /* #14532D */
-    --cf-green-tint: 220 252 231; /* #DCFCE7 */
-
-    /* Info */
-    --cf-info: 14 116 144; /* #0E7490 */
-    --cf-info-tint: 207 250 254; /* #CFFAFE */
-
-    /* Semantic */
-    --cf-success: 22 163 74; /* #16A34A */
-    --cf-success-tint: 220 252 231; /* #DCFCE7 */
-    --cf-attention: 217 119 6; /* #D97706 */
-    --cf-attention-tint: 254 243 199; /* #FEF3C7 */
-    --cf-problem: 220 38 38; /* #DC2626 */
-    --cf-problem-tint: 254 226 226; /* #FEE2E2 */
-
-    /* Glow */
-    --cf-glow: 134 239 172; /* #86EFAC */
-    --cf-glow-warm: 253 230 138; /* #FDE68A */
-
-    /* Text */
-    --cf-text: 28 25 23; /* #1C1917 */
-    --cf-text-secondary: 87 83 78; /* #57534E */
-    --cf-text-muted: 168 162 158; /* #A8A29E */
-    --cf-text-inverse: 255 255 255; /* #FFFFFF */
-
-    /* Glow utility colors (used by bg-grid-warm, bg-glow-green, etc.) */
-    --cf-grid-line: 60 50 30;
-    --cf-glow-green-a: 134 239 172;
-    --cf-glow-warm-a: 253 230 138;
-    --cf-skeleton-a: 247 245 236;
-    --cf-skeleton-b: 239 235 221;
-
-    /* Shadow base (warm brown on light, black on dark) */
-    --cf-shadow-rgb: 60 50 30;
-  }
-
-  /* ============================================================
-     DARK THEME
-     Same hue family (warm brown + green), inverted lightness.
-     No blue, no slate, no purple.
-     ============================================================ */
-  .dark {
-    color-scheme: dark;
-
-    /* Canvas */
-    --cf-bg: 15 14 11; /* #0F0E0B */
-    --cf-bg-secondary: 22 20 15; /* #16140F */
-    --cf-card: 28 26 21; /* #1C1A15 */
-    --cf-card-elevated: 36 32 25; /* #242019 */
-    --cf-border: 46 42 34; /* #2E2A22 */
-    --cf-border-hover: 61 56 48; /* #3D3830 */
-
-    /* Brand — brighter green for visibility on dark */
-    --cf-primary: 74 222 128; /* #4ADE80 */
-    --cf-primary-hover: 34 197 94; /* #22C55E */
-    --cf-primary-tint: 13 46 26; /* #0D2E1A */
-
-    /* Greens — inverted */
-    --cf-green: 74 222 128; /* #4ADE80 */
-    --cf-green-deep: 134 239 172; /* #86EFAC */
-    --cf-green-tint: 13 46 26; /* #0D2E1A */
-
-    /* Info */
-    --cf-info: 34 211 238; /* #22D3EE */
-    --cf-info-tint: 10 42 51; /* #0A2A33 */
-
-    /* Semantic — brighter for visibility */
-    --cf-success: 34 197 94; /* #22C55E */
-    --cf-success-tint: 13 46 26; /* #0D2E1A */
-    --cf-attention: 251 191 36; /* #FBBF24 */
-    --cf-attention-tint: 45 30 4; /* #2D1E04 */
-    --cf-problem: 248 113 113; /* #F87171 */
-    --cf-problem-tint: 45 10 10; /* #2D0A0A */
-
-    /* Glow */
-    --cf-glow: 74 222 128; /* #4ADE80 */
-    --cf-glow-warm: 251 191 36; /* #FBBF24 */
-
-    /* Text */
-    --cf-text: 245 242 232; /* #F5F2E8 */
-    --cf-text-secondary: 184 178 160; /* #B8B2A0 */
-    --cf-text-muted: 122 116 102; /* #7A7466 */
-    --cf-text-inverse: 15 14 11; /* #0F0E0B — for text on green buttons */
-
-    /* Glow utility colors */
-    --cf-grid-line: 245 242 232;
-    --cf-glow-green-a: 74 222 128;
-    --cf-glow-warm-a: 251 191 36;
-    --cf-skeleton-a: 28 26 21;
-    --cf-skeleton-b: 36 32 25;
-
-    /* Shadow base — pure black on dark for depth */
-    --cf-shadow-rgb: 0 0 0;
-  }
-
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -130,13 +88,10 @@
 
   body {
     @apply bg-bg text-text font-sans text-body;
-    transition:
-      background-color 200ms ease-out,
-      color 200ms ease-out;
   }
 
   :focus-visible {
-    outline: 2px solid rgb(var(--cf-primary) / 0.5);
+    outline: 2px solid rgba(21, 128, 61, 0.5);
     outline-offset: 2px;
     border-radius: 6px;
   }
@@ -156,34 +111,56 @@
 @layer utilities {
   .bg-grid-warm {
     background-image:
-      linear-gradient(rgb(var(--cf-grid-line) / 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(var(--cf-grid-line) / 0.035) 1px, transparent 1px);
+      linear-gradient(rgba(60, 50, 30, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(60, 50, 30, 0.035) 1px, transparent 1px);
     background-size: 48px 48px;
+  }
+
+  .dark .bg-grid-warm {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   }
 
   .bg-glow-green {
     background: radial-gradient(
       ellipse at center,
-      rgb(var(--cf-glow-green-a) / 0.35) 0%,
-      rgb(var(--cf-glow-green-a) / 0) 70%
+      rgba(134, 239, 172, 0.35) 0%,
+      rgba(134, 239, 172, 0) 70%
+    );
+  }
+
+  .dark .bg-glow-green {
+    background: radial-gradient(
+      ellipse at center,
+      rgba(74, 222, 128, 0.45) 0%,
+      rgba(74, 222, 128, 0) 70%
     );
   }
 
   .bg-glow-warm {
     background: radial-gradient(
       ellipse at center,
-      rgb(var(--cf-glow-warm-a) / 0.45) 0%,
-      rgb(var(--cf-glow-warm-a) / 0) 70%
+      rgba(253, 230, 138, 0.45) 0%,
+      rgba(253, 230, 138, 0) 70%
+    );
+  }
+
+  .dark .bg-glow-warm {
+    background: radial-gradient(
+      ellipse at center,
+      rgba(252, 211, 77, 0.35) 0%,
+      rgba(252, 211, 77, 0) 70%
     );
   }
 
   .skeleton-shimmer {
-    background: linear-gradient(
-      90deg,
-      rgb(var(--cf-skeleton-a)) 0%,
-      rgb(var(--cf-skeleton-b)) 50%,
-      rgb(var(--cf-skeleton-a)) 100%
-    );
+    background: linear-gradient(90deg, #f7f5ec 0%, #efebdd 50%, #f7f5ec 100%);
+    background-size: 200% 100%;
+  }
+
+  .dark .skeleton-shimmer {
+    background: linear-gradient(90deg, #131820 0%, #1A2029 50%, #131820 100%);
     background-size: 200% 100%;
   }
 }

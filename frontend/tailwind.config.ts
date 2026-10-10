@@ -1,50 +1,50 @@
 import type { Config } from 'tailwindcss';
 
 export default {
-  content: ['./index.html', './src/**/*.{ts,tsx}'],
   darkMode: 'class',
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
         // Canvas
-        bg: 'rgb(var(--cf-bg) / <alpha-value>)',
-        'bg-secondary': 'rgb(var(--cf-bg-secondary) / <alpha-value>)',
-        card: 'rgb(var(--cf-card) / <alpha-value>)',
-        'card-elevated': 'rgb(var(--cf-card-elevated) / <alpha-value>)',
-        border: 'rgb(var(--cf-border) / <alpha-value>)',
-        'border-hover': 'rgb(var(--cf-border-hover) / <alpha-value>)',
+        bg: 'var(--bg)',
+        'bg-secondary': 'var(--bg-secondary)',
+        card: 'var(--card)',
+        'card-elevated': 'var(--card-elevated)',
+        border: 'var(--border)',
+        'border-hover': 'var(--border-hover)',
 
         // Brand / AI / action
-        primary: 'rgb(var(--cf-primary) / <alpha-value>)',
-        'primary-hover': 'rgb(var(--cf-primary-hover) / <alpha-value>)',
-        'primary-tint': 'rgb(var(--cf-primary-tint) / <alpha-value>)',
+        primary: 'var(--primary)',
+        'primary-hover': 'var(--primary-hover)',
+        'primary-tint': 'var(--primary-tint)',
 
         // Contrast-safe greens
-        green: 'rgb(var(--cf-green) / <alpha-value>)',
-        'green-deep': 'rgb(var(--cf-green-deep) / <alpha-value>)',
-        'green-tint': 'rgb(var(--cf-green-tint) / <alpha-value>)',
+        green: 'var(--green)',
+        'green-deep': 'var(--green-deep)',
+        'green-tint': 'var(--green-tint)',
 
         // Data / info
-        info: 'rgb(var(--cf-info) / <alpha-value>)',
-        'info-tint': 'rgb(var(--cf-info-tint) / <alpha-value>)',
+        info: 'var(--info)',
+        'info-tint': 'var(--info-tint)',
 
         // Semantic states
-        success: 'rgb(var(--cf-success) / <alpha-value>)',
-        'success-tint': 'rgb(var(--cf-success-tint) / <alpha-value>)',
-        attention: 'rgb(var(--cf-attention) / <alpha-value>)',
-        'attention-tint': 'rgb(var(--cf-attention-tint) / <alpha-value>)',
-        problem: 'rgb(var(--cf-problem) / <alpha-value>)',
-        'problem-tint': 'rgb(var(--cf-problem-tint) / <alpha-value>)',
+        success: 'var(--success)',
+        'success-tint': 'var(--success-tint)',
+        attention: 'var(--attention)',
+        'attention-tint': 'var(--attention-tint)',
+        problem: 'var(--problem)',
+        'problem-tint': 'var(--problem-tint)',
 
         // Accent glow
-        glow: 'rgb(var(--cf-glow) / <alpha-value>)',
-        'glow-warm': 'rgb(var(--cf-glow-warm) / <alpha-value>)',
+        glow: 'var(--glow)',
+        'glow-warm': 'var(--glow-warm)',
 
         // Text
-        text: 'rgb(var(--cf-text) / <alpha-value>)',
-        'text-secondary': 'rgb(var(--cf-text-secondary) / <alpha-value>)',
-        'text-muted': 'rgb(var(--cf-text-muted) / <alpha-value>)',
-        'text-inverse': 'rgb(var(--cf-text-inverse) / <alpha-value>)',
+        text: 'var(--text)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-muted': 'var(--text-muted)',
+        'text-inverse': 'var(--text-inverse)',
       },
 
       borderRadius: {
@@ -70,8 +70,8 @@ export default {
       boxShadow: {
         card: '0 1px 2px rgba(60,50,30,0.04), 0 2px 8px rgba(60,50,30,0.05)',
         'card-hover': '0 2px 4px rgba(60,50,30,0.06), 0 8px 20px rgba(60,50,30,0.08)',
-        glow: '0 0 24px rgb(var(--cf-glow) / 0.45)',
-        'glow-warm': '0 0 28px rgb(var(--cf-glow-warm) / 0.5)',
+        glow: '0 0 24px rgba(134,239,172,0.45)',
+        'glow-warm': '0 0 28px rgba(253,230,138,0.5)',
       },
 
       transitionDuration: {
