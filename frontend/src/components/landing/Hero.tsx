@@ -1,8 +1,15 @@
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { Button, Card, Progress, AIMark } from "@/components/ui";
-import { dashboardRise, fadeUp, viewportOnce, stagger } from "./motion";
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { Button, Card, Progress, AIMark } from '@/components/ui';
+import { dashboardRise, fadeUp, viewportOnce, stagger } from './motion';
+
+const stats = [
+  { label: 'Rewrite tones', value: '5' },
+  { label: 'Interview formats', value: '3' },
+  { label: 'Recognized skills', value: '12' },
+  { label: 'Advisory modes', value: '1' },
+];
 
 export function Hero() {
   return (
@@ -41,8 +48,8 @@ export function Hero() {
             variants={fadeUp}
             className="mt-6 max-w-[560px] text-[17px] leading-relaxed text-text-secondary"
           >
-            AI-powered tools to build a stronger career with confidence.
-            Resume, ATS, and interview prep — in one place.
+            AI-powered tools to build a stronger career with confidence. Resume, ATS, and interview
+            prep — in one honest place.
           </motion.p>
 
           <motion.div
@@ -63,9 +70,21 @@ export function Hero() {
             </Link>
           </motion.div>
 
-          <motion.p variants={fadeUp} className="mt-6 text-xs text-text-muted">
-            Trusted by 50,000+ job seekers worldwide
-          </motion.p>
+          {/* Stats — real numbers only */}
+          <motion.div
+            variants={fadeUp}
+            className="mt-14 grid w-full grid-cols-2 gap-3 sm:grid-cols-4"
+          >
+            {stats.map((s) => (
+              <div
+                key={s.label}
+                className="rounded-card border border-border bg-card px-4 py-3 shadow-card"
+              >
+                <div className="text-[24px] font-bold leading-none text-text">{s.value}</div>
+                <div className="mt-1.5 text-xs text-text-muted">{s.label}</div>
+              </div>
+            ))}
+          </motion.div>
         </motion.div>
 
         {/* Product preview */}
@@ -77,7 +96,6 @@ export function Hero() {
           style={{ perspective: 1200 }}
           className="relative mx-auto mt-16 max-w-[1080px] lg:mt-20"
         >
-          {/* Warm halo behind card */}
           <div className="pointer-events-none absolute -inset-8 bg-glow-warm opacity-40 blur-3xl" />
 
           <div className="relative rounded-card border border-border bg-card p-3 shadow-card-hover">
@@ -88,7 +106,6 @@ export function Hero() {
               <span className="h-2.5 w-2.5 rounded-full bg-border-hover" />
             </div>
 
-            {/* Dashboard preview */}
             <div className="grid gap-3 rounded-[10px] bg-bg-secondary p-5 lg:grid-cols-[1fr_320px]">
               <div className="flex flex-col gap-3">
                 <Card className="p-5">
@@ -103,10 +120,10 @@ export function Hero() {
                     <span className="text-small text-text-muted">/100</span>
                   </div>
                   <div className="mt-5 flex flex-col gap-2.5">
-                    <ScoreRow label="Resume"    value={92} />
-                    <ScoreRow label="ATS"       value={78} />
+                    <ScoreRow label="Resume" value={92} />
+                    <ScoreRow label="ATS" value={78} />
                     <ScoreRow label="Interview" value={86} />
-                    <ScoreRow label="Skills"    value={68} />
+                    <ScoreRow label="Skills" value={68} />
                   </div>
                 </Card>
 
@@ -118,9 +135,7 @@ export function Hero() {
               </div>
 
               <Card className="p-5">
-                <span className="text-small font-medium text-text-secondary">
-                  Recommended
-                </span>
+                <span className="text-small font-medium text-text-secondary">Recommended</span>
                 <div className="mt-4 flex flex-col gap-3">
                   <RecommendRow text="Improve ATS score" tone="ai" />
                   <RecommendRow text="Practice interview" tone="progress" />
@@ -135,13 +150,16 @@ export function Hero() {
   );
 }
 
-/* ---------- small helpers ---------- */
+/* ---------- helpers ---------- */
 
 function ScoreRow({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex items-center gap-3">
       <span className="w-20 text-xs text-text-secondary">{label}</span>
-      <Progress value={value} tone={value >= 80 ? "primary" : value >= 60 ? "success" : "attention"} />
+      <Progress
+        value={value}
+        tone={value >= 80 ? 'primary' : value >= 60 ? 'success' : 'attention'}
+      />
       <span className="w-9 text-right text-xs font-medium text-text">{value}%</span>
     </div>
   );
@@ -156,8 +174,13 @@ function MiniStat({ label, value }: { label: string; value: string }) {
   );
 }
 
-function RecommendRow({ text, tone }: { text: string; tone: "ai" | "progress" | "neutral" }) {
-  const dot = { ai: "bg-primary", progress: "bg-success", neutral: "bg-text-muted" }[tone];
+function RecommendRow({ text, tone }: { text: string; tone: 'ai' | 'progress' | 'neutral' }) {
+  const dot = {
+    ai: 'bg-primary',
+    progress: 'bg-success',
+    neutral: 'bg-text-muted',
+  }[tone];
+
   return (
     <div className="flex items-center gap-2.5 text-small text-text-secondary">
       <span className={`h-1.5 w-1.5 rounded-full ${dot}`} />

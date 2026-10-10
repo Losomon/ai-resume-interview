@@ -1,6 +1,8 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import { fadeUp, stagger, viewportOnce } from './motion';
+import { cn } from '@/utils/cn';
 
 const faqs = [
   {
@@ -26,6 +28,8 @@ const faqs = [
 ];
 
 export function FAQ() {
+  const [open, setOpen] = useState<number | null>(0);
+
   return (
     <section id="faq" className="bg-bg-secondary py-24 lg:py-32">
       <div className="mx-auto max-w-[820px] px-6 lg:px-10">
@@ -57,22 +61,52 @@ export function FAQ() {
           viewport={viewportOnce}
           className="mt-12 flex flex-col gap-3"
         >
-          {faqs.map((f) => (
-            <motion.details
-              key={f.q}
-              variants={fadeUp}
-              className="group rounded-card border border-border bg-card px-5 py-4 transition-colors duration-card hover:border-border-hover"
-            >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                <span className="text-[15px] font-medium text-text">{f.q}</span>
-                <Plus
-                  size={18}
-                  className="shrink-0 text-text-muted transition-transform duration-card group-open:rotate-45"
-                />
-              </summary>
-              <p className="mt-3 text-small leading-relaxed text-text-secondary">{f.a}</p>
-            </motion.details>
-          ))}
+          {faqs.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <motion.div
+                key={f.q}
+                variants={fadeUp}
+                className={cn(
+                  'rounded-card border bg-card transition-colors duration-card',
+                  isOpen ? 'border-border-hover' : 'border-border hover:border-border-hover',
+                )}
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                >
+                  <span className="text-[15px] font-medium text-text">{f.q}</span>
+                  <Plus
+                    size={18}
+                    className={cn(
+                      'shrink-0 text-text-muted transition-transform duration-panel ease-out',
+                      isOpen && 'rotate-45 text-primary',
+                    )}
+                  />
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-5 pb-4 text-small leading-relaxed text-text-secondary">
+                        {f.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>
