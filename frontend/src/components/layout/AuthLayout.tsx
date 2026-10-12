@@ -15,18 +15,10 @@ const trustLines = ['No credit card required', 'Free to start', 'Your data stays
 
 const softSpring = { type: 'spring' as const, stiffness: 80, damping: 20 };
 
-function SplitText({
-  text,
-  delay = 0,
-  className,
-}: {
-  text: string;
-  delay?: number;
-  className?: string;
-}) {
+function SplitText({ text, delay = 0 }: { text: string; delay?: number }) {
   const letters = text.split('');
   return (
-    <span className={className} aria-label={text}>
+    <span aria-label={text}>
       {letters.map((ch, i) => (
         <motion.span
           key={`${ch}-${i}`}
@@ -45,24 +37,38 @@ function SplitText({
 
 export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen bg-bg lg:grid lg:grid-cols-[1.05fr_1fr]">
+    <div className="min-h-screen bg-bg lg:grid lg:grid-cols-[55fr_45fr]">
       {/* ====================================================
           LEFT — the brand side (hidden on mobile)
           ==================================================== */}
       <aside className="relative hidden overflow-hidden lg:flex lg:flex-col">
-        {/* Warm gradient base */}
-        <div className="absolute inset-0 bg-gradient-to-br from-glow-warm via-bg to-glow-green opacity-70" />
+        {/* Warm gradient — INLINE, so it always renders.
+            Fixed colors, not theme tokens. */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(160deg, #E9C96A 0%, #F7F0D8 38%, #FDFCF7 58%, #D9EFD4 82%, #BFE3B4 100%)',
+          }}
+        />
 
-        {/* Subtle grid */}
-        <div className="absolute inset-0 bg-grid-warm opacity-60" />
+        {/* Subtle grid — INLINE */}
+        <div
+          className="absolute inset-0 opacity-50"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(60,50,30,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(60,50,30,0.06) 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
+          }}
+        />
 
         {/* Top — wordmark */}
         <div className="relative z-10 flex h-[88px] items-center px-12">
           <Link to="/" className="flex items-center gap-2.5">
             <AIMark size={26} />
-            <span className="text-[17px] font-semibold tracking-tight text-text">
+            <span className="text-[17px] font-semibold tracking-tight text-[#1C1917]">
               CareerForge
-              <span className="text-primary">.AI</span>
+              <span className="text-[#15803D]">.AI</span>
             </span>
           </Link>
         </div>
@@ -73,16 +79,26 @@ export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProp
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...softSpring, delay: 0.1 }}
-            className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-card/70 px-3 py-1.5 text-xs font-medium text-text-secondary backdrop-blur-sm"
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-[#E8E4D5] bg-white/70 px-3 py-1.5 text-xs font-medium text-[#57534E] backdrop-blur-sm"
           >
             <AIMark size={12} />
             Powered by AI — build a stronger career
           </motion.div>
 
-          <h1 className="mt-10 font-display text-[52px] leading-[1.02] tracking-[-0.03em] text-text xl:text-[68px]">
+          {/* FIX 2: use style-based font-family as a belt-and-braces for Fraunces */}
+          <h1
+            className="mt-10 text-[52px] leading-[1.02] tracking-[-0.03em] text-[#1C1917] xl:text-[68px]"
+            style={{ fontFamily: 'Fraunces, Georgia, serif', fontWeight: 700 }}
+          >
             <SplitText text="Your career," delay={0.2} />
             <br />
-            <span className="bg-gradient-to-br from-primary via-primary to-green-deep bg-clip-text text-transparent">
+            {/* FIX 3: inline gradient so it always resolves */}
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage: 'linear-gradient(135deg, #15803D 0%, #14532D 100%)',
+              }}
+            >
               <SplitText text="engineered." delay={0.7} />
             </span>
           </h1>
@@ -91,7 +107,7 @@ export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProp
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...softSpring, delay: 1.4 }}
-            className="mt-8 max-w-[440px] text-[16px] leading-relaxed text-text-secondary"
+            className="mt-8 max-w-[440px] text-[16px] leading-relaxed text-[#57534E]"
           >
             Every suggestion is honest. Nothing invented. Your resume, ATS score, and interview
             practice — in one place.
@@ -104,9 +120,9 @@ export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProp
             className="mt-12 flex flex-col gap-3"
           >
             {trustLines.map((line) => (
-              <li key={line} className="flex items-center gap-2.5 text-small text-text-secondary">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary-tint">
-                  <Check size={11} className="text-green-deep" strokeWidth={3} />
+              <li key={line} className="flex items-center gap-2.5 text-small text-[#57534E]">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#DCFCE7]">
+                  <Check size={11} className="text-[#14532D]" strokeWidth={3} />
                 </span>
                 {line}
               </li>
@@ -114,14 +130,14 @@ export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProp
           </motion.ul>
         </div>
 
-        {/* Bottom — quiet footnote */}
+        {/* Bottom — copyright */}
         <div className="relative z-10 px-12 pb-10">
-          <p className="text-xs text-text-muted">© {new Date().getFullYear()} CareerForge AI</p>
+          <p className="text-xs text-[#A8A29E]">© {new Date().getFullYear()} CareerForge AI</p>
         </div>
       </aside>
 
       {/* ====================================================
-          RIGHT — the form column
+          RIGHT — the form column (theme-aware)
           ==================================================== */}
       <main className="relative flex min-h-screen flex-col">
         {/* Mobile logo */}
@@ -143,10 +159,15 @@ export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProp
             className="w-full max-w-[400px]"
           >
             <div className="mb-8">
-              <h1 className="font-display text-[32px] leading-tight tracking-[-0.02em] text-text">
+              {/* FIX 2: font-family via style so it can't be missed */}
+              <h1
+                className="text-[32px] leading-tight tracking-[-0.02em] text-text"
+                style={{ fontFamily: 'Fraunces, Georgia, serif', fontWeight: 700 }}
+              >
                 {title}
               </h1>
-              <p className="mt-2 text-small text-text-secondary">{subtitle}</p>
+              {/* FIX 5: text-body (15px) instead of text-small (14px) */}
+              <p className="mt-2 text-body text-text-secondary">{subtitle}</p>
             </div>
 
             {children}
