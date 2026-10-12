@@ -1,16 +1,17 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { AIMark, Button } from "@/components/ui";
-import { useScrollY } from "@/hooks/useScrollY";
-import { cn } from "@/utils/cn";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { AIMark, Button, ThemeToggle } from '@/components/ui';
+import { useScrollY } from '@/hooks/useScrollY';
+import { cn } from '@/utils/cn';
 
 const links = [
-  { label: "Features",     href: "#features" },
-  { label: "AI Interview", href: "#interview" },
-  { label: "ATS",          href: "#ats" },
-  { label: "Pricing",      href: "#pricing" },
+  { label: 'Features', href: '#features' },
+  { label: 'How It Works', href: '#how-it-works' },
+  { label: 'Job Match', href: '#jobs' },
+  { label: 'Pricing', href: '#pricing' },
+  { label: 'FAQ', href: '#faq' },
 ];
 
 export function Navbar() {
@@ -22,13 +23,13 @@ export function Navbar() {
       <motion.header
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
         className={cn(
-          "fixed inset-x-0 top-0 z-40 h-[72px]",
-          "transition-all duration-300",
+          'fixed inset-x-0 top-0 z-40 h-[72px]',
+          'transition-all duration-300',
           scrolled
-            ? "border-b border-border bg-bg/85 backdrop-blur-md"
-            : "border-b border-transparent bg-transparent",
+            ? 'border-b border-border bg-bg/85 backdrop-blur-md'
+            : 'border-b border-transparent bg-transparent',
         )}
       >
         <div className="mx-auto flex h-full max-w-[1280px] items-center gap-6 px-6 lg:px-10">
@@ -37,6 +38,7 @@ export function Navbar() {
             <AIMark size={26} />
             <span className="text-[17px] font-semibold tracking-tight text-text">
               CareerForge
+              <span className="text-primary">.AI</span>
             </span>
           </Link>
 
@@ -55,14 +57,16 @@ export function Navbar() {
 
           {/* Right side */}
           <div className="ml-auto flex items-center gap-2">
+            <ThemeToggle />
+
             <Link
               to="/login"
               className="hidden rounded-button px-3 py-2 text-small font-medium text-text-secondary transition-colors duration-card hover:text-text lg:inline-flex"
             >
-              Login
+              Sign In
             </Link>
             <Link to="/register" className="hidden lg:inline-flex">
-              <Button>Get Started</Button>
+              <Button>Get Started Free</Button>
             </Link>
 
             {/* Mobile menu toggle */}
@@ -99,14 +103,15 @@ export function Navbar() {
                   {l.label}
                 </a>
               ))}
-              <div className="mt-3 flex flex-col gap-2">
+
+              <div className="mt-3 flex flex-col gap-2 border-t border-border pt-4">
                 <Link to="/login" onClick={() => setOpen(false)}>
                   <Button variant="secondary" className="w-full">
-                    Login
+                    Sign In
                   </Button>
                 </Link>
                 <Link to="/register" onClick={() => setOpen(false)}>
-                  <Button className="w-full">Get Started</Button>
+                  <Button className="w-full">Get Started Free</Button>
                 </Link>
               </div>
             </nav>

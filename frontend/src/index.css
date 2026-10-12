@@ -1,14 +1,132 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    color-scheme: light;
-  }
+/* ============================================================
+   LIGHT THEME (default)
+   Values are RGB triplets — space-separated, no commas.
+   Tailwind wraps them as `rgb(var(--cf-x) / <alpha-value>)`.
+   ============================================================ */
+:root {
+  color-scheme: light;
 
+  /* Canvas */
+  --cf-bg: 253 252 247; /* #FDFCF7 */
+  --cf-bg-secondary: 247 245 236; /* #F7F5EC */
+  --cf-card: 255 255 255; /* #FFFFFF */
+  --cf-card-elevated: 255 253 246; /* #FFFDF6 */
+  --cf-border: 232 228 213; /* #E8E4D5 */
+  --cf-border-hover: 214 208 188; /* #D6D0BC */
+
+  /* Brand */
+  --cf-primary: 21 128 61; /* #15803D */
+  --cf-primary-hover: 22 101 52; /* #166534 */
+  --cf-primary-tint: 220 252 231; /* #DCFCE7 */
+
+  /* Greens */
+  --cf-green: 21 128 61; /* #15803D */
+  --cf-green-deep: 20 83 45; /* #14532D */
+  --cf-green-tint: 220 252 231; /* #DCFCE7 */
+
+  /* Info */
+  --cf-info: 14 116 144; /* #0E7490 */
+  --cf-info-tint: 207 250 254; /* #CFFAFE */
+
+  /* Semantic */
+  --cf-success: 22 163 74; /* #16A34A */
+  --cf-success-tint: 220 252 231; /* #DCFCE7 */
+  --cf-attention: 217 119 6; /* #D97706 */
+  --cf-attention-tint: 254 243 199; /* #FEF3C7 */
+  --cf-problem: 220 38 38; /* #DC2626 */
+  --cf-problem-tint: 254 226 226; /* #FEE2E2 */
+
+  /* Glow */
+  --cf-glow: 134 239 172; /* #86EFAC */
+  --cf-glow-warm: 253 230 138; /* #FDE68A */
+
+  /* Text */
+  --cf-text: 28 25 23; /* #1C1917 */
+  --cf-text-secondary: 87 83 78; /* #57534E */
+  --cf-text-muted: 168 162 158; /* #A8A29E */
+  --cf-text-inverse: 255 255 255; /* #FFFFFF */
+
+  /* Utility colors */
+  --cf-grid-line: 60 50 30;
+  --cf-shadow-rgb: 60 50 30;
+  --cf-skeleton-a: 247 245 236;
+  --cf-skeleton-b: 239 235 221;
+
+  /* Brand panel gradient stops */
+  --cf-brand-1: 233 201 106; /* #E9C96A */
+  --cf-brand-2: 247 240 216; /* #F7F0D8 */
+  --cf-brand-3: 253 252 247; /* #FDFCF7 */
+  --cf-brand-4: 217 239 212; /* #D9EFD4 */
+  --cf-brand-5: 191 227 180; /* #BFE3B4 */
+}
+
+/* ============================================================
+   DARK THEME — cool charcoal, same brand green
+   ============================================================ */
+.dark {
+  color-scheme: dark;
+
+  /* Canvas */
+  --cf-bg: 14 17 22; /* #0E1116 */
+  --cf-bg-secondary: 19 24 32; /* #131820 */
+  --cf-card: 26 32 41; /* #1A2029 */
+  --cf-card-elevated: 31 38 48; /* #1F2630 */
+  --cf-border: 42 51 64; /* #2A3340 */
+  --cf-border-hover: 58 69 86; /* #3A4556 */
+
+  /* Brand */
+  --cf-primary: 74 222 128; /* #4ADE80 */
+  --cf-primary-hover: 34 197 94; /* #22C55E */
+  --cf-primary-tint: 6 78 59; /* #064E3B */
+
+  /* Greens */
+  --cf-green: 74 222 128; /* #4ADE80 */
+  --cf-green-deep: 134 239 172; /* #86EFAC */
+  --cf-green-tint: 6 78 59; /* #064E3B */
+
+  /* Info */
+  --cf-info: 56 189 248; /* #38BDF8 */
+  --cf-info-tint: 12 74 110; /* #0C4A6E */
+
+  /* Semantic */
+  --cf-success: 74 222 128; /* #4ADE80 */
+  --cf-success-tint: 6 78 59; /* #064E3B */
+  --cf-attention: 251 191 36; /* #FBBF24 */
+  --cf-attention-tint: 66 32 6; /* #422006 */
+  --cf-problem: 248 113 113; /* #F87171 */
+  --cf-problem-tint: 69 10 10; /* #450A0A */
+
+  /* Glow */
+  --cf-glow: 74 222 128; /* #4ADE80 */
+  --cf-glow-warm: 252 211 77; /* #FCD34D */
+
+  /* Text */
+  --cf-text: 230 233 238; /* #E6E9EE */
+  --cf-text-secondary: 163 172 187; /* #A3ACBB */
+  --cf-text-muted: 107 116 133; /* #6B7485 */
+  --cf-text-inverse: 14 17 22; /* #0E1116 */
+
+  /* Utility colors */
+  --cf-grid-line: 255 255 255;
+  --cf-shadow-rgb: 0 0 0;
+  --cf-skeleton-a: 19 24 32;
+  --cf-skeleton-b: 26 32 41;
+
+  /* Brand panel gradient stops */
+  --cf-brand-1: 122 90 20; /* #7A5A14 */
+  --cf-brand-2: 42 36 24; /* #2A2418 */
+  --cf-brand-3: 26 28 24; /* #1A1C18 */
+  --cf-brand-4: 16 36 26; /* #10241A */
+  --cf-brand-5: 14 61 34; /* #0E3D22 */
+}
+
+@layer base {
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -16,10 +134,13 @@
 
   body {
     @apply bg-bg text-text font-sans text-body;
+    transition:
+      background-color 200ms ease-out,
+      color 200ms ease-out;
   }
 
   :focus-visible {
-    outline: 2px solid rgba(21, 128, 61, 0.5);
+    outline: 2px solid rgb(var(--cf-primary) / 0.5);
     outline-offset: 2px;
     border-radius: 6px;
   }
@@ -39,29 +160,60 @@
 @layer utilities {
   .bg-grid-warm {
     background-image:
-      linear-gradient(rgba(60, 50, 30, 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(60, 50, 30, 0.035) 1px, transparent 1px);
+      linear-gradient(rgb(var(--cf-grid-line) / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--cf-grid-line) / 0.035) 1px, transparent 1px);
     background-size: 48px 48px;
   }
 
   .bg-glow-green {
     background: radial-gradient(
       ellipse at center,
-      rgba(134, 239, 172, 0.35) 0%,
-      rgba(134, 239, 172, 0) 70%
+      rgb(var(--cf-glow) / 0.35) 0%,
+      rgb(var(--cf-glow) / 0) 70%
     );
   }
 
   .bg-glow-warm {
     background: radial-gradient(
       ellipse at center,
-      rgba(253, 230, 138, 0.45) 0%,
-      rgba(253, 230, 138, 0) 70%
+      rgb(var(--cf-glow-warm) / 0.45) 0%,
+      rgb(var(--cf-glow-warm) / 0) 70%
     );
   }
 
   .skeleton-shimmer {
-    background: linear-gradient(90deg, #f7f5ec 0%, #efebdd 50%, #f7f5ec 100%);
+    background: linear-gradient(
+      90deg,
+      rgb(var(--cf-skeleton-a)) 0%,
+      rgb(var(--cf-skeleton-b)) 50%,
+      rgb(var(--cf-skeleton-a)) 100%
+    );
     background-size: 200% 100%;
+  }
+
+  /* Auth brand panel — warm gradient */
+  .auth-brand__grain {
+    background: linear-gradient(
+      160deg,
+      rgb(var(--cf-brand-1)) 0%,
+      rgb(var(--cf-brand-2)) 38%,
+      rgb(var(--cf-brand-3)) 58%,
+      rgb(var(--cf-brand-4)) 82%,
+      rgb(var(--cf-brand-5)) 100%
+    );
+  }
+
+  .auth-brand__glow {
+    background: radial-gradient(circle at center, rgb(var(--cf-primary) / 0.45), transparent 60%);
+  }
+
+  /* Also — the plain .auth-brand class from AuthLayout */
+  .auth-brand {
+    background: linear-gradient(
+      135deg,
+      rgb(var(--cf-glow-warm) / 0.35) 0%,
+      rgb(var(--cf-bg-secondary)) 45%,
+      rgb(var(--cf-glow) / 0.25) 100%
+    );
   }
 }

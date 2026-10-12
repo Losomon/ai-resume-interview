@@ -1,5 +1,5 @@
 import { Router, type Response } from "express"; import { z } from "zod"; import bcrypt from "bcryptjs"; import jwt from "jsonwebtoken"; import crypto from "node:crypto";
-import { and, eq, gt } from "drizzle-orm"; import { db } from "../db.js"; import { users, refreshTokens } from "@careerforge/database"; import { config } from "../config.js";
+import { db, pool } from "../db.js"; import { users, refreshTokens } from "@careerforge/database"; import { config } from "../config.js";
 import { AppError } from "../middleware/error.js"; import { requireAuth } from "../middleware/auth.js"; import { authLimiter } from "../middleware/rateLimit.js";
 export const authRouter = Router();
 const sha = (s: string) => crypto.createHash("sha256").update(s).digest("hex");
@@ -24,23 +24,26 @@ authRouter.post("/register", authLimiter, async (req, res) => {
 });
 authRouter.post("/login", authLimiter, async (req, res) => {
   const { email, password } = creds.parse(req.body);
-  const [user] = await db.select().from(users).where(eq(users.email, email));
-  const ok = await bcrypt.compare(password, user?.passwordHash ?? DUMMY);
+  const { rows } = await pool.query("SELECT * FROM users WHERE email = $1 LIMIT 1", [email]);
+  const user = rows[0] as any;
+  const ok = await bcrypt.compare(password, user?.password_hash ?? DUMMY);
   if (!user || !ok) throw new AppError(401, "INVALID_CREDENTIALS", "Email or password is incorrect");
-  await issueSession(res, user.id); res.json({ user: publicUser(user) });
+  await issueSession(res, user.id); res.json({ user: publicUser({ id: user.id, name: user.name, email: user.email }) });
 });
 /** Rotates the refresh token: the presented one is deleted and a new pair issued. */
 authRouter.post("/refresh", async (req, res) => {
   const token = req.cookies?.cf_rt; if (!token) throw new AppError(401, "UNAUTHENTICATED", "Please log in");
-  const [row] = await db.delete(refreshTokens).where(and(eq(refreshTokens.tokenHash, sha(token)), gt(refreshTokens.expiresAt, new Date()))).returning();
+  const { rows } = await pool.query("DELETE FROM refresh_tokens WHERE token_hash = $1 AND expires_at > NOW() RETURNING *", [sha(token)]);
+  const row = rows[0] as any;
   if (!row) throw new AppError(401, "UNAUTHENTICATED", "Session expired");
-  await issueSession(res, row.userId); res.json({ ok: true });
+  await issueSession(res, row.user_id); res.json({ ok: true });
 });
 authRouter.post("/logout", async (req, res) => {
-  const token = req.cookies?.cf_rt; if (token) await db.delete(refreshTokens).where(eq(refreshTokens.tokenHash, sha(token)));
+  const token = req.cookies?.cf_rt; if (token) await pool.query("DELETE FROM refresh_tokens WHERE token_hash = $1", [sha(token)]);
   res.clearCookie("cf_at", { ...base, path: "/" }).clearCookie("cf_rt", { ...base, path: "/api/v1/auth" }).status(204).end();
 });
 authRouter.get("/me", requireAuth, async (req, res) => {
-  const [user] = await db.select().from(users).where(eq(users.id, req.userId!)); if (!user) throw new AppError(401, "UNAUTHENTICATED", "Please log in");
-  res.json({ user: publicUser(user) });
+  const { rows } = await pool.query("SELECT * FROM users WHERE id = $1 LIMIT 1", [req.userId!]);
+  const user = rows[0] as any; if (!user) throw new AppError(401, "UNAUTHENTICATED", "Please log in");
+  res.json({ user: publicUser({ id: user.id, name: user.name, email: user.email }) });
 });

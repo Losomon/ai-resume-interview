@@ -1,22 +1,25 @@
-import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Input } from "@/components/ui";
-import { AuthLayout } from "@/components/layout/AuthLayout";
-import { useAuthStore } from "@/store/authStore";
+import { useState, type FormEvent } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button, Input } from '@/components/ui';
+import { AuthLayout } from '@/components/layout/AuthLayout';
+import { useAuthStore } from '@/store/authStore';
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, loading, error, clearError } = useAuthStore();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const from = (location.state as { from?: string } | null)?.from ?? '/dashboard';
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     clearError();
     try {
       await login(email, password);
-      navigate("/dashboard");
+      navigate(from, { replace: true });
     } catch {
       /* error surfaced from store */
     }
@@ -28,14 +31,14 @@ export default function Login() {
       subtitle="Sign in to continue forging your career."
       footer={
         <>
-          Don&apos;t have an account?{" "}
+          Don&apos;t have an account?{' '}
           <Link to="/register" className="font-medium text-primary hover:text-primary-hover">
             Create one
           </Link>
         </>
       }
     >
-      <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-5">
         <Input
           label="Email"
           name="email"
@@ -69,7 +72,7 @@ export default function Login() {
         </div>
 
         {error && (
-          <div className="rounded-button border border-problem/20 bg-problem-tint px-3 py-2 text-small text-problem">
+          <div className="rounded-button border border-problem/20 bg-problem-tint px-3 py-2.5 text-small text-problem">
             {error}
           </div>
         )}

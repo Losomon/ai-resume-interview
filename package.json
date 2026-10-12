@@ -1,0 +1,19 @@
+{
+  "name": "careerforge",
+  "private": true,
+  "workspaces": [
+    "database",
+    "backend"
+  ],
+  "scripts": {
+    "postinstall": "npm run build -w database",
+    "build": "npm run build -w database && npm run build -w backend",
+    "dev": "npm run dev -w backend",
+    "db:generate": "npm run generate -w database",
+    "db:migrate": "npm run migrate -w database",
+    "db:seed": "npm run seed -w database",
+    "db:studio": "npm run studio -w database",
+    "db:verify": "npm run verify -w database",
+    "smoke": "npm run smoke -w backend"
+  }
+}

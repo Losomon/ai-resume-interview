@@ -1,0 +1,11 @@
+import { Router, type Response } from "express"; import { z } from "zod"; import { env } from "../env.js"; import { authLimiter } from "../middleware/rate-limit.js"; import { requireAuth } from "../middleware/auth.js"; import { validateBody } from "../middleware/validate.js"; import * as auth from "../services/auth.service.js";
+export const authRouter = Router();
+const base = { httpOnly: true, secure: env.NODE_ENV === "production", sameSite: "lax" as const }, RT_PATH = "/api/v1/auth";
+const setSession = (res: Response, s: auth.Session) => res.cookie("cf_at", s.access, { ...base, maxAge: env.ACCESS_TTL_MINUTES * 60_000, path: "/" }).cookie("cf_rt", s.refresh, { ...base, maxAge: env.REFRESH_TTL_DAYS * 86_400_000, path: RT_PATH });
+const creds = z.object({ email: z.string().trim().toLowerCase().email().max(254), password: z.string().min(8, "Use at least 8 characters").max(128) });
+const registerBody = creds.extend({ name: z.string().trim().min(1).max(120) });
+authRouter.post("/register", authLimiter, validateBody(registerBody), async (req, res) => { const { user, session } = await auth.register(req.body); setSession(res, session).status(201).json({ user }); });
+authRouter.post("/login", authLimiter, validateBody(creds), async (req, res) => { const { user, session } = await auth.login(req.body.email, req.body.password); setSession(res, session).json({ user }); });
+authRouter.post("/refresh", async (req, res) => { setSession(res, await auth.refresh(req.cookies?.cf_rt)).json({ ok: true }); });
+authRouter.post("/logout", async (req, res) => { await auth.logout(req.cookies?.cf_rt); res.clearCookie("cf_at", { ...base, path: "/" }).clearCookie("cf_rt", { ...base, path: RT_PATH }).status(204).end(); });
+authRouter.get("/me", requireAuth, async (req, res) => { res.json({ user: await auth.me(req.userId!) }); });

@@ -1,49 +1,50 @@
 import type { Config } from 'tailwindcss';
 
 export default {
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
         // Canvas
-        bg: '#FDFCF7',
-        'bg-secondary': '#F7F5EC',
-        card: '#FFFFFF',
-        'card-elevated': '#FFFDF6',
-        border: '#E8E4D5',
-        'border-hover': '#D6D0BC',
+        bg: 'var(--bg)',
+        'bg-secondary': 'var(--bg-secondary)',
+        card: 'var(--card)',
+        'card-elevated': 'var(--card-elevated)',
+        border: 'var(--border)',
+        'border-hover': 'var(--border-hover)',
 
         // Brand / AI / action
-        primary: '#15803D',
-        'primary-hover': '#166534',
-        'primary-tint': '#DCFCE7',
+        primary: 'var(--primary)',
+        'primary-hover': 'var(--primary-hover)',
+        'primary-tint': 'var(--primary-tint)',
 
         // Contrast-safe greens
-        green: '#15803D',
-        'green-deep': '#14532D',
-        'green-tint': '#DCFCE7',
+        green: 'var(--green)',
+        'green-deep': 'var(--green-deep)',
+        'green-tint': 'var(--green-tint)',
 
         // Data / info
-        info: '#0E7490',
-        'info-tint': '#CFFAFE',
+        info: 'var(--info)',
+        'info-tint': 'var(--info-tint)',
 
         // Semantic states
-        success: '#16A34A',
-        'success-tint': '#DCFCE7',
-        attention: '#D97706',
-        'attention-tint': '#FEF3C7',
-        problem: '#DC2626',
-        'problem-tint': '#FEE2E2',
+        success: 'var(--success)',
+        'success-tint': 'var(--success-tint)',
+        attention: 'var(--attention)',
+        'attention-tint': 'var(--attention-tint)',
+        problem: 'var(--problem)',
+        'problem-tint': 'var(--problem-tint)',
 
         // Accent glow
-        glow: '#86EFAC',
-        'glow-warm': '#FDE68A',
+        glow: 'var(--glow)',
+        'glow-warm': 'var(--glow-warm)',
 
         // Text
-        text: '#1C1917',
-        'text-secondary': '#57534E',
-        'text-muted': '#A8A29E',
-        'text-inverse': '#FFFFFF',
+        text: 'var(--text)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-muted': 'var(--text-muted)',
+        'text-inverse': 'var(--text-inverse)',
       },
 
       borderRadius: {
@@ -54,6 +55,7 @@ export default {
 
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Fraunces', 'Georgia', 'serif'],
       },
 
       fontSize: {
