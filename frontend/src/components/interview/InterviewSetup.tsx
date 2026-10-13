@@ -5,19 +5,22 @@ import { cn } from "@/utils/cn";
 import type { InterviewConfig } from "@/types/resume";
 
 const LEVELS: { value: InterviewConfig["level"]; label: string }[] = [
-  { value: "junior", label: "Junior" },
-  { value: "mid",    label: "Mid-level" },
-  { value: "senior", label: "Senior" },
-  { value: "lead",   label: "Lead / Staff" },
+  { value: "junior", label: "Beginner" },
+  { value: "mid",    label: "Intermediate" },
+  { value: "senior", label: "Advanced" },
 ];
 
-const TYPES: { value: InterviewConfig["type"]; label: string; blurb: string }[] = [
-  { value: "behavioral", label: "Behavioral", blurb: "Team, conflict, growth" },
-  { value: "technical",  label: "Technical",  blurb: "Systems, debugging, design" },
-  { value: "mixed",      label: "Mixed",      blurb: "A bit of everything" },
+const TYPES: {
+  value: InterviewConfig["type"];
+  label: string;
+  blurb: string;
+}[] = [
+  { value: "technical",  label: "Technical",  blurb: "Coding and concepts" },
+  { value: "behavioral", label: "Behavioral", blurb: "Experience and teamwork" },
+  { value: "mixed",      label: "Mixed",      blurb: "Technical and behavioral" },
 ];
 
-const COUNTS = [5, 8, 10];
+const COUNTS = [5, 10, 15];
 
 type Props = {
   onStart: (config: InterviewConfig) => void;
@@ -28,16 +31,20 @@ export function InterviewSetup({ onStart, loading }: Props) {
   const [role, setRole] = useState("");
   const [level, setLevel] = useState<InterviewConfig["level"]>("mid");
   const [type, setType] = useState<InterviewConfig["type"]>("mixed");
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(10);
 
   function submit() {
-    onStart({ role: role.trim() || "Software Engineer", level, type, questionCount: count });
+    onStart({
+      role: role.trim() || "Software Engineer",
+      level,
+      type,
+      questionCount: count,
+    });
   }
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
-      {/* Left: form */}
-      <Card className="p-6 flex flex-col gap-6">
+      <Card className="flex flex-col gap-6 p-6">
         <div>
           <h2 className="text-card text-text">Set up your interview</h2>
           <p className="mt-1 text-small text-text-secondary">
@@ -46,15 +53,48 @@ export function InterviewSetup({ onStart, loading }: Props) {
         </div>
 
         <Input
-          label="Role"
-          placeholder="e.g. Senior Software Engineer"
+          label="Target job role"
+          placeholder="e.g. Software Engineer"
           value={role}
           onChange={(e) => setRole(e.target.value)}
         />
 
         <div className="flex flex-col gap-2">
-          <label className="text-small font-medium text-text-secondary">Level</label>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <label className="text-small font-medium text-text-secondary">
+            Interview type
+          </label>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {TYPES.map((t) => (
+              <button
+                key={t.value}
+                type="button"
+                onClick={() => setType(t.value)}
+                className={cn(
+                  "flex flex-col gap-0.5 rounded-button border px-3 py-3 text-left transition-colors duration-card",
+                  type === t.value
+                    ? "border-primary bg-primary-tint"
+                    : "border-border bg-card hover:border-border-hover hover:bg-bg-secondary",
+                )}
+              >
+                <span
+                  className={cn(
+                    "text-small font-medium",
+                    type === t.value ? "text-green-deep" : "text-text",
+                  )}
+                >
+                  {t.label}
+                </span>
+                <span className="text-xs text-text-muted">{t.blurb}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-small font-medium text-text-secondary">
+            Difficulty level
+          </label>
+          <div className="grid grid-cols-3 gap-2">
             {LEVELS.map((l) => (
               <button
                 key={l.value}
@@ -74,31 +114,9 @@ export function InterviewSetup({ onStart, loading }: Props) {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-small font-medium text-text-secondary">Interview type</label>
-          <div className="grid gap-2 sm:grid-cols-3">
-            {TYPES.map((t) => (
-              <button
-                key={t.value}
-                type="button"
-                onClick={() => setType(t.value)}
-                className={cn(
-                  "flex flex-col gap-0.5 rounded-button border px-3 py-3 text-left transition-colors duration-card",
-                  type === t.value
-                    ? "border-primary bg-primary-tint"
-                    : "border-border bg-card hover:border-border-hover hover:bg-bg-secondary",
-                )}
-              >
-                <span className={cn("text-small font-medium", type === t.value ? "text-green-deep" : "text-text")}>
-                  {t.label}
-                </span>
-                <span className="text-xs text-text-muted">{t.blurb}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label className="text-small font-medium text-text-secondary">Questions</label>
+          <label className="text-small font-medium text-text-secondary">
+            Number of questions
+          </label>
           <div className="flex gap-2">
             {COUNTS.map((c) => (
               <button
@@ -106,45 +124,44 @@ export function InterviewSetup({ onStart, loading }: Props) {
                 type="button"
                 onClick={() => setCount(c)}
                 className={cn(
-                  "h-10 w-14 rounded-button border text-small font-medium transition-colors duration-card",
+                  "h-10 flex-1 rounded-button border text-small font-medium transition-colors duration-card",
                   count === c
                     ? "border-primary bg-primary-tint text-green-deep"
                     : "border-border bg-card text-text-secondary hover:border-border-hover hover:bg-bg-secondary",
                 )}
               >
-                {c}
+                {c} questions
               </button>
             ))}
           </div>
         </div>
 
-        <Button onClick={submit} size="lg" loading={loading} className="mt-2 w-full sm:w-auto sm:self-start">
+        <Button
+          onClick={submit}
+          size="lg"
+          loading={loading}
+          className="mt-2 w-full sm:w-auto sm:self-start"
+        >
           <Mic size={16} />
-          Start Interview
+          Start interview
           <ArrowRight size={16} />
         </Button>
       </Card>
 
-      {/* Right: what to expect */}
-      <Card className="p-6 flex flex-col gap-4">
+      <Card className="flex flex-col gap-4 p-6">
         <h3 className="text-small font-semibold text-text">What to expect</h3>
         <ul className="flex flex-col gap-3 text-small text-text-secondary">
-          <li className="flex gap-2">
-            <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
-            One question at a time, with a timer for each.
-          </li>
-          <li className="flex gap-2">
-            <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
-            Type your answers — no audio recording needed.
-          </li>
-          <li className="flex gap-2">
-            <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
-            A full feedback report at the end with scores and notes.
-          </li>
-          <li className="flex gap-2">
-            <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
-            You can redo any question before submitting.
-          </li>
+          {[
+            "One question at a time, with a timer for each.",
+            "Type your answers — no audio recording needed.",
+            "A full feedback report at the end with scores and notes.",
+            "You can repeat a question before submitting.",
+          ].map((line) => (
+            <li key={line} className="flex gap-2">
+              <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />
+              {line}
+            </li>
+          ))}
         </ul>
       </Card>
     </div>
