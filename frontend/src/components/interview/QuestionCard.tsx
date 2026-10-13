@@ -15,9 +15,10 @@ export function QuestionCard({ question }: { question: InterviewQuestion }) {
       <h2 className="text-[22px] font-semibold leading-snug text-text">
         {question.text}
       </h2>
-      {question.hint && (
-        <p className="text-small text-text-muted">{question.hint}</p>
-      )}
+      <p className="text-small text-text-muted">
+        {question.hint ??
+          "Take your time. Explain in your own words and give an example if you can."}
+      </p>
     </div>
   );
 }
