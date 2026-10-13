@@ -91,7 +91,6 @@ export default function ResumeBuilder() {
   async function requestAI(text: string, context: string, apply: (s: string) => void) {
     if (!text.trim()) return;
 
-    // Cancel any previous stream before starting a new one
     streamCancelRef.current.cancelled = true;
     streamCancelRef.current = { cancelled: false };
 
@@ -114,7 +113,6 @@ export default function ResumeBuilder() {
       setActiveOptionId(res.options[0]?.id ?? null);
       setAiLoading(false);
 
-      // Stream the first option
       await runStream(text, 'balanced');
     } catch {
       setAiLoading(false);
@@ -158,7 +156,6 @@ export default function ResumeBuilder() {
   function acceptSuggestion(text: string) {
     if (!applyRef.current) return;
 
-    // Snapshot for undo — captures the apply fn and the original text
     setUndoSnapshot({
       apply: applyRef.current,
       previous: original,
@@ -202,7 +199,7 @@ export default function ResumeBuilder() {
     return (
       <div className="min-h-screen bg-bg p-6 lg:p-10">
         <Skeleton className="h-[72px] w-full rounded-card" />
-        <div className="mt-6 grid gap-4 lg:grid-cols-[200px_1fr_340px]">
+        <div className="mt-6 grid gap-4 lg:grid-cols-[200px_1fr_420px]">
           <Skeleton className="h-[420px] rounded-card" />
           <Skeleton className="h-[520px] rounded-card" />
           <Skeleton className="h-[520px] rounded-card" />
@@ -220,48 +217,52 @@ export default function ResumeBuilder() {
         onSave={manualSave}
       />
 
-      <div className="flex">
-        {/* Section list — left */}
-        <aside className="hidden w-[200px] shrink-0 border-r border-border bg-card lg:block">
+      <div className="flex w-full">
+        {/* Section list — left (lg+) */}
+        <aside className="hidden w-[220px] shrink-0 border-r border-border bg-card lg:block">
           <SectionList active={activeSection} onSelect={setActiveSection} />
         </aside>
 
-        {/* Editor — middle */}
-        <main className="flex-1 min-w-0">
-          <div className="mx-auto max-w-[720px] px-4 py-6 lg:px-8">
-            <ResumeEditor resume={resume} onChange={patch} onRequestAI={requestAI} />
+        {/* Editor — middle (flexible) */}
+        <main className="min-w-0 flex-1">
+          <div className="mx-auto max-w-[720px] px-5 py-8 lg:px-10">
+            <ResumeEditor
+              resume={resume}
+              onChange={patch}
+              onRequestAI={requestAI}
+            />
           </div>
         </main>
 
-        {/* Preview — right (xl+) */}
-        <aside className="hidden xl:block xl:w-[560px] shrink-0 overflow-y-auto border-l border-border bg-bg-secondary">
-          <div className="p-6">
+        {/* Preview — right (lg+) */}
+        <aside className="hidden shrink-0 overflow-y-auto border-l border-border bg-bg-secondary lg:block lg:w-[400px] xl:w-[560px]">
+          <div className="p-6 xl:p-8">
             <ResumePreview resume={resume} />
           </div>
         </aside>
-
-        {/* AI panel — far right (xl+) */}
-        <AIRewritePanel
-          open={aiOpen}
-          loading={aiLoading}
-          streaming={aiStreaming}
-          original={original}
-          context={aiContext}
-          options={options}
-          streamedText={streamedText}
-          activeOptionId={activeOptionId}
-          activeTone={activeTone}
-          canUndo={Boolean(undoSnapshot)}
-          onToneChange={onToneChange}
-          onOptionChange={onOptionChange}
-          onAccept={acceptSuggestion}
-          onDismiss={dismissSuggestion}
-          onClose={dismissSuggestion}
-          onUndo={undo}
-        />
       </div>
 
-      {/* AI bottom sheet — mobile */}
+      {/* AI panel — fixed overlay on the right (xl+) */}
+      <AIRewritePanel
+        open={aiOpen}
+        loading={aiLoading}
+        streaming={aiStreaming}
+        original={original}
+        context={aiContext}
+        options={options}
+        streamedText={streamedText}
+        activeOptionId={activeOptionId}
+        activeTone={activeTone}
+        canUndo={Boolean(undoSnapshot)}
+        onToneChange={onToneChange}
+        onOptionChange={onOptionChange}
+        onAccept={acceptSuggestion}
+        onDismiss={dismissSuggestion}
+        onClose={dismissSuggestion}
+        onUndo={undo}
+      />
+
+      {/* AI bottom sheet — mobile/tablet */}
       <AIBottomSheet
         open={aiOpen}
         loading={aiLoading}
