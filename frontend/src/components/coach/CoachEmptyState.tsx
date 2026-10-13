@@ -1,46 +1,81 @@
+import { Compass, BookOpen, FileText, Mic } from "lucide-react";
 import { AIMark, Card } from "@/components/ui";
-import { Sparkles } from "lucide-react";
 
-const prompts = [
-  "How can I improve my chances of getting a senior developer role?",
-  "What should I focus on first in my resume?",
-  "Which skills from my ATS gaps matter most?",
-  "How should I prepare for a behavioral interview?",
+type PromptCard = {
+  id: string;
+  icon: typeof Compass;
+  label: string;
+  blurb: string;
+  prompt: string;
+};
+
+const CARDS: PromptCard[] = [
+  {
+    id: "path",
+    icon: Compass,
+    label: "Career path",
+    blurb: "Plan your next move",
+    prompt: "What should my next career move be, given my current skills and experience?",
+  },
+  {
+    id: "skills",
+    icon: BookOpen,
+    label: "Learn new skills",
+    blurb: "Find skill gaps",
+    prompt: "Which skills should I focus on learning next to move forward in my career?",
+  },
+  {
+    id: "resume",
+    icon: FileText,
+    label: "Improve my resume",
+    blurb: "Make it job-ready",
+    prompt: "How can I make my resume stronger for the roles I'm targeting?",
+  },
+  {
+    id: "interview",
+    icon: Mic,
+    label: "Interview advice",
+    blurb: "Practice with confidence",
+    prompt: "How should I prepare for a behavioral interview?",
+  },
 ];
 
 export function CoachEmptyState({ onPick }: { onPick: (text: string) => void }) {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 text-center">
-      <div className="relative mb-5 flex h-20 w-20 items-center justify-center">
+    <div className="flex flex-1 flex-col items-center justify-center px-6 py-10 text-center">
+      <div className="relative mb-6 flex h-20 w-20 items-center justify-center">
         <div className="absolute inset-0 rounded-full bg-glow-green opacity-70 blur-xl" />
         <AIMark size={56} glow />
       </div>
 
-      <h2 className="text-card text-text">Your Career Coach</h2>
-      <p className="mt-2 max-w-[400px] text-small leading-relaxed text-text-secondary">
-        Ask anything about your resume, job search, or interview prep.
-        I use your actual data — no generic advice.
+      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+        Career Coach
+      </p>
+      <p className="mt-3 max-w-[440px] text-[15px] leading-relaxed text-text-secondary">
+        Hi! I'm here to help you move forward in your career. What would you like
+        to work on today?
       </p>
 
-      <div className="mt-8 grid w-full max-w-[560px] gap-2 sm:grid-cols-2">
-        {prompts.map((p) => (
+      <p className="mt-8 text-small font-medium text-text">
+        What can I help you with?
+      </p>
+
+      <div className="mt-4 grid w-full max-w-[600px] gap-2 sm:grid-cols-2">
+        {CARDS.map(({ id, icon: Icon, label, blurb, prompt }) => (
           <button
-            key={p}
+            key={id}
             type="button"
-            onClick={() => onPick(p)}
+            onClick={() => onPick(prompt)}
             className="group text-left"
           >
-            <Card
-              hover
-              className="flex h-full items-start gap-2 p-3.5"
-            >
-              <Sparkles
-                size={14}
-                className="mt-0.5 shrink-0 text-text-muted transition-colors group-hover:text-primary"
-              />
-              <span className="text-small leading-snug text-text-secondary group-hover:text-text">
-                {p}
+            <Card hover className="flex h-full items-start gap-3 p-4">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-primary-tint text-primary transition-colors duration-card group-hover:bg-primary group-hover:text-text-inverse">
+                <Icon size={16} />
               </span>
+              <div className="min-w-0 flex-1">
+                <div className="text-small font-medium text-text">{label}</div>
+                <div className="mt-0.5 text-xs text-text-muted">{blurb}</div>
+              </div>
             </Card>
           </button>
         ))}
