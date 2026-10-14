@@ -1,15 +1,23 @@
 import { useEffect, useState } from 'react';
 
-type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark' | 'system';
 
 function getInitialTheme(): Theme {
   if (typeof window === 'undefined') return 'light';
   try {
     const stored = localStorage.getItem('cf_theme') as Theme | null;
-    if (stored === 'light' || stored === 'dark') return stored;
+    if (stored === 'light' || stored === 'dark' || stored === 'system') return stored;
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
   } catch {}
   return 'light';
+}
+
+function resolveTheme(theme: Theme): 'light' | 'dark' {
+  if (theme === 'system') {
+    if (typeof window === 'undefined') return 'light';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  return theme;
 }
 
 export function useTheme() {
@@ -17,14 +25,17 @@ export function useTheme() {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === 'dark') root.classList.add('dark');
-    else root.classList.remove('dark');
+    const resolved = resolveTheme(theme);
+    root.classList.toggle('dark', resolved === 'dark');
     try {
       localStorage.setItem('cf_theme', theme);
     } catch {}
   }, [theme]);
 
-  const toggle = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
+  const toggle = () => setTheme((t) => {
+    if (t === 'system') return 'dark';
+    return t === 'dark' ? 'light' : 'dark';
+  });
 
-  return { theme, toggle };
+  return { theme, setTheme, toggle };
 }

@@ -1,4 +1,4 @@
-import crypto from "node:crypto"; import { and, desc, eq } from "drizzle-orm"; import { interviewSessions, SKILL_CATALOG, type InterviewConfig, type InterviewQuestion, type InterviewAnswer, type InterviewScores, type InterviewFeedback } from "@careerforge/database";
+import crypto from "node:crypto"; import { desc, eq, sql } from "drizzle-orm"; import { interviewSessions, SKILL_CATALOG, type InterviewConfig, type InterviewQuestion, type InterviewAnswer, type InterviewScores, type InterviewFeedback } from "@careerforge/database";
 import { db } from "../db.js"; import { NotFoundError, UnprocessableError } from "../lib/errors.js"; import { getOwned as getResume } from "./resume.service.js"; import { has } from "./ats.service.js";
 type Q = Omit<InterviewQuestion, "id">;
 const BEHAVIORAL = ["Tell me about a time you had to learn something quickly to deliver a project.", "Describe a conflict with a teammate and how you resolved it.", "Tell me about a project you're proud of and your specific contribution.", "Describe a time you made a mistake at work. What did you do next?",
@@ -18,7 +18,7 @@ export async function create(userId: string, config: InterviewConfig, resumeId?:
   const [s] = await db.insert(interviewSessions).values({ userId, resumeId, config: { ...config, count: questions.length }, questions }).returning(); return s!;
 }
 export const list = (userId: string) => db.select().from(interviewSessions).where(eq(interviewSessions.userId, userId)).orderBy(desc(interviewSessions.startedAt));
-export async function getOwned(userId: string, id: string) { const [s] = await db.select().from(interviewSessions).where(and(eq(interviewSessions.id, id), eq(interviewSessions.userId, userId))); if (!s) throw new NotFoundError("Interview session"); return s; }
+export async function getOwned(userId: string, id: string) { const [s] = await db.select().from(interviewSessions).where(sql`${interviewSessions.id} = ${id} AND ${interviewSessions.userId} = ${userId}`); if (!s) throw new NotFoundError("Interview session"); return s; }
 /** Merge answers by questionId (autosave while the user progresses). */
 export async function saveAnswers(userId: string, id: string, incoming: InterviewAnswer[]) {
   const s = await getOwned(userId, id); if (s.status === "complete") throw new UnprocessableError("ALREADY_COMPLETE", "This interview is already submitted");
