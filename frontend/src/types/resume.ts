@@ -53,10 +53,9 @@ export type AISuggestionTone = 'balanced' | 'concise' | 'metrics' | 'leadership'
 export type AISuggestionOption = {
   id: string;
   text: string;
-  label: string; // short reason shown as a tab title
+  label: string;
 };
 
-/** Snapshot used for undo after accepting a suggestion */
 export type AIUndoSnapshot = {
   apply: (text: string) => void;
   previous: string;
@@ -68,21 +67,19 @@ export type AIUndoSnapshot = {
 export type ATSKeywordMatch = {
   keyword: string;
   matched: boolean;
-  /** true if the resume would need a *new claim* to match — never auto-suggested */
   needsEvidence: boolean;
 };
 
 export type ATSScoreBreakdown = {
-  overall: number; // 0–100
-  keywords: number; // 0–100
-  experience: number; // 0–100
-  formatting: number; // 0–100
-  skills: number; // 0–100
+  overall: number;
+  keywords: number;
+  experience: number;
+  formatting: number;
+  skills: number;
 };
 
 export type ATSMissing = {
   keyword: string;
-  /** "evidence" = probably has it, just not written; "gap" = likely doesn't have it yet */
   kind: 'evidence' | 'gap';
 };
 
@@ -160,7 +157,6 @@ export type LearningPlanStep = {
   title: string;
   description: string;
   category: 'skill' | 'portfolio' | 'certification' | 'interview' | 'resume';
-  /** Rough time commitment in hours */
   estimatedHours: number;
   completed: boolean;
 };
@@ -194,7 +190,7 @@ export type Job = {
 
 export type JobMatch = {
   jobId: string;
-  score: number; // 0–100
+  score: number;
   matchedSkills: string[];
   missingSkills: string[];
 };
@@ -222,8 +218,9 @@ export type Application = {
   notes: string;
   appliedAt: string | null;
   updatedAt: string;
-  /** Snapshot of match score at save-time */
   matchScore?: number;
+  /** ISO date — when a follow-up is due. Optional. */
+  followUpAt?: string | null;
 };
 
 export type ApplicationDraft = {
