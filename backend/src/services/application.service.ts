@@ -1,8 +1,8 @@
-import { asc, eq, sql } from "drizzle-orm"; import { applications, type ApplicationCreate, type ApplicationPatch } from "@careerforge/database"; import { db } from "../db.js"; import { NotFoundError } from "../lib/errors.js"; import { getOwned as getResume } from "./resume.service.js";
+import { and, asc, eq } from "drizzle-orm"; import { applications, type ApplicationCreate, type ApplicationPatch } from "@careerforge/database"; import { db } from "../db.js"; import { NotFoundError } from "../lib/errors.js"; import { getOwned as getResume } from "./resume.service.js";
 type Stage = ApplicationCreate["stage"];
-async function getOwned(userId: string, id: string) { const [a] = await db.select().from(applications).where(sql`${applications.id} = ${id} AND ${applications.userId} = ${userId}`); if (!a) throw new NotFoundError("Application"); return a; }
+async function getOwned(userId: string, id: string) { const [a] = await db.select().from(applications).where(and(eq(applications.id, id), eq(applications.userId, userId))); if (!a) throw new NotFoundError("Application"); return a; }
 async function nextPosition(userId: string, stage: Stage) {
-  const rows = await db.select({ position: applications.position }).from(applications).where(sql`${applications.userId} = ${userId} AND ${applications.stage} = ${stage}`);
+  const rows = await db.select({ position: applications.position }).from(applications).where(and(eq(applications.userId, userId), eq(applications.stage, stage)));
   return rows.reduce((maxPosition, row) => Math.max(maxPosition, row.position), -1) + 1;
 }
 export const list = (userId: string) => db.select().from(applications).where(eq(applications.userId, userId)).orderBy(asc(applications.stage), asc(applications.position));
