@@ -1,31 +1,28 @@
-import { Link } from "react-router-dom";
-import { AIMark } from "@/components/ui";
+import { Link } from 'react-router-dom';
+import { AIMark } from '@/components/ui';
 
 const columns = [
   {
-    title: "Product",
+    title: 'Product',
     links: [
-      { label: "Resume Builder", href: "#features" },
-      { label: "ATS Analyzer",   href: "#ats" },
-      { label: "AI Interview",   href: "#interview" },
-      { label: "Pricing",        href: "#pricing" },
+      { label: 'Resume Builder', href: '/#features' },
+      { label: 'ATS Analyzer', href: '/#ats' },
+      { label: 'AI Interview', href: '/#interview' },
+      { label: 'Pricing', href: '/#pricing' },
     ],
   },
   {
-    title: "Company",
+    title: 'Company',
     links: [
-      { label: "About",   href: "#" },
-      { label: "Blog",    href: "#" },
-      { label: "Careers", href: "#" },
-      { label: "Contact", href: "#" },
+      { label: 'About', href: '/about' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   {
-    title: "Legal",
+    title: 'Legal',
     links: [
-      { label: "Privacy", href: "#" },
-      { label: "Terms",   href: "#" },
-      { label: "Security", href: "#" },
+      { label: 'Privacy', href: '/privacy' },
+      { label: 'Terms', href: '/terms' },
     ],
   },
 ];
@@ -44,7 +41,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-[280px] text-small leading-relaxed text-text-secondary">
-              The AI career operating system for serious job seekers.
+              Build a stronger resume. Practise with AI. Prepare for the right opportunities.
             </p>
           </div>
 
@@ -57,12 +54,23 @@ export function Footer() {
               <ul className="mt-4 flex flex-col gap-2.5">
                 {c.links.map((l) => (
                   <li key={l.label}>
-                    <a
-                      href={l.href}
-                      className="text-small text-text-secondary transition-colors duration-card hover:text-text"
-                    >
-                      {l.label}
-                    </a>
+                    {l.href.startsWith('/#') ? (
+                      // Anchor link (from anywhere, goes to landing then scrolls)
+                      <a
+                        href={l.href.slice(1)}
+                        className="text-small text-text-secondary transition-colors duration-card hover:text-text"
+                      >
+                        {l.label}
+                      </a>
+                    ) : (
+                      // Router link (goes to a real page)
+                      <Link
+                        to={l.href}
+                        className="text-small text-text-secondary transition-colors duration-card hover:text-text"
+                      >
+                        {l.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -74,9 +82,7 @@ export function Footer() {
           <p className="text-xs text-text-muted">
             © {new Date().getFullYear()} CareerForge AI. All rights reserved.
           </p>
-          <p className="text-xs text-text-muted">
-            Built with a warm palette and an honest AI.
-          </p>
+          <p className="text-xs text-text-muted">Built with a warm palette and an honest AI.</p>
         </div>
       </div>
     </footer>
