@@ -1,4 +1,4 @@
-import crypto from "node:crypto"; import { and, eq, gt } from "drizzle-orm"; import { users, refreshTokens } from "@careerforge/database";
+import crypto from "node:crypto"; import { eq, gt, sql } from "drizzle-orm"; import { users, refreshTokens } from "@careerforge/database";
 import { db } from "../db.js"; import { env } from "../env.js"; import { hashPassword, verifyPassword } from "../lib/password.js"; import { signAccessToken } from "../lib/jwt.js"; import { ConflictError, UnauthorizedError } from "../lib/errors.js";
 const sha = (s: string) => crypto.createHash("sha256").update(s).digest("hex");
 const publicUser = (u: { id: string; name: string; email: string }) => ({ id: u.id, name: u.name, email: u.email });
@@ -21,7 +21,7 @@ export async function login(email: string, password: string) {
 /** Rotates: the presented refresh token is deleted and a new pair issued. */
 export async function refresh(token?: string): Promise<Session> {
   if (!token) throw new UnauthorizedError();
-  const [row] = await db.delete(refreshTokens).where(and(eq(refreshTokens.tokenHash, sha(token)), gt(refreshTokens.expiresAt, new Date()))).returning();
+  const [row] = await db.delete(refreshTokens).where(sql`${refreshTokens.tokenHash} = ${sha(token)} AND ${refreshTokens.expiresAt} > ${new Date()}`).returning();
   if (!row) throw new UnauthorizedError("Session expired"); return issueSession(row.userId);
 }
 export async function logout(token?: string) { if (token) await db.delete(refreshTokens).where(eq(refreshTokens.tokenHash, sha(token))); }

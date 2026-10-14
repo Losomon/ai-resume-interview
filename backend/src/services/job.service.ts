@@ -1,4 +1,4 @@
-import { and, desc, eq, gte, ilike, inArray, or } from "drizzle-orm"; import { jobs, jobSkills, skills } from "@careerforge/database"; import { db } from "../db.js"; import { NotFoundError } from "../lib/errors.js"; import { latestByUser } from "./resume.service.js"; import { has, resumeText } from "./ats.service.js";
+import { desc, eq, gte, ilike, inArray, sql } from "drizzle-orm"; import { jobs, jobSkills, skills } from "@careerforge/database"; import { db } from "../db.js"; import { NotFoundError } from "../lib/errors.js"; import { latestByUser } from "./resume.service.js"; import { has, resumeText } from "./ats.service.js";
 export interface JobFilters { q?: string; location?: string; level?: "junior" | "mid" | "senior" | "lead"; remote?: boolean; minSalary?: number; limit: number }
 async function attach(userId: string, rows: (typeof jobs.$inferSelect)[]) {
   if (rows.length === 0) return [];
@@ -11,8 +11,13 @@ async function attach(userId: string, rows: (typeof jobs.$inferSelect)[]) {
 }
 /** Match = share of a job's required skills that appear in the user's most recently edited resume. Sorted best-first when a resume exists. */
 export async function list(userId: string, f: JobFilters) {
-  const where = and(f.q ? or(ilike(jobs.title, `%${f.q}%`), ilike(jobs.company, `%${f.q}%`), ilike(jobs.description, `%${f.q}%`)) : undefined, f.location ? ilike(jobs.location, `%${f.location}%`) : undefined,
-    f.level ? eq(jobs.level, f.level) : undefined, f.remote !== undefined ? eq(jobs.remote, f.remote) : undefined, f.minSalary ? gte(jobs.salaryMax, f.minSalary) : undefined);
+  const filters = [];
+  if (f.q) filters.push(sql`(${jobs.title} ILIKE ${`%${f.q}%`} OR ${jobs.company} ILIKE ${`%${f.q}%`} OR ${jobs.description} ILIKE ${`%${f.q}%`})`);
+  if (f.location) filters.push(ilike(jobs.location, `%${f.location}%`));
+  if (f.level) filters.push(eq(jobs.level, f.level));
+  if (f.remote !== undefined) filters.push(eq(jobs.remote, f.remote));
+  if (f.minSalary) filters.push(gte(jobs.salaryMax, f.minSalary));
+  const where = filters.length ? sql.join(filters, sql` AND `) : undefined;
   const out = await attach(userId, await db.select().from(jobs).where(where).orderBy(desc(jobs.createdAt)).limit(f.limit));
   return out.sort((a, b) => (b.match?.score ?? -1) - (a.match?.score ?? -1));
 }

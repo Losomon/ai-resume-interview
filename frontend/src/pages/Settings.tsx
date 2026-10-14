@@ -402,7 +402,7 @@ function AppearanceSection() {
                 <button
                   key={id}
                   type="button"
-                  onClick={() => setTheme(id as "light" | "dark")}
+                  onClick={() => setTheme(id)}
                   className={cn(
                     "flex flex-col items-center gap-1.5 rounded-button border px-3 py-3 text-small font-medium transition-colors duration-card",
                     active
