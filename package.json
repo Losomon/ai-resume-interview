@@ -5,6 +5,12 @@
     "database",
     "backend"
   ],
+  "dependencies": {
+    "drizzle-orm": "^0.45.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  },
   "scripts": {
     "postinstall": "npm run build -w database",
     "build": "npm run build -w database && npm run build -w backend",
