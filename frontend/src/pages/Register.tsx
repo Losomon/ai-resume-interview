@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Input } from '@/components/ui';
 import { AuthLayout } from '@/components/layout/AuthLayout';
 import { PasswordField } from '@/components/auth/PasswordField';
+import { SocialAuthOptions } from '@/components/auth/SocialAuthOptions';
 import { useAuthStore } from '@/store/authStore';
 import { isValidEmail } from '@/utils/validation';
 
@@ -14,18 +15,31 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const [emailError, setEmailError] = useState<string | undefined>();
+  const [nameTouched, setNameTouched] = useState(false);
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+  const [confirmTouched, setConfirmTouched] = useState(false);
+
+  const nameError = nameTouched && !name.trim() ? 'Enter your name.' : undefined;
+  const emailError =
+    emailTouched && !isValidEmail(email) ? 'Enter a valid email address.' : undefined;
+  const passwordError =
+    passwordTouched && password.length < 8 ? 'Use at least 8 characters.' : undefined;
+  const confirmError =
+    confirmTouched && !confirm
+      ? 'Confirm your password.'
+      : confirm && password !== confirm
+        ? 'Passwords do not match.'
+        : undefined;
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     clearError();
-
-    if (password !== confirm) {
-      return;
-    }
-    if (password.length < 8) {
-      return;
-    }
+    setNameTouched(true);
+    setEmailTouched(true);
+    setPasswordTouched(true);
+    setConfirmTouched(true);
+    if (!name.trim() || !isValidEmail(email) || password.length < 8 || password !== confirm) return;
 
     try {
       await register(name, email, password);
@@ -55,7 +69,12 @@ export default function Register() {
           autoComplete="name"
           placeholder="Solomon Adeyemi"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+            setNameTouched(true);
+          }}
+          onBlur={() => setNameTouched(true)}
+          error={nameError}
           required
         />
         <Input
@@ -67,27 +86,28 @@ export default function Register() {
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
-            if (emailError) setEmailError(undefined);
+            setEmailTouched(true);
           }}
-          onBlur={() => {
-            setEmailError(email && !isValidEmail(email) ? 'Enter a valid email address.' : undefined);
-          }}
+          onBlur={() => setEmailTouched(true)}
           error={emailError}
           required
         />
         <div className="flex flex-col gap-2">
           <PasswordField
-          label="Password"
-          name="password"
-          autoComplete="new-password"
-          placeholder="At least 8 characters"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-            clearError();
-          }}
-          required
-        />
+            label="Password"
+            name="password"
+            autoComplete="new-password"
+            placeholder="At least 8 characters"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setPasswordTouched(true);
+              clearError();
+            }}
+            onBlur={() => setPasswordTouched(true)}
+            error={passwordError}
+            required
+          />
           {password && (
             <>
               <div
@@ -114,9 +134,6 @@ export default function Register() {
               </p>
             </>
           )}
-          {password && password.length < 8 && (
-            <p className="text-small text-problem">Use at least 8 characters.</p>
-          )}
         </div>
         <PasswordField
           label="Confirm password"
@@ -126,11 +143,18 @@ export default function Register() {
           value={confirm}
           onChange={(e) => {
             setConfirm(e.target.value);
+            setConfirmTouched(true);
             clearError();
           }}
-          error={confirm && password !== confirm ? 'Passwords do not match.' : undefined}
+          onBlur={() => setConfirmTouched(true)}
+          error={confirmError}
           required
         />
+        {confirm && !confirmError && (
+          <p className="-mt-4 text-small text-success" role="status">
+            Passwords match.
+          </p>
+        )}
 
         {error && (
           <div className="rounded-button border border-problem/20 bg-problem-tint px-3 py-2.5 text-small text-problem">
@@ -141,6 +165,7 @@ export default function Register() {
         <Button type="submit" size="lg" loading={loading} className="mt-2 w-full">
           Create account
         </Button>
+        <SocialAuthOptions />
 
         <p className="text-center text-xs leading-relaxed text-text-muted">
           By creating an account you agree to our{' '}
