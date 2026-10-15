@@ -20,11 +20,11 @@ export function FinalCTA() {
 
         <motion.h2
           variants={fadeUp}
-          className="mt-8 text-[34px] font-bold leading-tight tracking-tight text-text lg:text-[48px]"
+          className="mt-8 font-display text-[40px] font-medium leading-[1.08] tracking-[-0.04em] text-text sm:text-[48px] lg:text-[60px]"
         >
-          Build a career that
+          Build a career
           <br />
-          moves with you.
+          <em className="italic text-link-hover">that moves with you.</em>
         </motion.h2>
 
         <motion.p

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700;1,9..144,800;1,9..144,900&family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -51,6 +51,9 @@
   --cf-text-secondary: 87 83 78; /* #57534E */
   --cf-text-muted: 168 162 158; /* #A8A29E */
   --cf-text-inverse: 255 255 255; /* #FFFFFF */
+  --cf-link-hover: 124 82 48; /* #7C5230 */
+  --cf-pricing-brown: 124 82 48; /* #7C5230 */
+  --cf-pricing-brown-hover: 105 67 38; /* #694326 */
 
   /* Utility colors */
   --cf-grid-line: 60 50 30;
@@ -111,6 +114,9 @@
   --cf-text-secondary: 163 172 187; /* #A3ACBB */
   --cf-text-muted: 107 116 133; /* #6B7485 */
   --cf-text-inverse: 14 17 22; /* #0E1116 */
+  --cf-link-hover: 214 180 140; /* #D6B48C */
+  --cf-pricing-brown: 124 82 48; /* #7C5230 */
+  --cf-pricing-brown-hover: 105 67 38; /* #694326 */
 
   /* Utility colors */
   --cf-grid-line: 255 255 255;

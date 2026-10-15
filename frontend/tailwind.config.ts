@@ -45,6 +45,9 @@ export default {
         'text-secondary': 'rgb(var(--cf-text-secondary) / <alpha-value>)',
         'text-muted': 'rgb(var(--cf-text-muted) / <alpha-value>)',
         'text-inverse': 'rgb(var(--cf-text-inverse) / <alpha-value>)',
+        'link-hover': 'rgb(var(--cf-link-hover) / <alpha-value>)',
+        'pricing-brown': 'rgb(var(--cf-pricing-brown) / <alpha-value>)',
+        'pricing-brown-hover': 'rgb(var(--cf-pricing-brown-hover) / <alpha-value>)',
       },
 
       borderRadius: {
