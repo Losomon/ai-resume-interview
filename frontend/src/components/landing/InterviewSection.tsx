@@ -61,9 +61,7 @@ export function InterviewSection() {
   }
 
   return (
-    <section id="interview" className="relative overflow-hidden bg-bg-secondary py-24 lg:py-32">
-      <div className="pointer-events-none absolute -top-40 right-0 h-[520px] w-[520px] bg-glow-green opacity-40 blur-3xl" />
-
+    <section id="interview" className="bg-bg-secondary py-24 lg:py-32">
       <div className="relative mx-auto grid max-w-[1280px] gap-16 px-6 lg:grid-cols-2 lg:items-center lg:gap-20 lg:px-10">
         {/* Copy */}
         <motion.div
@@ -126,20 +124,12 @@ export function InterviewSection() {
             {/* Orb + question */}
             <div className="mt-6 flex flex-col items-center">
               <div className="relative flex h-28 w-28 items-center justify-center">
-                {/* Idle glow */}
-                <div
-                  className={cn(
-                    'absolute inset-0 rounded-full bg-glow-green blur-2xl transition-opacity duration-panel',
-                    status === 'idle' ? 'opacity-40' : 'opacity-70',
-                  )}
-                />
-
                 {/* Recording pulse ring */}
                 {status === 'recording' && (
                   <span className="absolute inset-0 animate-ping rounded-full border-2 border-primary/40" />
                 )}
 
-                <AIMark size={72} glow thinking={status === 'recording'} />
+                <AIMark size={72} glow={false} thinking={status === 'recording'} />
               </div>
 
               <p className="mt-6 max-w-[400px] text-center text-[17px] font-medium leading-snug text-text">

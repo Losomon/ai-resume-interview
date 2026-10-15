@@ -6,10 +6,7 @@ import { fadeUp, stagger, viewportOnce } from './motion';
 
 export function FinalCTA() {
   return (
-    <section className="relative overflow-hidden bg-bg py-24 lg:py-32">
-      {/* Green glow behind the panel */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[820px] -translate-x-1/2 -translate-y-1/2 bg-glow-green opacity-50 blur-3xl" />
-
+    <section className="bg-bg py-24 lg:py-32">
       <motion.div
         variants={stagger(0.08)}
         initial="hidden"
@@ -18,7 +15,7 @@ export function FinalCTA() {
         className="relative mx-auto max-w-[720px] px-6 text-center lg:px-10"
       >
         <motion.div variants={fadeUp} className="flex justify-center">
-          <AIMark size={64} glow />
+          <AIMark size={64} glow={false} />
         </motion.div>
 
         <motion.h2

@@ -94,22 +94,9 @@ export function Hero() {
   const { scrollY } = useScroll();
   const previewY = useTransform(scrollY, [0, 400], [0, -40]);
   const previewRotate = useTransform(scrollY, [0, 400], [0, -1.5]);
-  const glowOpacity = useTransform(scrollY, [0, 400], [0.6, 0.25]);
 
   return (
     <section className="relative overflow-hidden bg-bg pt-[72px]">
-      {/* Warm grid */}
-      <div className="pointer-events-none absolute inset-0 bg-grid-warm" />
-
-      {/* Green glow — repositioned, animated */}
-      <motion.div
-        style={{ opacity: glowOpacity }}
-        className="pointer-events-none absolute -top-24 -left-32 h-[620px] w-[820px] bg-glow-green"
-      />
-
-      {/* Warm glow — top right, behind the preview */}
-      <div className="pointer-events-none absolute -right-40 top-40 h-[520px] w-[520px] bg-glow-warm opacity-40 blur-3xl" />
-
       <div className="relative mx-auto max-w-[1440px] px-6 pb-24 pt-20 lg:px-16 lg:pb-40 lg:pt-32">
         {/* Asymmetric grid: text left, preview right */}
         <div className="grid items-center gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-8 xl:gap-16">
@@ -132,7 +119,7 @@ export function Hero() {
             <h1 className="mt-8 font-display text-[44px] leading-[1.02] tracking-[-0.03em] text-text sm:text-[56px] md:text-[64px] lg:text-[72px] xl:text-[84px]">
               <SplitText text="Your career," delay={0.2} />
               <br />
-              <span className="bg-gradient-to-br from-primary via-primary to-green-deep bg-clip-text text-transparent">
+              <span className="text-primary">
                 <SplitText text="engineered." delay={0.7} />
               </span>
             </h1>
@@ -197,9 +184,6 @@ export function Hero() {
             }}
             className="relative lg:-mr-32 xl:-mr-48"
           >
-            {/* Warm halo behind the preview */}
-            <div className="pointer-events-none absolute -inset-6 bg-glow-warm opacity-40 blur-3xl" />
-
             <div className="relative rounded-card border border-border bg-card p-3 shadow-card-hover">
               {/* Window chrome */}
               <div className="flex items-center gap-2 px-3 pb-3 pt-1">

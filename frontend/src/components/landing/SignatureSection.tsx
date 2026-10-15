@@ -87,10 +87,7 @@ export function SignatureSection() {
   }, [inView]);
 
   return (
-    <section className="relative overflow-hidden bg-bg py-32 lg:py-44">
-      {/* Full-bleed glow */}
-      <div className="pointer-events-none absolute left-1/2 top-1/3 h-[720px] w-[1080px] -translate-x-1/2 bg-glow-green opacity-40 blur-3xl" />
-
+    <section className="bg-bg py-32 lg:py-44">
       <div className="relative mx-auto max-w-[1440px] px-6 lg:px-16">
         {/* Header — asymmetric, left-aligned */}
         <div className="mx-auto mb-20 max-w-[720px] text-center">
@@ -282,7 +279,7 @@ function Chip({
     matched: 'border-primary/25 bg-primary-tint text-green-deep',
     evidence: 'border-attention/25 bg-attention-tint text-attention',
     gap: 'border-problem/25 bg-problem-tint text-problem',
-    moving: 'border-primary bg-primary text-text-inverse shadow-glow',
+    moving: 'border-primary bg-primary text-text-inverse',
   }[state];
 
   return (
