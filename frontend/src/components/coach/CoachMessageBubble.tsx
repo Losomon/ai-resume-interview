@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Copy, RotateCcw, Trash2, Check } from "lucide-react";
-import { AIMark } from "@/components/ui";
-import { cn } from "@/utils/cn";
-import type { CoachMessage } from "@/types/resume";
+import { useState } from 'react';
+import { Copy, RotateCcw, Trash2, Check } from 'lucide-react';
+import { AIMark } from '@/components/ui';
+import { cn } from '@/utils/cn';
+import type { CoachMessage } from '@/types/resume';
 
 type Props = {
   message: CoachMessage;
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export function CoachMessageBubble({ message, onRetry, onDelete }: Props) {
-  const isCoach = message.role === "coach";
+  const isCoach = message.role === 'coach';
   const [copied, setCopied] = useState(false);
 
   async function copy() {
@@ -25,20 +25,20 @@ export function CoachMessageBubble({ message, onRetry, onDelete }: Props) {
   }
 
   return (
-    <div className={cn("group flex w-full gap-3", !isCoach && "flex-row-reverse")}>
+    <div className={cn('group flex w-full gap-3', !isCoach && 'flex-row-reverse')}>
       {isCoach && (
         <div className="mt-0.5 shrink-0">
           <AIMark size={28} />
         </div>
       )}
 
-      <div className={cn("flex max-w-[85%] flex-col gap-1 sm:max-w-[75%]", !isCoach && "items-end")}>
+      <div
+        className={cn('flex max-w-[85%] flex-col gap-1 sm:max-w-[75%]', !isCoach && 'items-end')}
+      >
         <div
           className={cn(
-            "rounded-card px-4 py-3 text-small leading-relaxed shadow-card",
-            isCoach
-              ? "border border-border bg-card text-text"
-              : "bg-primary text-text-inverse",
+            'rounded-card px-4 py-3 text-small leading-relaxed shadow-card',
+            isCoach ? 'border border-border bg-card text-text' : 'bg-primary text-text-inverse',
           )}
         >
           {message.text}

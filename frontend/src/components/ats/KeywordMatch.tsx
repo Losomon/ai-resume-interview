@@ -1,6 +1,6 @@
-import { Check, X, HelpCircle } from "lucide-react";
-import { cn } from "@/utils/cn";
-import type { ATSKeywordMatch } from "@/types/resume";
+import { Check, X, HelpCircle } from 'lucide-react';
+import { cn } from '@/utils/cn';
+import type { ATSKeywordMatch } from '@/types/resume';
 
 export function KeywordMatch({ matches }: { matches: ATSKeywordMatch[] }) {
   const matched = matches.filter((m) => m.matched);
@@ -16,8 +16,8 @@ export function KeywordMatch({ matches }: { matches: ATSKeywordMatch[] }) {
         <div className="flex items-start gap-2.5 rounded-button border border-primary/25 bg-primary-tint px-4 py-3">
           <Check size={16} className="mt-0.5 shrink-0 text-primary" />
           <p className="text-small leading-relaxed text-green-deep">
-            Every keyword from this job description appears in your resume.
-            That's rare — you're well aligned on paper.
+            Every keyword from this job description appears in your resume. That's rare — you're
+            well aligned on paper.
           </p>
         </div>
       )}
@@ -55,8 +55,8 @@ export function KeywordMatch({ matches }: { matches: ATSKeywordMatch[] }) {
       {/* Nothing at all */}
       {matches.length === 0 && (
         <p className="text-small text-text-muted">
-          No keywords could be extracted from this job description. Try
-          pasting the requirements section.
+          No keywords could be extracted from this job description. Try pasting the requirements
+          section.
         </p>
       )}
     </div>
@@ -71,28 +71,28 @@ function Section({
   note,
 }: {
   title: string;
-  tone: "good" | "warn" | "bad";
+  tone: 'good' | 'warn' | 'bad';
   icon: React.ReactNode;
   keywords: string[];
   note?: string;
 }) {
   const colors = {
-    good: "text-green-deep",
-    warn: "text-attention",
-    bad: "text-problem",
+    good: 'text-green-deep',
+    warn: 'text-attention',
+    bad: 'text-problem',
   } as const;
 
   const chipColors = {
-    good: "bg-primary-tint text-green-deep border-primary/20",
-    warn: "bg-attention-tint text-attention border-attention/20",
-    bad: "bg-problem-tint text-problem border-problem/20",
+    good: 'bg-primary-tint text-green-deep border-primary/20',
+    warn: 'bg-attention-tint text-attention border-attention/20',
+    bad: 'bg-problem-tint text-problem border-problem/20',
   } as const;
 
   return (
     <div>
       <div
         className={cn(
-          "flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide",
+          'flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide',
           colors[tone],
         )}
       >
@@ -100,16 +100,14 @@ function Section({
         {title}
       </div>
       {note && (
-        <p className="mt-1.5 max-w-[520px] text-xs leading-relaxed text-text-muted">
-          {note}
-        </p>
+        <p className="mt-1.5 max-w-[520px] text-xs leading-relaxed text-text-muted">{note}</p>
       )}
       <div className="mt-2.5 flex flex-wrap gap-1.5">
         {keywords.map((k) => (
           <span
             key={k}
             className={cn(
-              "rounded-full border px-2.5 py-0.5 text-xs font-medium",
+              'rounded-full border px-2.5 py-0.5 text-xs font-medium',
               chipColors[tone],
             )}
           >

@@ -1,4 +1,4 @@
-import { cn } from "@/utils/cn";
+import { cn } from '@/utils/cn';
 
 type Props = {
   score: number;
@@ -13,11 +13,11 @@ export function ATSScore({ score, size = 160, className }: Props) {
   const offset = c - (score / 100) * c;
 
   const tone =
-    score >= 80 ? "#15803D" : score >= 60 ? "#16A34A" : score >= 40 ? "#D97706" : "#DC2626";
+    score >= 80 ? '#15803D' : score >= 60 ? '#16A34A' : score >= 40 ? '#D97706' : '#DC2626';
 
   return (
     <div
-      className={cn("relative inline-flex items-center justify-center", className)}
+      className={cn('relative inline-flex items-center justify-center', className)}
       style={{ width: size, height: size }}
     >
       <svg width={size} height={size} className="-rotate-90">
@@ -39,7 +39,7 @@ export function ATSScore({ score, size = 160, className }: Props) {
           strokeLinecap="round"
           strokeDasharray={c}
           strokeDashoffset={offset}
-          style={{ transition: "stroke-dashoffset 600ms ease-out" }}
+          style={{ transition: 'stroke-dashoffset 600ms ease-out' }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">

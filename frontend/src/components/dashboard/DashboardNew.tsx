@@ -1,27 +1,32 @@
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { Button, Card, AIMark } from "@/components/ui";
-import { StatCard } from "./StatCard";
-import { CareerChecklist } from "./CareerChecklist";
-import { RecentActivity } from "./RecentActivity";
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { Button, Card, AIMark } from '@/components/ui';
+import { StatCard } from './StatCard';
+import { CareerChecklist } from './CareerChecklist';
+import { RecentActivity } from './RecentActivity';
 
-const softSpring = { type: "spring" as const, stiffness: 80, damping: 20 };
+const softSpring = { type: 'spring' as const, stiffness: 80, damping: 20 };
 
 export function DashboardNew({ userName }: { userName: string }) {
   const navigate = useNavigate();
 
   const today = new Date().toLocaleDateString(undefined, {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
   });
 
   const checklist = [
-    { id: "resume",      label: "Create your first resume",        href: "/resumes",      done: false },
-    { id: "ats",         label: "Run an ATS analysis",             href: "/ats",          done: false },
-    { id: "interview",   label: "Practice an interview",           href: "/interview",    done: false },
-    { id: "application", label: "Track your first job application", href: "/applications", done: false },
+    { id: 'resume', label: 'Create your first resume', href: '/resumes', done: false },
+    { id: 'ats', label: 'Run an ATS analysis', href: '/ats', done: false },
+    { id: 'interview', label: 'Practice an interview', href: '/interview', done: false },
+    {
+      id: 'application',
+      label: 'Track your first job application',
+      href: '/applications',
+      done: false,
+    },
   ];
 
   return (
@@ -33,18 +38,16 @@ export function DashboardNew({ userName }: { userName: string }) {
         transition={softSpring}
         className="mb-2"
       >
-        <p className="text-xs font-medium uppercase tracking-[0.14em] text-text-muted">
-          {today}
-        </p>
+        <p className="text-xs font-medium uppercase tracking-[0.14em] text-text-muted">{today}</p>
         <h1
           className="mt-3 font-display text-[36px] leading-[1.05] tracking-[-0.03em] text-text lg:text-[44px]"
-          style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 700 }}
+          style={{ fontFamily: 'Fraunces, Georgia, serif', fontWeight: 700 }}
         >
           Good morning, {userName}.
         </h1>
         <p className="mt-3 max-w-[560px] text-[16px] leading-relaxed text-text-secondary">
-          Let's take the next step. Everything you need is here — start wherever
-          makes sense for you.
+          Let's take the next step. Everything you need is here — start wherever makes sense for
+          you.
         </p>
       </motion.header>
 
@@ -55,10 +58,20 @@ export function DashboardNew({ userName }: { userName: string }) {
         transition={{ ...softSpring, delay: 0.05 }}
         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
-        <StatCard value="0" label="My resumes"           action="+ Create resume"      href="/resumes" />
-        <StatCard value="—" label="Latest ATS score"     action="Analyze resume"       href="/ats" />
-        <StatCard value="0" label="Practice interviews"  action="Start practicing"     href="/interview" />
-        <StatCard value="0" label="Applications tracked" action="Track an application" href="/applications" />
+        <StatCard value="0" label="My resumes" action="+ Create resume" href="/resumes" />
+        <StatCard value="—" label="Latest ATS score" action="Analyze resume" href="/ats" />
+        <StatCard
+          value="0"
+          label="Practice interviews"
+          action="Start practicing"
+          href="/interview"
+        />
+        <StatCard
+          value="0"
+          label="Applications tracked"
+          action="Track an application"
+          href="/applications"
+        />
       </motion.div>
 
       {/* ---------- Checklist + AI recommendation ---------- */}
@@ -77,13 +90,12 @@ export function DashboardNew({ userName }: { userName: string }) {
           </div>
 
           <p className="mt-4 text-small leading-relaxed text-text-secondary">
-            Your personalized recommendation appears here once you've created a
-            resume and run an ATS analysis. It's based on your real data — never
-            invented.
+            Your personalized recommendation appears here once you've created a resume and run an
+            ATS analysis. It's based on your real data — never invented.
           </p>
 
           <div className="mt-auto pt-6">
-            <Button variant="secondary" onClick={() => navigate("/resumes")}>
+            <Button variant="secondary" onClick={() => navigate('/resumes')}>
               Get started
               <ArrowRight size={14} />
             </Button>

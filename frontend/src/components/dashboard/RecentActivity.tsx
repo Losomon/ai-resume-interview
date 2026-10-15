@@ -1,9 +1,9 @@
-import { motion } from "framer-motion";
-import { FileText, Target, Mic, Briefcase } from "lucide-react";
-import { Card, AIMark } from "@/components/ui";
-import { cn } from "@/utils/cn";
+import { motion } from 'framer-motion';
+import { FileText, Target, Mic, Briefcase } from 'lucide-react';
+import { Card, AIMark } from '@/components/ui';
+import { cn } from '@/utils/cn';
 
-type ActivityType = "resume" | "ats" | "interview" | "application";
+type ActivityType = 'resume' | 'ats' | 'interview' | 'application';
 
 type Activity = {
   id: string;
@@ -13,10 +13,10 @@ type Activity = {
 };
 
 const typeMeta = {
-  resume:      { icon: FileText,  tone: "text-primary",    bg: "bg-primary-tint" },
-  ats:         { icon: Target,    tone: "text-info",       bg: "bg-info-tint" },
-  interview:   { icon: Mic,       tone: "text-attention",  bg: "bg-attention-tint" },
-  application: { icon: Briefcase, tone: "text-green-deep", bg: "bg-primary-tint" },
+  resume: { icon: FileText, tone: 'text-primary', bg: 'bg-primary-tint' },
+  ats: { icon: Target, tone: 'text-info', bg: 'bg-info-tint' },
+  interview: { icon: Mic, tone: 'text-attention', bg: 'bg-attention-tint' },
+  application: { icon: Briefcase, tone: 'text-green-deep', bg: 'bg-primary-tint' },
 } as const;
 
 export function RecentActivity({ items = [] }: { items?: Activity[] }) {
@@ -24,8 +24,8 @@ export function RecentActivity({ items = [] }: { items?: Activity[] }) {
     <Card className="p-6">
       <h2 className="text-card text-text">Recent activity</h2>
       <p className="mt-1 text-small text-text-secondary">
-        Your resume edits, ATS analyses, interview sessions, and application
-        updates will appear here.
+        Your resume edits, ATS analyses, interview sessions, and application updates will appear
+        here.
       </p>
 
       {items.length === 0 ? (
@@ -35,8 +35,8 @@ export function RecentActivity({ items = [] }: { items?: Activity[] }) {
             <AIMark size={40} />
           </div>
           <p className="max-w-[360px] text-small leading-relaxed text-text-muted">
-            Nothing here yet. Once you start using the tools, your progress will
-            show up in this feed.
+            Nothing here yet. Once you start using the tools, your progress will show up in this
+            feed.
           </p>
         </div>
       ) : (
@@ -50,11 +50,11 @@ export function RecentActivity({ items = [] }: { items?: Activity[] }) {
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className={cn("flex items-start gap-3 py-3", i > 0 && "border-t border-border")}
+                className={cn('flex items-start gap-3 py-3', i > 0 && 'border-t border-border')}
               >
                 <span
                   className={cn(
-                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-md",
+                    'flex h-8 w-8 shrink-0 items-center justify-center rounded-md',
                     meta.bg,
                     meta.tone,
                   )}

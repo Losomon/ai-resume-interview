@@ -1,7 +1,7 @@
-import { Briefcase, Mic, Calendar, Trophy } from "lucide-react";
-import { Card } from "@/components/ui";
-import { cn } from "@/utils/cn";
-import type { Application } from "@/types/resume";
+import { Briefcase, Mic, Calendar, Trophy } from 'lucide-react';
+import { Card } from '@/components/ui';
+import { cn } from '@/utils/cn';
+import type { Application } from '@/types/resume';
 
 type Props = {
   applications: Application[];
@@ -22,14 +22,14 @@ export function ApplicationSummary({ applications, activeFilter, onFilterChange 
     return t <= now + sevenDays;
   }).length;
 
-  const interviews = applications.filter((a) => a.stage === "interview").length;
-  const offers = applications.filter((a) => a.stage === "offer").length;
+  const interviews = applications.filter((a) => a.stage === 'interview').length;
+  const offers = applications.filter((a) => a.stage === 'offer').length;
 
   const cards: { id: string; label: string; value: number; icon: typeof Briefcase }[] = [
-    { id: "all",       label: "Total applications", value: total,     icon: Briefcase },
-    { id: "interview", label: "Interviews",          value: interviews, icon: Mic },
-    { id: "followup",  label: "Follow-ups due",      value: followUps,  icon: Calendar },
-    { id: "offer",     label: "Offers received",     value: offers,     icon: Trophy },
+    { id: 'all', label: 'Total applications', value: total, icon: Briefcase },
+    { id: 'interview', label: 'Interviews', value: interviews, icon: Mic },
+    { id: 'followup', label: 'Follow-ups due', value: followUps, icon: Calendar },
+    { id: 'offer', label: 'Offers received', value: offers, icon: Trophy },
   ];
 
   return (
@@ -40,35 +40,30 @@ export function ApplicationSummary({ applications, activeFilter, onFilterChange 
           <button
             key={id}
             type="button"
-            onClick={() => onFilterChange(active && id !== "all" ? "all" : id)}
+            onClick={() => onFilterChange(active && id !== 'all' ? 'all' : id)}
             className={cn(
-              "flex flex-col items-start rounded-card border p-5 text-left transition-all duration-card",
+              'flex flex-col items-start rounded-card border p-5 text-left transition-all duration-card',
               active
-                ? "border-primary/40 bg-primary-tint"
-                : "border-border bg-card hover:-translate-y-0.5 hover:border-border-hover hover:shadow-card-hover",
+                ? 'border-primary/40 bg-primary-tint'
+                : 'border-border bg-card hover:-translate-y-0.5 hover:border-border-hover hover:shadow-card-hover',
             )}
           >
             <div className="flex w-full items-start justify-between gap-2">
               <span
                 className={cn(
-                  "font-display text-[36px] leading-none tracking-[-0.03em]",
-                  active ? "text-green-deep" : "text-text",
+                  'font-display text-[36px] leading-none tracking-[-0.03em]',
+                  active ? 'text-green-deep' : 'text-text',
                 )}
-                style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}
+                style={{ fontFamily: 'Fraunces, Georgia, serif', fontWeight: 600 }}
               >
                 {value}
               </span>
-              <Icon
-                size={16}
-                className={cn(
-                  active ? "text-green-deep" : "text-text-muted",
-                )}
-              />
+              <Icon size={16} className={cn(active ? 'text-green-deep' : 'text-text-muted')} />
             </div>
             <span
               className={cn(
-                "mt-2 text-small font-medium",
-                active ? "text-green-deep" : "text-text-secondary",
+                'mt-2 text-small font-medium',
+                active ? 'text-green-deep' : 'text-text-secondary',
               )}
             >
               {label}

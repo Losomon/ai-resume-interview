@@ -1,11 +1,11 @@
-import { useState, type KeyboardEvent } from "react";
-import { Send, Paperclip, FileText, Target, Mic, X, Check } from "lucide-react";
-import { Button } from "@/components/ui";
-import { cn } from "@/utils/cn";
+import { useState, type KeyboardEvent } from 'react';
+import { Send, Paperclip, FileText, Target, Mic, X, Check } from 'lucide-react';
+import { Button } from '@/components/ui';
+import { cn } from '@/utils/cn';
 
 export type ContextItem = {
   id: string;
-  type: "resume" | "ats" | "interview";
+  type: 'resume' | 'ats' | 'interview';
   label: string;
 };
 
@@ -32,18 +32,18 @@ export function CoachComposer({
   onAddContext,
   onRemoveContext,
 }: Props) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [pickerOpen, setPickerOpen] = useState(false);
 
   function submit() {
     const text = value.trim();
     if (!text || disabled) return;
     onSend(text);
-    setValue("");
+    setValue('');
   }
 
   function onKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       submit();
     }
@@ -89,9 +89,9 @@ export function CoachComposer({
               onClick={() => setPickerOpen((v) => !v)}
               aria-label="Add career context"
               className={cn(
-                "flex h-10 w-10 items-center justify-center rounded-button text-text-muted transition-colors duration-card",
-                "hover:bg-bg-secondary hover:text-text",
-                pickerOpen && "bg-bg-secondary text-text",
+                'flex h-10 w-10 items-center justify-center rounded-button text-text-muted transition-colors duration-card',
+                'hover:bg-bg-secondary hover:text-text',
+                pickerOpen && 'bg-bg-secondary text-text',
               )}
             >
               <Paperclip size={16} />
@@ -110,8 +110,8 @@ export function CoachComposer({
                   </div>
                   {remaining.length === 0 ? (
                     <div className="px-2.5 py-3 text-xs text-text-muted">
-                      Nothing left to add. Create a resume, run an ATS
-                      analysis, or complete an interview first.
+                      Nothing left to add. Create a resume, run an ATS analysis, or complete an
+                      interview first.
                     </div>
                   ) : (
                     remaining.map((item) => {
@@ -127,9 +127,7 @@ export function CoachComposer({
                           className="flex w-full items-center gap-2 rounded-[6px] px-2.5 py-2 text-left text-small text-text-secondary transition-colors hover:bg-bg-secondary hover:text-text"
                         >
                           <Icon size={14} />
-                          <span className="min-w-0 flex-1 truncate">
-                            {item.label}
-                          </span>
+                          <span className="min-w-0 flex-1 truncate">{item.label}</span>
                           <Check size={12} className="shrink-0 text-text-muted" />
                         </button>
                       );
@@ -148,9 +146,9 @@ export function CoachComposer({
           rows={1}
           placeholder="Ask anything about your career…"
           className={cn(
-            "max-h-[160px] min-h-[40px] flex-1 resize-none bg-transparent px-2 py-2 text-small text-text",
-            "placeholder:text-text-muted",
-            "focus:outline-none",
+            'max-h-[160px] min-h-[40px] flex-1 resize-none bg-transparent px-2 py-2 text-small text-text',
+            'placeholder:text-text-muted',
+            'focus:outline-none',
           )}
         />
         <Button onClick={submit} disabled={disabled || !value.trim()} className="shrink-0">

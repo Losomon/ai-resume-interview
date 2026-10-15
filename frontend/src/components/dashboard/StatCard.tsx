@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import { cn } from "@/utils/cn";
+import { useNavigate } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import { cn } from '@/utils/cn';
 
 type StatCardProps = {
   value: string;
@@ -18,17 +18,17 @@ export function StatCard({ value, label, action, href, hasData }: StatCardProps)
       type="button"
       onClick={() => navigate(href)}
       className={cn(
-        "group flex flex-col items-start rounded-card border border-border bg-card p-5 text-left",
-        "transition-all duration-card",
-        "hover:-translate-y-0.5 hover:border-border-hover hover:shadow-card-hover",
+        'group flex flex-col items-start rounded-card border border-border bg-card p-5 text-left',
+        'transition-all duration-card',
+        'hover:-translate-y-0.5 hover:border-border-hover hover:shadow-card-hover',
       )}
     >
       <span
         className={cn(
-          "font-display text-[40px] leading-none tracking-[-0.03em]",
-          hasData ? "text-text" : "text-text-muted",
+          'font-display text-[40px] leading-none tracking-[-0.03em]',
+          hasData ? 'text-text' : 'text-text-muted',
         )}
-        style={{ fontFamily: "Fraunces, Georgia, serif", fontWeight: 600 }}
+        style={{ fontFamily: 'Fraunces, Georgia, serif', fontWeight: 600 }}
       >
         {value}
       </span>

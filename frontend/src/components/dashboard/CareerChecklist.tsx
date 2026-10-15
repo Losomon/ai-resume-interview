@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Check } from "lucide-react";
-import { Card } from "@/components/ui";
-import { cn } from "@/utils/cn";
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Check } from 'lucide-react';
+import { Card } from '@/components/ui';
+import { cn } from '@/utils/cn';
 
 type ChecklistItem = {
   id: string;
@@ -28,7 +28,7 @@ export function CareerChecklist({ items }: { items: ChecklistItem[] }) {
         </div>
         <span
           className="shrink-0 font-display text-[20px] font-semibold leading-none text-text-secondary"
-          style={{ fontFamily: "Fraunces, Georgia, serif" }}
+          style={{ fontFamily: 'Fraunces, Georgia, serif' }}
         >
           {completed}/{total}
         </span>
@@ -39,7 +39,7 @@ export function CareerChecklist({ items }: { items: ChecklistItem[] }) {
           className="h-full rounded-full bg-primary"
           initial={false}
           animate={{ width: `${pct}%` }}
-          transition={{ type: "spring", stiffness: 80, damping: 20 }}
+          transition={{ type: 'spring', stiffness: 80, damping: 20 }}
         />
       </div>
 
@@ -50,16 +50,16 @@ export function CareerChecklist({ items }: { items: ChecklistItem[] }) {
               type="button"
               onClick={() => navigate(item.href)}
               className={cn(
-                "group flex w-full items-center gap-3 py-3 text-left transition-colors duration-card",
-                i > 0 && "border-t border-border",
+                'group flex w-full items-center gap-3 py-3 text-left transition-colors duration-card',
+                i > 0 && 'border-t border-border',
               )}
             >
               <span
                 className={cn(
-                  "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-card",
+                  'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-card',
                   item.done
-                    ? "border-primary bg-primary text-text-inverse"
-                    : "border-border-hover bg-card group-hover:border-primary/40",
+                    ? 'border-primary bg-primary text-text-inverse'
+                    : 'border-border-hover bg-card group-hover:border-primary/40',
                 )}
               >
                 {item.done && <Check size={11} strokeWidth={3} />}
@@ -67,10 +67,8 @@ export function CareerChecklist({ items }: { items: ChecklistItem[] }) {
 
               <span
                 className={cn(
-                  "flex-1 text-small transition-colors duration-card",
-                  item.done
-                    ? "text-text-muted line-through"
-                    : "text-text group-hover:text-primary",
+                  'flex-1 text-small transition-colors duration-card',
+                  item.done ? 'text-text-muted line-through' : 'text-text group-hover:text-primary',
                 )}
               >
                 {item.label}

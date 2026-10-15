@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-import { X, MapPin, DollarSign, Calendar, Bookmark, BookmarkCheck } from "lucide-react";
-import { Button, Badge } from "@/components/ui";
-import { JobMatchScore } from "./JobMatchScore";
-import { cn } from "@/utils/cn";
-import type { Job, JobMatch } from "@/types/resume";
+import { useEffect } from 'react';
+import { X, MapPin, DollarSign, Calendar, Bookmark, BookmarkCheck } from 'lucide-react';
+import { Button, Badge } from '@/components/ui';
+import { JobMatchScore } from './JobMatchScore';
+import { cn } from '@/utils/cn';
+import type { Job, JobMatch } from '@/types/resume';
 
 type Props = {
   job: Job | null;
@@ -14,42 +14,32 @@ type Props = {
   onApply: () => void;
 };
 
-export function JobDetails({
-  job,
-  match,
-  saved,
-  onClose,
-  onToggleSaved,
-  onApply,
-}: Props) {
+export function JobDetails({ job, match, saved, onClose, onToggleSaved, onApply }: Props) {
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
+      if (e.key === 'Escape') onClose();
     }
-    if (job) document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    if (job) document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [job, onClose]);
 
   if (!job) return null;
 
   const posted = new Date(job.postedAt).toLocaleDateString(undefined, {
-    month: "short",
-    day: "numeric",
+    month: 'short',
+    day: 'numeric',
   });
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true">
       {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-text/20 backdrop-blur-sm"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-text/20 backdrop-blur-sm" onClick={onClose} />
 
       {/* Panel */}
       <aside
         className={cn(
-          "relative flex h-full w-full max-w-[520px] flex-col overflow-y-auto bg-bg",
-          "border-l border-border shadow-card-hover",
+          'relative flex h-full w-full max-w-[520px] flex-col overflow-y-auto bg-bg',
+          'border-l border-border shadow-card-hover',
         )}
       >
         {/* Header */}
@@ -68,12 +58,12 @@ export function JobDetails({
             type="button"
             onClick={onToggleSaved}
             className={cn(
-              "ml-auto flex h-9 w-9 items-center justify-center rounded-button transition-colors duration-card",
+              'ml-auto flex h-9 w-9 items-center justify-center rounded-button transition-colors duration-card',
               saved
-                ? "text-primary hover:bg-primary-tint"
-                : "text-text-muted hover:bg-bg-secondary hover:text-text",
+                ? 'text-primary hover:bg-primary-tint'
+                : 'text-text-muted hover:bg-bg-secondary hover:text-text',
             )}
-            aria-label={saved ? "Unsave" : "Save"}
+            aria-label={saved ? 'Unsave' : 'Save'}
           >
             {saved ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
           </button>
@@ -87,9 +77,7 @@ export function JobDetails({
               {job.companyInitial}
             </span>
             <div className="flex-1 min-w-0">
-              <h2 className="text-[22px] font-bold leading-snug text-text">
-                {job.title}
-              </h2>
+              <h2 className="text-[22px] font-bold leading-snug text-text">{job.title}</h2>
               <p className="mt-1 text-small text-text-secondary">{job.company}</p>
             </div>
             {match && <JobMatchScore score={match.score} size={56} />}
@@ -97,9 +85,7 @@ export function JobDetails({
 
           {/* Meta */}
           <div className="flex flex-wrap gap-2">
-            <Meta icon={<MapPin size={12} />}>
-              {job.remote ? "Remote" : job.location}
-            </Meta>
+            <Meta icon={<MapPin size={12} />}>{job.remote ? 'Remote' : job.location}</Meta>
             <Meta icon={<DollarSign size={12} />}>
               ${Math.round(job.salaryMin / 1000)}k–${Math.round(job.salaryMax / 1000)}k
             </Meta>
@@ -153,9 +139,7 @@ export function JobDetails({
           {/* Description */}
           <div>
             <h3 className="text-small font-semibold text-text">About the role</h3>
-            <p className="mt-2 text-small leading-relaxed text-text-secondary">
-              {job.description}
-            </p>
+            <p className="mt-2 text-small leading-relaxed text-text-secondary">{job.description}</p>
           </div>
 
           {/* Tags */}
@@ -180,7 +164,7 @@ export function JobDetails({
             Apply now
           </Button>
           <Button variant="secondary" onClick={onToggleSaved}>
-            {saved ? "Saved" : "Save"}
+            {saved ? 'Saved' : 'Save'}
           </Button>
         </footer>
       </aside>
