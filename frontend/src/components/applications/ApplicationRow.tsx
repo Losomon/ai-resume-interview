@@ -1,27 +1,30 @@
-import { Building2, MapPin, Calendar } from "lucide-react";
-import { Badge } from "@/components/ui";
-import { cn } from "@/utils/cn";
-import type { Application, ApplicationStage } from "@/types/resume";
+import { Building2, MapPin, Calendar } from 'lucide-react';
+import { Badge } from '@/components/ui';
+import { cn } from '@/utils/cn';
+import type { Application, ApplicationStage } from '@/types/resume';
 
 type Props = {
   app: Application;
   onOpen: (app: Application) => void;
 };
 
-const stageLabel: Record<ApplicationStage, { label: string; tone: "neutral" | "info" | "attention" | "progress" | "problem" }> = {
-  saved:      { label: "Saved",     tone: "neutral" },
-  applied:    { label: "Applied",   tone: "info" },
-  interview:  { label: "Interview", tone: "attention" },
-  offer:      { label: "Offer",     tone: "progress" },
-  rejected:   { label: "Rejected",  tone: "problem" },
+const stageLabel: Record<
+  ApplicationStage,
+  { label: string; tone: 'neutral' | 'info' | 'attention' | 'progress' | 'problem' }
+> = {
+  saved: { label: 'Saved', tone: 'neutral' },
+  applied: { label: 'Applied', tone: 'info' },
+  interview: { label: 'Interview', tone: 'attention' },
+  offer: { label: 'Offer', tone: 'progress' },
+  rejected: { label: 'Rejected', tone: 'problem' },
 };
 
 export function ApplicationRow({ app, onOpen }: Props) {
   const stage = stageLabel[app.stage];
 
   const appliedLabel = app.appliedAt
-    ? `Applied ${new Date(app.appliedAt).toLocaleDateString(undefined, { month: "short", day: "numeric" })}`
-    : "Not yet applied";
+    ? `Applied ${new Date(app.appliedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`
+    : 'Not yet applied';
 
   const followUp = (app as unknown as { followUpAt?: string }).followUpAt;
 
@@ -30,9 +33,9 @@ export function ApplicationRow({ app, onOpen }: Props) {
       type="button"
       onClick={() => onOpen(app)}
       className={cn(
-        "group flex w-full items-center gap-4 rounded-card border border-border bg-card p-4 text-left",
-        "transition-all duration-card",
-        "hover:-translate-y-px hover:border-border-hover hover:shadow-card-hover",
+        'group flex w-full items-center gap-4 rounded-card border border-border bg-card p-4 text-left',
+        'transition-all duration-card',
+        'hover:-translate-y-px hover:border-border-hover hover:shadow-card-hover',
       )}
     >
       {/* Company initial */}
@@ -42,9 +45,7 @@ export function ApplicationRow({ app, onOpen }: Props) {
 
       {/* Main info */}
       <div className="min-w-0 flex-1">
-        <h3 className="line-clamp-1 text-small font-semibold text-text">
-          {app.jobTitle}
-        </h3>
+        <h3 className="line-clamp-1 text-small font-semibold text-text">{app.jobTitle}</h3>
         <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-text-muted">
           <span className="inline-flex items-center gap-1">
             <Building2 size={10} />
@@ -66,7 +67,8 @@ export function ApplicationRow({ app, onOpen }: Props) {
         {followUp && (
           <span className="inline-flex items-center gap-1 text-xs font-medium text-attention">
             <Calendar size={10} />
-            Follow up: {new Date(followUp).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
+            Follow up:{' '}
+            {new Date(followUp).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
           </span>
         )}
       </div>

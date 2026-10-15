@@ -1,23 +1,23 @@
-import { useState } from "react";
-import { Mic, ArrowRight } from "lucide-react";
-import { Button, Card, Input } from "@/components/ui";
-import { cn } from "@/utils/cn";
-import type { InterviewConfig } from "@/types/resume";
+import { useState } from 'react';
+import { Mic, ArrowRight } from 'lucide-react';
+import { Button, Card, Input } from '@/components/ui';
+import { cn } from '@/utils/cn';
+import type { InterviewConfig } from '@/types/resume';
 
-const LEVELS: { value: InterviewConfig["level"]; label: string }[] = [
-  { value: "junior", label: "Beginner" },
-  { value: "mid",    label: "Intermediate" },
-  { value: "senior", label: "Advanced" },
+const LEVELS: { value: InterviewConfig['level']; label: string }[] = [
+  { value: 'junior', label: 'Beginner' },
+  { value: 'mid', label: 'Intermediate' },
+  { value: 'senior', label: 'Advanced' },
 ];
 
 const TYPES: {
-  value: InterviewConfig["type"];
+  value: InterviewConfig['type'];
   label: string;
   blurb: string;
 }[] = [
-  { value: "technical",  label: "Technical",  blurb: "Coding and concepts" },
-  { value: "behavioral", label: "Behavioral", blurb: "Experience and teamwork" },
-  { value: "mixed",      label: "Mixed",      blurb: "Technical and behavioral" },
+  { value: 'technical', label: 'Technical', blurb: 'Coding and concepts' },
+  { value: 'behavioral', label: 'Behavioral', blurb: 'Experience and teamwork' },
+  { value: 'mixed', label: 'Mixed', blurb: 'Technical and behavioral' },
 ];
 
 const COUNTS = [5, 10, 15];
@@ -28,14 +28,14 @@ type Props = {
 };
 
 export function InterviewSetup({ onStart, loading }: Props) {
-  const [role, setRole] = useState("");
-  const [level, setLevel] = useState<InterviewConfig["level"]>("mid");
-  const [type, setType] = useState<InterviewConfig["type"]>("mixed");
+  const [role, setRole] = useState('');
+  const [level, setLevel] = useState<InterviewConfig['level']>('mid');
+  const [type, setType] = useState<InterviewConfig['type']>('mixed');
   const [count, setCount] = useState(10);
 
   function submit() {
     onStart({
-      role: role.trim() || "Software Engineer",
+      role: role.trim() || 'Software Engineer',
       level,
       type,
       questionCount: count,
@@ -60,9 +60,7 @@ export function InterviewSetup({ onStart, loading }: Props) {
         />
 
         <div className="flex flex-col gap-2">
-          <label className="text-small font-medium text-text-secondary">
-            Interview type
-          </label>
+          <label className="text-small font-medium text-text-secondary">Interview type</label>
           <div className="grid gap-2 sm:grid-cols-3">
             {TYPES.map((t) => (
               <button
@@ -70,16 +68,16 @@ export function InterviewSetup({ onStart, loading }: Props) {
                 type="button"
                 onClick={() => setType(t.value)}
                 className={cn(
-                  "flex flex-col gap-0.5 rounded-button border px-3 py-3 text-left transition-colors duration-card",
+                  'flex flex-col gap-0.5 rounded-button border px-3 py-3 text-left transition-colors duration-card',
                   type === t.value
-                    ? "border-primary bg-primary-tint"
-                    : "border-border bg-card hover:border-border-hover hover:bg-bg-secondary",
+                    ? 'border-primary bg-primary-tint'
+                    : 'border-border bg-card hover:border-border-hover hover:bg-bg-secondary',
                 )}
               >
                 <span
                   className={cn(
-                    "text-small font-medium",
-                    type === t.value ? "text-green-deep" : "text-text",
+                    'text-small font-medium',
+                    type === t.value ? 'text-green-deep' : 'text-text',
                   )}
                 >
                   {t.label}
@@ -91,9 +89,7 @@ export function InterviewSetup({ onStart, loading }: Props) {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-small font-medium text-text-secondary">
-            Difficulty level
-          </label>
+          <label className="text-small font-medium text-text-secondary">Difficulty level</label>
           <div className="grid grid-cols-3 gap-2">
             {LEVELS.map((l) => (
               <button
@@ -101,10 +97,10 @@ export function InterviewSetup({ onStart, loading }: Props) {
                 type="button"
                 onClick={() => setLevel(l.value)}
                 className={cn(
-                  "rounded-button border px-3 py-2.5 text-small font-medium transition-colors duration-card",
+                  'rounded-button border px-3 py-2.5 text-small font-medium transition-colors duration-card',
                   level === l.value
-                    ? "border-primary bg-primary-tint text-green-deep"
-                    : "border-border bg-card text-text-secondary hover:border-border-hover hover:bg-bg-secondary",
+                    ? 'border-primary bg-primary-tint text-green-deep'
+                    : 'border-border bg-card text-text-secondary hover:border-border-hover hover:bg-bg-secondary',
                 )}
               >
                 {l.label}
@@ -114,9 +110,7 @@ export function InterviewSetup({ onStart, loading }: Props) {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-small font-medium text-text-secondary">
-            Number of questions
-          </label>
+          <label className="text-small font-medium text-text-secondary">Number of questions</label>
           <div className="flex gap-2">
             {COUNTS.map((c) => (
               <button
@@ -124,10 +118,10 @@ export function InterviewSetup({ onStart, loading }: Props) {
                 type="button"
                 onClick={() => setCount(c)}
                 className={cn(
-                  "h-10 flex-1 rounded-button border text-small font-medium transition-colors duration-card",
+                  'h-10 flex-1 rounded-button border text-small font-medium transition-colors duration-card',
                   count === c
-                    ? "border-primary bg-primary-tint text-green-deep"
-                    : "border-border bg-card text-text-secondary hover:border-border-hover hover:bg-bg-secondary",
+                    ? 'border-primary bg-primary-tint text-green-deep'
+                    : 'border-border bg-card text-text-secondary hover:border-border-hover hover:bg-bg-secondary',
                 )}
               >
                 {c} questions
@@ -152,10 +146,10 @@ export function InterviewSetup({ onStart, loading }: Props) {
         <h3 className="text-small font-semibold text-text">What to expect</h3>
         <ul className="flex flex-col gap-3 text-small text-text-secondary">
           {[
-            "One question at a time, with a timer for each.",
-            "Type your answers — no audio recording needed.",
-            "A full feedback report at the end with scores and notes.",
-            "You can repeat a question before submitting.",
+            'One question at a time, with a timer for each.',
+            'Type your answers — no audio recording needed.',
+            'A full feedback report at the end with scores and notes.',
+            'You can repeat a question before submitting.',
           ].map((line) => (
             <li key={line} className="flex gap-2">
               <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-primary" />

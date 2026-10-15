@@ -1,15 +1,15 @@
-import { CheckCircle2, AlertCircle } from "lucide-react";
-import { Card } from "@/components/ui";
-import { ATSScore } from "@/components/ats/ATSScore";
-import type { InterviewFeedback } from "@/types/resume";
+import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { Card } from '@/components/ui';
+import { ATSScore } from '@/components/ats/ATSScore';
+import type { InterviewFeedback } from '@/types/resume';
 
 export function InterviewFeedbackReport({ feedback }: { feedback: InterviewFeedback }) {
   const { scores, strengths, improvements, perQuestion } = feedback;
 
   const subs: { label: string; value: number }[] = [
-    { label: "Communication", value: scores.communication },
-    { label: "Technical",     value: scores.technical },
-    { label: "Confidence",    value: scores.confidence },
+    { label: 'Communication', value: scores.communication },
+    { label: 'Technical', value: scores.technical },
+    { label: 'Confidence', value: scores.confidence },
   ];
 
   return (
@@ -21,10 +21,10 @@ export function InterviewFeedbackReport({ feedback }: { feedback: InterviewFeedb
           <div className="text-small font-medium text-text-secondary">Overall</div>
           <div className="mt-1 text-[28px] font-bold leading-tight text-text">
             {scores.overall >= 80
-              ? "Strong performance"
+              ? 'Strong performance'
               : scores.overall >= 60
-                ? "Solid performance"
-                : "Needs more practice"}
+                ? 'Solid performance'
+                : 'Needs more practice'}
           </div>
           <div className="mt-4 grid grid-cols-3 gap-4">
             {subs.map((s) => (
@@ -77,9 +77,7 @@ export function InterviewFeedbackReport({ feedback }: { feedback: InterviewFeedb
           <div className="mt-3 flex flex-col gap-3">
             {perQuestion.map((p, i) => (
               <div key={p.questionId} className="flex gap-3 text-small">
-                <span className="shrink-0 font-semibold text-text-muted">
-                  Q{i + 1}
-                </span>
+                <span className="shrink-0 font-semibold text-text-muted">Q{i + 1}</span>
                 <span className="text-text-secondary">{p.note}</span>
               </div>
             ))}
