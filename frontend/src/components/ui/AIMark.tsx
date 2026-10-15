@@ -38,8 +38,8 @@ export function AIMark({
           style={{
             width: size * 1.5,
             height: size * 1.5,
-            borderColor: 'rgba(21,128,61,0.25)',
-            borderTopColor: 'rgba(21,128,61,0.8)',
+            borderColor: 'rgb(var(--cf-primary) / 0.25)',
+            borderTopColor: 'rgb(var(--cf-primary) / 0.8)',
           }}
         />
       )}
@@ -57,7 +57,7 @@ export function AIMark({
              C8.5 14.4 10 16.2 12 17.2
              C14 16.2 15.5 14.4 15.5 11.4
              C15.5 7.2 12 2.5 12 2.5 Z"
-          fill="#15803D"
+          fill="rgb(var(--cf-green))"
         />
         <path
           d="M12 17.2
@@ -65,7 +65,7 @@ export function AIMark({
              C9 21.4 10.2 22.5 12 22.5
              C13.8 22.5 15 21.4 15 20
              C15 18.4 13.8 17.2 12 17.2 Z"
-          fill="#166534"
+          fill="rgb(var(--cf-green-deep))"
         />
       </svg>
     </span>

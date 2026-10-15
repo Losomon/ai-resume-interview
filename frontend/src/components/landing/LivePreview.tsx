@@ -27,7 +27,7 @@ export function LivePreview() {
           className="mx-auto max-w-[720px] text-center"
         >
           <motion.div variants={fadeUp} className="flex justify-center">
-            <AIMark size={40} glow />
+            <AIMark size={40} glow={false} />
           </motion.div>
           <motion.h2
             variants={fadeUp}
@@ -281,8 +281,7 @@ function InterviewTab() {
       {/* Question + timer */}
       <Card className="flex flex-col items-center justify-center p-8">
         <div className="relative flex h-24 w-24 items-center justify-center">
-          <div className="absolute inset-0 rounded-full bg-glow-green opacity-40 blur-2xl" />
-          <AIMark size={64} glow />
+          <AIMark size={64} glow={false} />
         </div>
 
         <p className="mt-6 max-w-[420px] text-center text-[17px] font-medium leading-snug text-text">
