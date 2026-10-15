@@ -119,7 +119,7 @@ export function Hero() {
             <h1 className="mt-8 font-display text-[44px] leading-[1.02] tracking-[-0.03em] text-text sm:text-[56px] md:text-[64px] lg:text-[72px] xl:text-[84px]">
               <SplitText text="Your career," delay={0.2} />
               <br />
-              <em className="font-display italic text-link-hover">
+              <em className="font-display italic text-primary-hover">
                 <SplitText text="engineered." delay={0.7} />
               </em>
             </h1>
@@ -148,6 +148,16 @@ export function Hero() {
                 </Button>
               </Link>
             </motion.div>
+
+            {/* Differentiator line — under the CTAs */}
+            <motion.p
+              variants={item}
+              className="mt-6 max-w-[460px] text-small leading-relaxed text-text-muted"
+            >
+              The only AI career tool that tells you{' '}
+              <span className="text-text-secondary">what you actually have</span> — not what to
+              fake.
+            </motion.p>
 
             {/* Stats row — 4 cards, left-aligned, no centered grid */}
             <motion.div

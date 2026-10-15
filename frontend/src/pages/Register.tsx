@@ -162,7 +162,7 @@ export default function Register() {
           </div>
         )}
 
-        <Button type="submit" size="lg" loading={loading} className="mt-2 w-full">
+        <Button type="submit" size="lg" variant="primary" loading={loading} className="mt-2 w-full">
           Create account
         </Button>
         <SocialAuthOptions />
