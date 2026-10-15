@@ -222,4 +222,12 @@
       rgb(var(--cf-glow) / 0.25) 100%
     );
   }
+
+  /* Pricing utilities */
+  .border-pricing-brown { border-color: rgb(var(--cf-pricing-brown)); }
+  .border-pricing-brown-hover { border-color: rgb(var(--cf-pricing-brown-hover)); }
+  .bg-pricing-brown { background-color: rgb(var(--cf-pricing-brown)); }
+  .text-link-hover { color: rgb(var(--cf-link-hover)); }
+  .hover\:border-pricing-brown-hover:hover { border-color: rgb(var(--cf-pricing-brown-hover)); }
+  .hover\:bg-pricing-brown-hover:hover { background-color: rgb(var(--cf-pricing-brown-hover)); }
 }
