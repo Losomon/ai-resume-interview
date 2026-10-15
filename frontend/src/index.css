@@ -52,6 +52,8 @@
   --cf-text-muted: 168 162 158; /* #A8A29E */
   --cf-text-inverse: 255 255 255; /* #FFFFFF */
   --cf-link-hover: 124 82 48; /* #7C5230 */
+  --cf-pricing-brown: 124 82 48; /* #7C5230 */
+  --cf-pricing-brown-hover: 105 67 38; /* #694326 */
 
   /* Utility colors */
   --cf-grid-line: 60 50 30;
@@ -113,6 +115,8 @@
   --cf-text-muted: 107 116 133; /* #6B7485 */
   --cf-text-inverse: 14 17 22; /* #0E1116 */
   --cf-link-hover: 214 180 140; /* #D6B48C */
+  --cf-pricing-brown: 124 82 48; /* #7C5230 */
+  --cf-pricing-brown-hover: 105 67 38; /* #694326 */
 
   /* Utility colors */
   --cf-grid-line: 255 255 255;

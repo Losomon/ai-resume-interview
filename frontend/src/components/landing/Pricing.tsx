@@ -191,11 +191,12 @@ export function Pricing() {
 
                   <Link to="/register" className="mt-8">
                     <Button
-                      variant={t.highlighted ? 'primary' : 'secondary'}
+                      variant="secondary"
                       className={cn(
-                        'w-full',
-                        !t.highlighted &&
-                          'border-link-hover/50 bg-transparent text-link-hover hover:border-link-hover hover:bg-link-hover hover:text-text-inverse',
+                        'w-full border-pricing-brown transition-colors hover:-translate-y-px',
+                        t.highlighted
+                          ? 'bg-pricing-brown text-white hover:border-pricing-brown-hover hover:bg-pricing-brown-hover hover:text-white'
+                          : 'bg-transparent text-green-deep hover:border-pricing-brown-hover hover:bg-pricing-brown hover:text-white',
                       )}
                     >
                       {t.cta}
