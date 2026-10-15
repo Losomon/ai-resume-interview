@@ -119,9 +119,9 @@ export function Hero() {
             <h1 className="mt-8 font-display text-[44px] leading-[1.02] tracking-[-0.03em] text-text sm:text-[56px] md:text-[64px] lg:text-[72px] xl:text-[84px]">
               <SplitText text="Your career," delay={0.2} />
               <br />
-              <span className="text-primary">
+              <em className="font-display italic text-link-hover">
                 <SplitText text="engineered." delay={0.7} />
-              </span>
+              </em>
             </h1>
 
             {/* Subhead */}

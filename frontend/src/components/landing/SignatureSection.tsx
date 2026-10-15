@@ -95,7 +95,7 @@ export function SignatureSection() {
             The honest difference
           </p>
           <h2 className="mt-6 font-display text-[40px] leading-[1.05] tracking-[-0.03em] text-text lg:text-[56px]">
-            It shows you what you <em className="not-italic text-primary">actually</em> have.
+            It shows you what you <em className="italic text-link-hover">actually</em> have.
           </h2>
           <p className="mt-6 text-[17px] leading-relaxed text-text-secondary">
             Every other ATS tool tells you to add keywords. We tell you the difference between

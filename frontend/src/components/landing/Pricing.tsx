@@ -83,11 +83,11 @@ export function Pricing() {
           </motion.p>
           <motion.h2
             variants={fadeUp}
-            className="mt-5 text-[32px] font-bold leading-tight tracking-tight text-text lg:text-[40px]"
+            className="mt-5 font-display text-[32px] font-semibold leading-tight tracking-tight text-text lg:text-[40px]"
           >
             Simple pricing.
             <br />
-            No surprises.
+            <em className="italic text-link-hover">No surprises.</em>
           </motion.h2>
 
           {/* Billing toggle */}
@@ -171,7 +171,9 @@ export function Pricing() {
                   <p className="mt-1 text-small text-text-secondary">{t.blurb}</p>
 
                   <div className="mt-6 flex items-baseline gap-2">
-                    <span className="text-[36px] font-bold leading-none text-text">{price}</span>
+                    <span className="font-display text-[36px] font-semibold italic leading-none text-link-hover">
+                      {price}
+                    </span>
                     <span className="text-small text-text-muted">{cadence}</span>
                   </div>
 
@@ -188,7 +190,14 @@ export function Pricing() {
                   </ul>
 
                   <Link to="/register" className="mt-8">
-                    <Button variant={t.highlighted ? 'primary' : 'secondary'} className="w-full">
+                    <Button
+                      variant={t.highlighted ? 'primary' : 'secondary'}
+                      className={cn(
+                        'w-full',
+                        !t.highlighted &&
+                          'border-link-hover/50 bg-transparent text-link-hover hover:border-link-hover hover:bg-link-hover hover:text-text-inverse',
+                      )}
+                    >
                       {t.cta}
                     </Button>
                   </Link>
