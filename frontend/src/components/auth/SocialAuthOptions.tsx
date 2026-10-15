@@ -16,7 +16,6 @@ export function SocialAuthOptions() {
         <Button
           type="button"
           variant="secondary"
-          disabled
           className="w-full hover:translate-y-0"
           aria-label="Google sign-in, coming soon"
         >
@@ -29,7 +28,6 @@ export function SocialAuthOptions() {
         <Button
           type="button"
           variant="secondary"
-          disabled
           className="w-full hover:translate-y-0"
           aria-label="GitHub sign-in, coming soon"
         >
@@ -38,7 +36,7 @@ export function SocialAuthOptions() {
           <span className="sr-only">Coming soon</span>
         </Button>
       </div>
-      <p className="text-center text-xs text-text-muted">Google and GitHub sign-in coming soon</p>
+      <p className="text-center text-sm text-text-muted">Google and GitHub sign-in coming soon</p>
     </div>
   );
 }

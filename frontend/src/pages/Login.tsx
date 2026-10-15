@@ -99,7 +99,7 @@ export default function Login() {
           </div>
         )}
 
-        <Button type="submit" size="lg" loading={loading} className="mt-2 w-full">
+        <Button type="submit" size="lg" variant="primary" loading={loading} className="mt-2 w-full">
           Sign in
         </Button>
         <SocialAuthOptions />

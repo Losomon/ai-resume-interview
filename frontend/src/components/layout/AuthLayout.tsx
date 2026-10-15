@@ -139,7 +139,7 @@ export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProp
       {/* ====================================================
           RIGHT — the form column (theme-aware)
           ==================================================== */}
-      <main className="relative flex min-h-screen flex-col">
+      <main className="relative flex min-h-screen flex-col lg:border-l lg:border-border">
         {/* Mobile logo */}
         <div className="flex h-[72px] items-center px-6 lg:hidden">
           <Link to="/" className="flex items-center gap-2.5">
