@@ -2,7 +2,9 @@ import { useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Input } from '@/components/ui';
 import { AuthLayout } from '@/components/layout/AuthLayout';
+import { PasswordField } from '@/components/auth/PasswordField';
 import { useAuthStore } from '@/store/authStore';
+import { isValidEmail } from '@/utils/validation';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -11,6 +13,7 @@ export default function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState<string | undefined>();
 
   const from = (location.state as { from?: string } | null)?.from ?? '/dashboard';
 
@@ -46,15 +49,21 @@ export default function Login() {
           autoComplete="email"
           placeholder="you@example.com"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (emailError) setEmailError(undefined);
+          }}
+          onBlur={() => {
+            setEmailError(email && !isValidEmail(email) ? 'Enter a valid email address.' : undefined);
+          }}
+          error={emailError}
           required
         />
 
         <div className="flex flex-col gap-1.5">
-          <Input
+          <PasswordField
             label="Password"
             name="password"
-            type="password"
             autoComplete="current-password"
             placeholder="••••••••"
             value={password}
