@@ -1,90 +1,66 @@
 # @careerforge/database
 
-The PostgreSQL layer for CareerForge as its own package: schema, migrations, client factory, seed and verification. It knows nothing about Express, the API or the frontend, and never reads `process.env` (only the CLI scripts do).
+Complete PostgreSQL layer for CareerForge: 29 tables, generated migration, client factory, resume-content schema, and a verification suite that runs on in-memory Postgres.
 
-```text
-database/
-├── package.json  tsconfig.json  drizzle.config.ts  .env.example
-├── migrations/           generated SQL + meta. Commit it. Never edit an applied file
-├── src/
-│   ├── index.ts          public API: createDatabase, every table, resumeContent + types
-│   ├── client.ts         createDatabase({ connectionString }) → { db, pool }
-│   ├── content.ts        zod schema + types for resumes.content (shared with the API)
-│   ├── schema/
-│   │   ├── _shared.ts    pk(), createdAt(), updatedAt()
-│   │   ├── _enums.ts     interview_status, application_stage, coach_role, job_level, skill_source
-│   │   ├── users.ts      users, refresh_tokens, password_reset_tokens, owner() FK helper
-│   │   ├── resumes.ts    resumes, ats_analyses
-│   │   ├── skills.ts  jobs.ts  interviews.ts  applications.ts  coach.ts  progress.ts  audit.ts
-│   │   ├── relations.ts  typed joins for db.query.*
-│   │   └── index.ts
-│   └── cli/              env.ts, migrate.ts, seed.ts (read DATABASE_URL)
-└── test/verify.mjs       applies migrations to in-memory Postgres and checks the rules
-```
+## Use
+    cp .env.example .env        # set DATABASE_URL
+    npm install
+    npm run migrate             # apply migrations/
+    npm run verify              # 16 checks on in-memory Postgres, no server needed
 
-## Use it
-**Standalone** (in this folder): `cp .env.example .env`, set `DATABASE_URL`, then `npm install && npm run migrate`. Optional dev data: `npm run seed`. Browse data: `npm run studio`.
+From the API: `import { createDatabase, resumes } from "@careerforge/database"`.
+After editing `src/schema/*`: `npm run generate`, read the SQL, commit it, `npm run migrate`, `npm run verify`.
 
-**From the API** (npm workspace, see the root `package.json`):
-```ts
-import { createDatabase, resumes } from "@careerforge/database";
-export const { db, pool } = createDatabase({ connectionString: process.env.DATABASE_URL! });
-```
-The package must be built (`npm run build -w database`) before the backend runs; the root `postinstall` does this. After changing the schema, rebuild it. Keep one copy of `drizzle-orm` in the workspace (npm hoists it) so query helpers like `eq` and `and` share types with the tables.
-
-## Commands
-| Command | What it does |
+## Tables (29)
+| Area | Tables |
 |---|---|
-| `npm run generate` | Diff schema → new SQL file in `migrations/`. Read it before committing |
-| `npm run migrate` | Apply pending migrations (same command in CI and production) |
-| `npm run seed` | Demo user + 8 fictional jobs. Refuses to run when `NODE_ENV=production` |
-| `npm run verify` | Runs all migrations on in-memory Postgres (PGlite) and asserts constraints and cascades. No server needed |
-| `npm run build` | Compile to `dist/` for consumers |
+| Identity | users, user_profiles, user_settings, oauth_accounts, refresh_tokens, password_reset_tokens, email_verification_tokens |
+| Resumes | resumes, resume_versions, resume_files, ats_analyses |
+| Skills | skills |
+| Jobs | jobs, job_matches, saved_jobs |
+| Applications | applications, application_events |
+| Interviews | interviews, interview_questions, interview_answers |
+| Coach | coach_conversations, coach_messages, learning_plan_steps |
+| Progress | readiness_snapshots |
+| System | notifications, contact_messages, ai_usage, subscriptions, audit_log |
 
-## Model (16 tables)
 ```mermaid
 erDiagram
   users ||--o{ resumes : owns
   users ||--o{ skills : has
-  users ||--o{ interviews : takes
   users ||--o{ applications : tracks
-  users ||--o{ coach_messages : sends
-  users ||--o{ readiness_snapshots : records
+  users ||--o{ interviews : takes
+  users ||--o{ coach_conversations : starts
+  users ||--o{ notifications : receives
+  users ||--o{ ai_usage : consumes
   users ||--o{ refresh_tokens : sessions
-  resumes ||--o{ ats_analyses : analyzed_in
-  interviews ||--o{ interview_answers : contains
+  resumes ||--o{ resume_versions : snapshots
+  resumes ||--o{ resume_files : files
+  resumes ||--o{ ats_analyses : analyzed
   jobs ||--o{ job_matches : scored
   jobs ||--o{ applications : for
-  resumes ||--o{ applications : sent_as
+  applications ||--o{ application_events : timeline
+  interviews ||--o{ interview_questions : asks
+  interview_questions ||--|| interview_answers : answered
+  coach_conversations ||--o{ coach_messages : contains
 ```
-`users`, `refresh_tokens`, `password_reset_tokens`, `resumes`, `ats_analyses`, `skills`, `jobs`, `job_matches`, `saved_jobs`, `interviews`, `interview_answers`, `applications`, `coach_messages`, `learning_plan_steps`, `readiness_snapshots`, `audit_log`.
 
-## Conventions
-- uuid primary keys, `timestamptz` everywhere, snake_case in SQL, camelCase in TypeScript.
-- **Every user-owned table has `user_id ... ON DELETE CASCADE`** (`owner()`), so deleting an account is one statement.
-- Links that should outlive the other row use `SET NULL` (`applications.resume_id`, `audit_log.user_id`).
-- Check constraints guard 0-100 scores and 1-5 skill levels, so bad data fails in the database too.
-- Secrets (refresh and reset tokens) are stored only as SHA-256 hashes.
-- Enums only for small stable sets; add values with a migration, never reorder or remove.
-- JSONB for documents (`resumes.content`, `ats_analyses.breakdown`, `job_matches.reasons`), validated by zod at the API edge. Anything filtered or sorted on is a real column.
+## Rules the database enforces
+- Every user-owned table has `user_id ... ON DELETE CASCADE`: deleting an account is one statement.
+- Links that should outlive the other row use SET NULL: applications.resume_id, jobs.created_by_user_id, audit_log.user_id, contact_messages.user_id.
+- Emails are unique case-insensitively; skill names are unique per user case-insensitively.
+- Scores are 0-100 (ATS, readiness, interview, job match), skill level 1-5, uploads 1 byte to 10 MB.
+- job_matches.matched_skills <= required_skills, which powers the "based on X of Y skills" line.
+- One match per user+job; one answer per question; unique question order and resume version numbers.
+- Secrets (refresh, reset, verification tokens) are stored only as hashes; refresh tokens carry a family_id so token reuse can revoke the whole chain.
+- password_hash is nullable so OAuth-only accounts work.
+- JSONB only for documents (resume content, ATS breakdown, match reasons); anything filtered or sorted on is a real column.
 
 ## Indexes
-| Index | Serves |
-|---|---|
-| `users(email)` unique | login, duplicate prevention |
-| `resumes(user_id, updated_at)` | "my resumes, newest first" |
-| `ats_analyses(resume_id, created_at)` | analysis history |
-| `jobs(skills)` GIN + full-text GIN | skill-overlap matching, search |
-| `jobs(source, external_id)` unique | idempotent imports |
-| `applications(user_id, stage, position)` | kanban columns in order |
-| `skills(user_id, lower(name))` unique | no case-variant duplicates |
-| `readiness_snapshots(user_id, created_at)` | progress chart |
-| `refresh_tokens(expires_at)` | pruning expired sessions |
+users lower(email) unique; resumes (user_id, updated_at); ats_analyses (resume_id, created_at); jobs skills GIN and full-text GIN; jobs (source, external_id) unique; applications (user_id, stage, sort_order) for kanban; notifications (user_id, read_at, created_at); refresh/reset/verification (expires_at) for pruning; ai_usage (user_id, created_at) for limits.
 
-## Changing the schema
-1. Edit `src/schema/*`. 2. `npm run generate`. 3. Read the SQL and commit it with the schema change. 4. `npm run migrate`, `npm run verify`, `npm run build`.
+## Maintenance
+Delete expired refresh, reset and verification tokens daily. Decide retention for coach_messages and ats_analyses.job_description (personal text). Schedule backups and test a restore quarterly. On hosted Postgres use a pooled URL for the API and a direct URL for migrations.
 
-Rules: one concern per migration; never edit or delete an applied migration (write a new one); for risky changes use **expand, then contract** (add the new column, write both, backfill, switch reads, drop the old column in a later release) so rollback never needs a schema reversal. New table: new file using `pk()`, `createdAt()` and `owner()`, export it from `schema/index.ts`, add relations if you'll join it, and extend `test/verify.mjs` with any new rule.
-
-## Maintenance to schedule
-Delete expired `refresh_tokens` and `password_reset_tokens` daily. Decide retention for `coach_messages` and `ats_analyses.job_description` (they hold personal text, doc 10). Automated backups and a quarterly restore test (doc 12). Hosted Postgres such as Neon: use a pooled URL for the API and a direct URL for migrations.
+## Not included
+Seed data, and payment records beyond `subscriptions` (add invoices when Stripe is wired in).
