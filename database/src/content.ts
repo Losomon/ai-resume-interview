@@ -1,11 +1,21 @@
 import { z } from "zod";
-const id = z.string().max(64);
+
+/** Shape of resumes.content (JSONB). Validate at the API edge; the database stores it as-is. */
 export const resumeContent = z.object({
-  fullName: z.string().max(120).default(""), title: z.string().max(120).default(""), summary: z.string().max(1500).default(""),
-  skills: z.array(z.string().max(60)).max(60).default([]),
-  experience: z.array(z.object({ id, role: z.string().max(120).default(""), company: z.string().max(120).default(""), start: z.string().max(20).default(""), end: z.string().max(20).default(""), bullets: z.array(z.string().max(500)).max(12).default([]) })).max(20).default([]),
-  education: z.array(z.object({ id, school: z.string().max(120).default(""), degree: z.string().max(120).default(""), year: z.string().max(20).default("") })).max(10).default([]),
-  projects: z.array(z.object({ id, name: z.string().max(120).default(""), description: z.string().max(800).default("") })).max(15).default([]),
-});
+  summary: z.string().max(2000).optional(),
+  contact: z.object({
+    email: z.string().optional(), phone: z.string().optional(), location: z.string().optional(),
+    links: z.array(z.object({ label: z.string(), url: z.string() })).default([]),
+  }).partial().optional(),
+  experience: z.array(z.object({
+    company: z.string(), title: z.string(), start: z.string(), end: z.string().nullable().optional(),
+    bullets: z.array(z.string()).default([]),
+  })).default([]),
+  education: z.array(z.object({
+    school: z.string(), degree: z.string().optional(), start: z.string().optional(), end: z.string().optional(),
+  })).default([]),
+  skills: z.array(z.string()).default([]),
+  projects: z.array(z.object({ name: z.string(), description: z.string().optional(), bullets: z.array(z.string()).default([]) })).default([]),
+}).partial();
+
 export type ResumeContent = z.infer<typeof resumeContent>;
-export type Gap = { skill: string; hint: string };
