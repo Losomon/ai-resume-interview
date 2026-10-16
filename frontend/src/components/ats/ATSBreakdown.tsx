@@ -1,5 +1,5 @@
-import { CheckCircle2, Lightbulb } from "lucide-react";
-import { Card } from "@/components/ui";
+import { CheckCircle2, Lightbulb } from 'lucide-react';
+import { Card } from '@/components/ui';
 
 type Props = {
   strengths: string[];

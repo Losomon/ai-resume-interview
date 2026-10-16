@@ -1,0 +1,11 @@
+import { z } from "zod";
+export const interviewConfig = z.object({ role: z.string().trim().min(2).max(80), level: z.enum(["junior", "mid", "senior"]), type: z.enum(["behavioral", "technical", "mixed"]).default("mixed"), count: z.number().int().min(3).max(15).default(8) });
+export type InterviewConfig = z.infer<typeof interviewConfig>;
+export const interviewQuestion = z.object({ id: z.string().max(64), text: z.string(), category: z.enum(["behavioral", "technical"]) });
+export type InterviewQuestion = z.infer<typeof interviewQuestion>;
+export const interviewAnswer = z.object({ questionId: z.string().max(64), answer: z.string().max(4000), secondsTaken: z.number().int().min(0).max(7200).optional() });
+export type InterviewAnswer = z.infer<typeof interviewAnswer>;
+export const interviewScores = z.object({ overall: z.number().int(), communication: z.number().int(), technical: z.number().int(), confidence: z.number().int() });
+export type InterviewScores = z.infer<typeof interviewScores>;
+export const interviewFeedback = z.object({ strengths: z.array(z.string()), improvements: z.array(z.string()), perQuestion: z.array(z.object({ questionId: z.string(), score: z.number().int(), note: z.string() })), method: z.string() });
+export type InterviewFeedback = z.infer<typeof interviewFeedback>;

@@ -3,3 +3,5 @@ export { Sidebar } from "./Sidebar";
 export { Topbar } from "./Topbar";
 export { MobileNav } from "./MobileNav";
 export { PageHeader } from "./PageHeader";
+export { NotificationBell } from "./NotificationBell";
+export { AccountMenu } from "./AccountMenu";

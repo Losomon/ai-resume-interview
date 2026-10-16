@@ -27,9 +27,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             error ? 'border-problem' : 'border-border hover:border-border-hover',
             className,
           )}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${inputId}-error` : props['aria-describedby']}
           {...props}
         />
-        {error && <span className="text-small text-problem">{error}</span>}
+        {error && (
+          <span id={`${inputId}-error`} className="text-small text-problem">
+            {error}
+          </span>
+        )}
       </div>
     )
   },

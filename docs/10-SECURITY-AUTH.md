@@ -51,4 +51,5 @@ Automated dependency scanning, lockfiles, SAST in CI, no secrets in commits (sec
 - [ ] Delete and export flows tested
 
 ## Status in `backend/`
-Done: bcrypt cost 12, httpOnly `SameSite=Lax` cookies, rotating refresh tokens stored hashed, owner-scoped queries (404 for others' ids), zod validation, helmet, single-origin CORS, auth and AI rate limits, timing-equalized login, AI prompt hardening (text treated as data, no invention). Open: password reset, email verification, refresh-token reuse detection, audit log, upload scanning, tests, CSRF review if frontend and API are on different sites.
+Done and exercised end to end: bcrypt cost 12, httpOnly `SameSite=Lax` cookies, rotating refresh tokens stored hashed, owner-scoped queries (another user's ids return 404 on resumes, applications, interviews, ATS), zod validation, helmet, single-origin CORS, auth and AI rate limits, timing-equalized login, AI prompts that treat user text as data and forbid invention, no bodies or cookies in logs.
+Open: password reset, email verification, refresh-token reuse detection, audit log, upload scanning, automated tests (a manual `npm run smoke` exists), CSRF review if the frontend and API end up on different sites, rate-limit behavior behind your real proxy.

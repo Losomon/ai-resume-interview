@@ -1,4 +1,4 @@
-import { cn } from "@/utils/cn";
+import { cn } from '@/utils/cn';
 
 export function JobMatchScore({ score, size = 48 }: { score: number; size?: number }) {
   const stroke = 5;
@@ -7,7 +7,7 @@ export function JobMatchScore({ score, size = 48 }: { score: number; size?: numb
   const offset = c - (score / 100) * c;
 
   const tone =
-    score >= 80 ? "#15803D" : score >= 60 ? "#16A34A" : score >= 40 ? "#D97706" : "#DC2626";
+    score >= 80 ? '#15803D' : score >= 60 ? '#16A34A' : score >= 40 ? '#D97706' : '#DC2626';
 
   return (
     <div
@@ -33,7 +33,7 @@ export function JobMatchScore({ score, size = 48 }: { score: number; size?: numb
           strokeLinecap="round"
           strokeDasharray={c}
           strokeDashoffset={offset}
-          style={{ transition: "stroke-dashoffset 500ms ease-out" }}
+          style={{ transition: 'stroke-dashoffset 500ms ease-out' }}
         />
       </svg>
       <span className="absolute text-[11px] font-bold text-text">{score}</span>

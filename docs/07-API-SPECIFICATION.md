@@ -73,8 +73,11 @@ Breaking changes bump `/v2`. AI endpoints are rate-limited per user (proposal: 3
 - Keep ATS keyword matching and scoring on the server. Browser-computed scores can be edited by the user and must not be trusted or stored as truth.
 
 ## As implemented in `backend/` (this section wins over the proposal above)
-- **Auth is cookie-based.** `register` and `login` return `{ user }` and set httpOnly cookies `cf_at` (15 min) and `cf_rt` (30 days, path `/api/v1/auth`); there is no token in the body. `/auth/refresh` rotates the refresh token; `/auth/logout` clears both.
-- Frontend calls use `credentials: "include"`. In dev, Vite proxies `/api` to the backend.
-- AI path is `POST /api/v1/ai/rewrite` with body `{ text, tone }` (tones: professional, concise, impactful, technical, friendly). SSE events: `{delta}` chunks, then `{done:true}`, or `event: error`.
-- ATS: `POST /ats/analyze` returns `{ score, breakdown{keywords,experience,skills,formatting}, matched[], missingEvidence[], skillGaps[], suggestions[], modelVersion }`; `422 NO_KEYWORDS_FOUND` when no known skills are recognised. History: `GET /ats/history/:resumeId`.
-- Resumes list returns summaries only; `GET /resumes/:id` returns `content`.
+Base path `/api/v1`. Full route table: `backend/README.md`. Differences from the proposal:
+- **Auth is cookie-based.** `register`/`login` return `{ user }` and set httpOnly cookies `cf_at` (15 min) and `cf_rt` (7 days, path `/api/v1/auth`); no token in the body. `/auth/refresh` rotates the refresh token. Frontend calls use `credentials: "include"`; in dev Vite proxies `/api`.
+- Interview routes are `/interview/sessions...` (create, list, get, PATCH answers, `POST .../submit`); one session document holds questions, answers, scores and feedback.
+- `POST /ai/rewrite` (SSE: `{delta}` chunks, then `{done:true}`, or `event: error`) and `POST /ai/suggestions` (`{ options: [{ tone, text }] }`). Tones: professional, concise, impactful, technical, friendly.
+- ATS: `POST /ats/analyze` returns `{ score, breakdown{keywords,experience,skills,formatting}, matched[], missingEvidence[], skillGaps[], suggestions[], modelVersion }`; `422 NO_KEYWORDS_FOUND` when no known skills appear.
+- Coach: `GET /coach/conversation`, `POST /coach/message`, `POST /coach/plan` (`422 NO_ANALYSIS` until an ATS analysis exists), `PATCH /coach/plan/:stepId`.
+- Jobs: `GET /jobs` returns `{ jobs: [{ ..., skills[], match: { score, matched[], missing[] } | null }] }`, best match first.
+- Applications: moving a card to another stage appends it to that column and stamps `appliedAt` on the first move out of "saved".

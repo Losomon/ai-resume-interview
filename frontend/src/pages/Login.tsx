@@ -1,22 +1,38 @@
-import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Input } from "@/components/ui";
-import { AuthLayout } from "@/components/layout/AuthLayout";
-import { useAuthStore } from "@/store/authStore";
+import { useState, type FormEvent } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button, Input } from '@/components/ui';
+import { AuthLayout } from '@/components/layout/AuthLayout';
+import { PasswordField } from '@/components/auth/PasswordField';
+import { SocialAuthOptions } from '@/components/auth/SocialAuthOptions';
+import { useAuthStore } from '@/store/authStore';
+import { isValidEmail } from '@/utils/validation';
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, loading, error, clearError } = useAuthStore();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+
+  const emailError =
+    emailTouched && !isValidEmail(email) ? 'Enter a valid email address.' : undefined;
+  const passwordError =
+    passwordTouched && !password ? 'Enter your password.' : undefined;
+
+  const from = (location.state as { from?: string } | null)?.from ?? '/dashboard';
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     clearError();
+    setEmailTouched(true);
+    setPasswordTouched(true);
+    if (!isValidEmail(email) || !password) return;
     try {
       await login(email, password);
-      navigate("/dashboard");
+      navigate(from, { replace: true });
     } catch {
       /* error surfaced from store */
     }
@@ -28,14 +44,14 @@ export default function Login() {
       subtitle="Sign in to continue forging your career."
       footer={
         <>
-          Don&apos;t have an account?{" "}
+          Don&apos;t have an account?{' '}
           <Link to="/register" className="font-medium text-primary hover:text-primary-hover">
             Create one
           </Link>
         </>
       }
     >
-      <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-5">
         <Input
           label="Email"
           name="email"
@@ -43,19 +59,28 @@ export default function Login() {
           autoComplete="email"
           placeholder="you@example.com"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setEmailTouched(true);
+          }}
+          onBlur={() => setEmailTouched(true)}
+          error={emailError}
           required
         />
 
         <div className="flex flex-col gap-1.5">
-          <Input
+          <PasswordField
             label="Password"
             name="password"
-            type="password"
             autoComplete="current-password"
             placeholder="••••••••"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setPasswordTouched(true);
+            }}
+            onBlur={() => setPasswordTouched(true)}
+            error={passwordError}
             required
           />
           <div className="flex justify-end">
@@ -69,14 +94,15 @@ export default function Login() {
         </div>
 
         {error && (
-          <div className="rounded-button border border-problem/20 bg-problem-tint px-3 py-2 text-small text-problem">
+          <div className="rounded-button border border-problem/20 bg-problem-tint px-3 py-2.5 text-small text-problem">
             {error}
           </div>
         )}
 
-        <Button type="submit" size="lg" loading={loading} className="mt-2 w-full">
+        <Button type="submit" size="lg" variant="primary" loading={loading} className="mt-2 w-full">
           Sign in
         </Button>
+        <SocialAuthOptions />
       </form>
     </AuthLayout>
   );

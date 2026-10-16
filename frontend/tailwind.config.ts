@@ -1,49 +1,53 @@
 import type { Config } from 'tailwindcss';
 
 export default {
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
         // Canvas
-        bg: '#FDFCF7',
-        'bg-secondary': '#F7F5EC',
-        card: '#FFFFFF',
-        'card-elevated': '#FFFDF6',
-        border: '#E8E4D5',
-        'border-hover': '#D6D0BC',
+        bg: 'rgb(var(--cf-bg) / <alpha-value>)',
+        'bg-secondary': 'rgb(var(--cf-bg-secondary) / <alpha-value>)',
+        card: 'rgb(var(--cf-card) / <alpha-value>)',
+        'card-elevated': 'rgb(var(--cf-card-elevated) / <alpha-value>)',
+        border: 'rgb(var(--cf-border) / <alpha-value>)',
+        'border-hover': 'rgb(var(--cf-border-hover) / <alpha-value>)',
 
         // Brand / AI / action
-        primary: '#15803D',
-        'primary-hover': '#166534',
-        'primary-tint': '#DCFCE7',
+        primary: 'rgb(var(--cf-primary) / <alpha-value>)',
+        'primary-hover': 'rgb(var(--cf-primary-hover) / <alpha-value>)',
+        'primary-tint': 'rgb(var(--cf-primary-tint) / <alpha-value>)',
 
         // Contrast-safe greens
-        green: '#15803D',
-        'green-deep': '#14532D',
-        'green-tint': '#DCFCE7',
+        green: 'rgb(var(--cf-green) / <alpha-value>)',
+        'green-deep': 'rgb(var(--cf-green-deep) / <alpha-value>)',
+        'green-tint': 'rgb(var(--cf-green-tint) / <alpha-value>)',
 
         // Data / info
-        info: '#0E7490',
-        'info-tint': '#CFFAFE',
+        info: 'rgb(var(--cf-info) / <alpha-value>)',
+        'info-tint': 'rgb(var(--cf-info-tint) / <alpha-value>)',
 
         // Semantic states
-        success: '#16A34A',
-        'success-tint': '#DCFCE7',
-        attention: '#D97706',
-        'attention-tint': '#FEF3C7',
-        problem: '#DC2626',
-        'problem-tint': '#FEE2E2',
+        success: 'rgb(var(--cf-success) / <alpha-value>)',
+        'success-tint': 'rgb(var(--cf-success-tint) / <alpha-value>)',
+        attention: 'rgb(var(--cf-attention) / <alpha-value>)',
+        'attention-tint': 'rgb(var(--cf-attention-tint) / <alpha-value>)',
+        problem: 'rgb(var(--cf-problem) / <alpha-value>)',
+        'problem-tint': 'rgb(var(--cf-problem-tint) / <alpha-value>)',
 
         // Accent glow
-        glow: '#86EFAC',
-        'glow-warm': '#FDE68A',
+        glow: 'rgb(var(--cf-glow) / <alpha-value>)',
+        'glow-warm': 'rgb(var(--cf-glow-warm) / <alpha-value>)',
 
         // Text
-        text: '#1C1917',
-        'text-secondary': '#57534E',
-        'text-muted': '#A8A29E',
-        'text-inverse': '#FFFFFF',
+        text: 'rgb(var(--cf-text) / <alpha-value>)',
+        'text-secondary': 'rgb(var(--cf-text-secondary) / <alpha-value>)',
+        'text-muted': 'rgb(var(--cf-text-muted) / <alpha-value>)',
+        'text-inverse': 'rgb(var(--cf-text-inverse) / <alpha-value>)',
+        'link-hover': 'rgb(var(--cf-link-hover) / <alpha-value>)',
+        'pricing-brown': 'rgb(var(--cf-pricing-brown) / <alpha-value>)',
+        'pricing-brown-hover': 'rgb(var(--cf-pricing-brown-hover) / <alpha-value>)',
       },
 
       borderRadius: {
@@ -54,6 +58,7 @@ export default {
 
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Fraunces', 'Georgia', 'serif'],
       },
 
       fontSize: {

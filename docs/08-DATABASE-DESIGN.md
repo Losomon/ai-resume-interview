@@ -53,11 +53,10 @@ Versioned migrations only (Flyway, Liquibase or the framework's tool), never man
 - Hosted Postgres (for example Neon) needs a pooled connection string for the API and a direct one for migrations. Check the provider's current free-tier limits before relying on them.
 
 ## As implemented in the `database/` package (this section wins)
-The database is its own package, `@careerforge/database`, that the API imports; schema is split per domain under `database/src/schema/`, with generated migrations in `database/migrations/`. All 16 tables from this document now exist, with these deliberate differences:
-- `resumes.content` is one validated JSONB document (no `resume_sections` table).
-- Interview questions are rows in `interview_answers` (`position`, `question`, nullable `answer`), with no separate questions table.
-- Added: `refresh_tokens`, `password_reset_tokens`, `saved_jobs`, `learning_plan_steps`; `applications` gains `job_id`, `resume_id`, `position`.
-- Postgres enums for interview status, application stage, coach role, job level, skill source.
-- Check constraints on score ranges. User deletion is a hard cascade; `audit_log.user_id` is SET NULL.
-
-Folder guide, index rationale and migration workflow: `database/README.md`.
+The database is its own package, `@careerforge/database`: schema per domain in `database/src/schema/`, shared zod contracts in `src/validation/`, generated migration in `database/migrations/`. Ten tables: `users`, `refresh_tokens`, `resumes`, `ats_analyses`, `interview_sessions`, `applications`, `coach_conversations`, `jobs`, `skills`, `job_skills`. Differences from the proposal above:
+- `resumes.content` is one validated JSONB document (no `resume_sections`).
+- One `interview_sessions` row holds config, questions, answers, scores and feedback as JSONB (no separate questions or answers tables).
+- One `coach_conversations` row per user holds the chat messages and the learning plan.
+- `skills` is a shared catalog; `job_skills` links jobs to it. Per-user skills are the resume's own `skills` array.
+- Deferred until a feature needs them: `password_reset_tokens`, `saved_jobs`, `job_matches` (matches are computed live), `readiness_snapshots`, `audit_log`.
+Guide, index rationale and migration workflow: `database/README.md`.

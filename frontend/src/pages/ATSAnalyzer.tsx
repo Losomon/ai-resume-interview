@@ -11,34 +11,48 @@ import { useATSStore } from "@/store/atsStore";
 import { useResumeStore } from "@/store/resumeStore";
 import { cn } from "@/utils/cn";
 
+const STAGES = [
+  "Reading resume content",
+  "Extracting job requirements",
+  "Comparing skills and experience",
+  "Generating recommendations",
+];
+
 export default function ATSAnalyzer() {
   const { resumes, fetchAll, update } = useResumeStore();
-  const {
-    analysis,
-    analyzing,
-    error,
-    analyze,
-    reset,
-  } = useATSStore();
+  const { analysis, analyzing, error, analyze, reset } = useATSStore();
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [stage, setStage] = useState(0);
 
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
 
-  // Auto-select first resume
   useEffect(() => {
     if (!selectedId && resumes.length > 0) setSelectedId(resumes[0].id);
   }, [resumes, selectedId]);
+
+  // Advance the loading stages while analyzing
+  useEffect(() => {
+    if (!analyzing) {
+      setStage(0);
+      return;
+    }
+    setStage(0);
+    const timers = [
+      setTimeout(() => setStage(1), 400),
+      setTimeout(() => setStage(2), 800),
+      setTimeout(() => setStage(3), 1300),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, [analyzing]);
 
   const selected = resumes.find((r) => r.id === selectedId) ?? null;
 
   async function onAnalyze() {
     if (!selected) return;
     const result = await analyze(selected);
-    // Persist the score back onto the resume — this is what powers
-    // the score chip in the builder topbar.
     await update(selected.id, { atsScore: result.score.overall });
   }
 
@@ -52,7 +66,7 @@ export default function ATSAnalyzer() {
             <button
               type="button"
               onClick={reset}
-              className="text-small font-medium text-text-secondary hover:text-primary transition-colors"
+              className="text-small font-medium text-text-secondary transition-colors hover:text-primary"
             >
               New analysis
             </button>
@@ -114,6 +128,7 @@ export default function ATSAnalyzer() {
 
         {/* Right: results */}
         <div className="min-w-0">
+          {/* Empty state */}
           {!analysis && !analyzing && (
             <Card className="flex flex-col items-center justify-center px-6 py-20 text-center">
               <AIMark size={56} glow />
@@ -125,35 +140,71 @@ export default function ATSAnalyzer() {
             </Card>
           )}
 
+          {/* Loading — 4 named stages */}
           {analyzing && (
             <Card className="p-10">
-              <div className="flex flex-col items-center gap-4">
+              <div className="flex flex-col items-center gap-5">
                 <AIMark size={64} thinking />
-                <p className="text-small text-text-secondary">AI is analyzing…</p>
-                <div className="flex gap-1 text-primary">
-                  <span className="animate-dot-1">●</span>
-                  <span className="animate-dot-2">●</span>
-                  <span className="animate-dot-3">●</span>
-                </div>
+                <p className="text-small font-medium text-text">
+                  Analyzing your resume…
+                </p>
               </div>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+
+              <ol className="mx-auto mt-8 flex max-w-[360px] flex-col gap-4">
+                {STAGES.map((label, i) => {
+                  const done = i < stage;
+                  const active = i === stage;
+                  return (
+                    <li key={label} className="flex items-center gap-3">
+                      <span
+                        className={cn(
+                          "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+                          done && "border-primary bg-primary text-text-inverse",
+                          active && "border-primary bg-card",
+                          !done && !active && "border-border bg-card",
+                        )}
+                      >
+                        {done && <Check size={11} strokeWidth={3} />}
+                        {active && (
+                          <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+                        )}
+                      </span>
+                      <span
+                        className={cn(
+                          "text-small transition-colors",
+                          done && "text-text-muted line-through",
+                          active && "font-medium text-text",
+                          !done && !active && "text-text-muted",
+                        )}
+                      >
+                        {label}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ol>
+
+              <div className="mt-10 grid gap-4 sm:grid-cols-2">
                 <Skeleton className="h-40 rounded-card" />
                 <Skeleton className="h-40 rounded-card" />
               </div>
             </Card>
           )}
 
+          {/* Results */}
           {analysis && !analyzing && (
             <div className="flex flex-col gap-4">
-              {/* Score */}
               <Card className="p-6">
-                <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center">
+                <div className="flex flex-col items-center gap-6 sm:flex-row">
                   <ATSScore score={analysis.score.overall} />
                   <div className="flex-1">
                     <div className="text-small font-medium text-text-secondary">
                       Overall match
                     </div>
-                    <div className="mt-1 text-[28px] font-bold leading-tight text-text">
+                    <div
+                      className="mt-1 text-[28px] font-semibold leading-tight text-text"
+                      style={{ fontFamily: "Fraunces, Georgia, serif" }}
+                    >
                       {analysis.score.overall >= 80
                         ? "Excellent match"
                         : analysis.score.overall >= 60
@@ -162,9 +213,10 @@ export default function ATSAnalyzer() {
                             ? "Fair match"
                             : "Needs work"}
                     </div>
-                    <p className="mt-2 text-small text-text-secondary">
+                    <p className="mt-2 text-small leading-relaxed text-text-secondary">
                       Based on {analysis.matches.length} keywords extracted from
-                      the job description.
+                      the job description. This measures how closely the wording
+                      matches — not a prediction of an employer's decision.
                     </p>
                   </div>
                 </div>
@@ -174,15 +226,16 @@ export default function ATSAnalyzer() {
                 </div>
               </Card>
 
-              {/* Keywords */}
               <Card className="p-6">
                 <h3 className="text-card text-text">Keyword match</h3>
-                <div className="mt-4">
+                <p className="mt-1 text-small text-text-secondary">
+                  Broken into three groups so you know what's real.
+                </p>
+                <div className="mt-5">
                   <KeywordMatch matches={analysis.matches} />
                 </div>
               </Card>
 
-              {/* Strengths + suggestions */}
               <ATSBreakdown
                 strengths={analysis.strengths}
                 suggestions={analysis.suggestions}

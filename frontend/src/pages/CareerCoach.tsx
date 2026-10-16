@@ -1,14 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { MessageSquare, ListChecks, Sparkles } from "lucide-react";
 import { PageHeader } from "@/components/layout";
 import { Button, Card, Skeleton, AIMark } from "@/components/ui";
 import { CoachMessageBubble } from "@/components/coach/CoachMessageBubble";
-import { CoachComposer } from "@/components/coach/CoachComposer";
+import { CoachComposer, type ContextItem } from "@/components/coach/CoachComposer";
 import { CoachEmptyState } from "@/components/coach/CoachEmptyState";
 import { LearningPlanCard } from "@/components/coach/LearningPlan";
 import { useCoachStore } from "@/store/coachStore";
 import { useResumeStore } from "@/store/resumeStore";
 import { useATSStore } from "@/store/atsStore";
+import { useInterviewStore } from "@/store/interviewStore";
 import { cn } from "@/utils/cn";
 
 type Tab = "chat" | "plan";
@@ -16,6 +17,7 @@ type Tab = "chat" | "plan";
 export default function CareerCoach() {
   const { resumes, fetchAll } = useResumeStore();
   const { analysis } = useATSStore();
+  const { session } = useInterviewStore();
   const {
     messages,
     plan,
@@ -28,24 +30,48 @@ export default function CareerCoach() {
   } = useCoachStore();
 
   const [tab, setTab] = useState<Tab>("chat");
+  const [context, setContext] = useState<ContextItem[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
 
-  // Auto-scroll chat
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages, thinking]);
 
-  // Pick the most recently updated resume as context
-  const activeResume =
-    resumes.length > 0
-      ? resumes.slice().sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0]
-      : null;
+  const activeResume = useMemo(
+    () =>
+      resumes.length > 0
+        ? resumes.slice().sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0]
+        : null,
+    [resumes],
+  );
+
+  const availableContext: ContextItem[] = useMemo(() => {
+    const items: ContextItem[] = [];
+    if (activeResume) {
+      items.push({ id: `resume-${activeResume.id}`, type: "resume", label: activeResume.title });
+    }
+    if (analysis) {
+      items.push({
+        id: `ats-${analysis.resumeId}`,
+        type: "ats",
+        label: `ATS report · ${analysis.score.overall}/100`,
+      });
+    }
+    if (session?.feedback) {
+      items.push({
+        id: `interview-${session.id}`,
+        type: "interview",
+        label: `Interview · ${session.config.role}`,
+      });
+    }
+    return items;
+  }, [activeResume, analysis, session]);
 
   async function handleGeneratePlan() {
     const goal = activeResume?.headline || "Land a stronger role";
@@ -53,11 +79,19 @@ export default function CareerCoach() {
     setTab("plan");
   }
 
+  function addContext(item: ContextItem) {
+    setContext((c) => (c.some((x) => x.id === item.id) ? c : [...c, item]));
+  }
+
+  function removeContext(id: string) {
+    setContext((c) => c.filter((x) => x.id !== id));
+  }
+
   return (
     <>
       <PageHeader
-        title="Career Coach"
-        subtitle="Personalized advice grounded in your resume and analysis."
+        title="AI Career Coach"
+        subtitle="Let's build your future."
         actions={
           <div className="flex gap-2">
             {messages.length > 0 && (
@@ -73,7 +107,11 @@ export default function CareerCoach() {
         }
       />
 
-      {/* Mobile tabs */}
+      <p className="mb-6 max-w-[560px] text-[15px] leading-relaxed text-text-secondary">
+        Get personalized career advice, discover skills to develop, and turn
+        your goals into an actionable plan.
+      </p>
+
       <div className="mb-4 flex gap-1 rounded-button border border-border bg-card p-1 lg:hidden">
         <TabButton active={tab === "chat"} onClick={() => setTab("chat")} icon={<MessageSquare size={14} />}>
           Chat
@@ -84,14 +122,10 @@ export default function CareerCoach() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[1fr_440px]">
-        {/* Chat column */}
-        <Card className={cn("flex h-[640px] flex-col overflow-hidden", tab === "plan" && "hidden lg:flex")}>
-          {/* Messages */}
+        <Card className={cn("flex h-[660px] flex-col overflow-hidden", tab === "plan" && "hidden lg:flex")}>
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-5">
             {messages.length === 0 && !thinking && (
-              <CoachEmptyState
-                onPick={(text) => send(text, activeResume, analysis)}
-              />
+              <CoachEmptyState onPick={(text) => send(text, activeResume, analysis)} />
             )}
 
             {messages.length > 0 && (
@@ -116,14 +150,16 @@ export default function CareerCoach() {
             )}
           </div>
 
-          {/* Composer */}
           <CoachComposer
             onSend={(text) => send(text, activeResume, analysis)}
             disabled={thinking}
+            context={context}
+            availableContext={availableContext}
+            onAddContext={addContext}
+            onRemoveContext={removeContext}
           />
         </Card>
 
-        {/* Plan column */}
         <div className={cn("min-w-0", tab === "chat" && "hidden lg:block")}>
           {planning && (
             <div className="flex flex-col gap-4">
