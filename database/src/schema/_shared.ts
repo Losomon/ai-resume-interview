@@ -1,5 +1,7 @@
-import { uuid, timestamp } from "drizzle-orm/pg-core";
-/** Conventions: uuid primary keys, timestamptz everywhere, snake_case columns, camelCase in TypeScript. */
-export const pk = () => uuid("id").defaultRandom().primaryKey();
-export const createdAt = () => timestamp("created_at", { withTimezone: true }).defaultNow().notNull();
-export const updatedAt = () => timestamp("updated_at", { withTimezone: true }).defaultNow().notNull().$onUpdate(() => new Date());
+import { timestamp, uuid } from "drizzle-orm/pg-core";
+
+export const pk = () => uuid("id").primaryKey().defaultRandom();
+export const createdAt = () => timestamp("created_at", { withTimezone: true }).notNull().defaultNow();
+export const updatedAt = () =>
+  timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date());
+export const ts = (name: string) => timestamp(name, { withTimezone: true });
