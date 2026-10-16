@@ -1,27 +1,27 @@
-import { Search, SlidersHorizontal, X } from "lucide-react";
-import { Badge } from "@/components/ui";
-import { cn } from "@/utils/cn";
-import { useJobStore } from "@/store/jobStore";
-import type { JobLevel } from "@/types/resume";
+import { Search, SlidersHorizontal, X } from 'lucide-react';
+import { Badge } from '@/components/ui';
+import { cn } from '@/utils/cn';
+import { useJobStore } from '@/store/jobStore';
+import type { JobLevel } from '@/types/resume';
 
-const LOCATIONS = ["All locations", "Remote", "Hybrid"];
-const LEVELS: (JobLevel | "all")[] = ["all", "junior", "mid", "senior", "lead"];
+const LOCATIONS = ['All locations', 'Remote', 'Hybrid'];
+const LEVELS: (JobLevel | 'all')[] = ['all', 'junior', 'mid', 'senior', 'lead'];
 const SALARIES = [0, 100000, 130000, 160000, 200000];
 
 export function JobFilters() {
   const { filters, setFilters } = useJobStore();
 
   const activeCount =
-    (filters.location !== "All locations" ? 1 : 0) +
+    (filters.location !== 'All locations' ? 1 : 0) +
     (filters.remoteOnly ? 1 : 0) +
-    (filters.level !== "all" ? 1 : 0) +
+    (filters.level !== 'all' ? 1 : 0) +
     (filters.minSalary > 0 ? 1 : 0);
 
   function clear() {
     setFilters({
-      location: "All locations",
+      location: 'All locations',
       remoteOnly: false,
-      level: "all",
+      level: 'all',
       minSalary: 0,
     });
   }
@@ -69,12 +69,8 @@ export function JobFilters() {
 
         <FilterGroup label="Level">
           {LEVELS.map((l) => (
-            <Chip
-              key={l}
-              active={filters.level === l}
-              onClick={() => setFilters({ level: l })}
-            >
-              {l === "all" ? "All" : l.charAt(0).toUpperCase() + l.slice(1)}
+            <Chip key={l} active={filters.level === l} onClick={() => setFilters({ level: l })}>
+              {l === 'all' ? 'All' : l.charAt(0).toUpperCase() + l.slice(1)}
             </Chip>
           ))}
         </FilterGroup>
@@ -86,7 +82,7 @@ export function JobFilters() {
               active={filters.minSalary === s}
               onClick={() => setFilters({ minSalary: s })}
             >
-              {s === 0 ? "Any" : `$${Math.round(s / 1000)}k+`}
+              {s === 0 ? 'Any' : `$${Math.round(s / 1000)}k+`}
             </Chip>
           ))}
         </FilterGroup>
@@ -105,13 +101,7 @@ export function JobFilters() {
   );
 }
 
-function FilterGroup({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
+function FilterGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-1.5">
       <span className="text-xs font-medium text-text-muted">{label}:</span>
@@ -134,10 +124,10 @@ function Chip({
       type="button"
       onClick={onClick}
       className={cn(
-        "rounded-full border px-2.5 py-1 text-xs font-medium transition-colors duration-card",
+        'rounded-full border px-2.5 py-1 text-xs font-medium transition-colors duration-card',
         active
-          ? "border-primary bg-primary-tint text-green-deep"
-          : "border-border bg-card text-text-secondary hover:border-border-hover hover:text-text",
+          ? 'border-primary bg-primary-tint text-green-deep'
+          : 'border-border bg-card text-text-secondary hover:border-border-hover hover:text-text',
       )}
     >
       {children}

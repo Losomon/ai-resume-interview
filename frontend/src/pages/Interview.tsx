@@ -17,9 +17,15 @@ export default function Interview() {
   return (
     <>
       <PageHeader
-        title="AI Interviews"
-        subtitle="Practice with a focused mock session and get structured feedback."
+        title="Interview Prep"
+        subtitle="Your next interview starts here."
       />
+
+      <p className="mb-8 max-w-[520px] text-[16px] leading-relaxed text-text-secondary">
+        Build confidence, practice real-world questions, and get feedback to
+        improve your answers.
+      </p>
+
       <InterviewSetup onStart={onStart} loading={generating} />
     </>
   );

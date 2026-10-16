@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { fadeUp, stagger, viewportOnce } from "./motion";
+import { motion } from 'framer-motion';
+import { fadeUp, stagger, viewportOnce } from './motion';
 
 export function OnePlatform() {
   return (
@@ -31,8 +31,8 @@ export function OnePlatform() {
           variants={fadeUp}
           className="mx-auto mt-6 max-w-[560px] text-[17px] leading-relaxed text-text-secondary"
         >
-          Not a resume generator. Not an interview bot. A connected system that
-          measures where you are and moves you forward.
+          Not a resume generator. Not an interview bot. A connected system that measures where you
+          are and moves you forward.
         </motion.p>
       </motion.div>
     </section>
