@@ -1,7 +1,7 @@
-import { Check, Clock } from "lucide-react";
-import { Card, Badge, Button } from "@/components/ui";
-import { cn } from "@/utils/cn";
-import type { LearningPlan } from "@/types/resume";
+import { Check, Clock } from 'lucide-react';
+import { Card, Badge, Button } from '@/components/ui';
+import { cn } from '@/utils/cn';
+import type { LearningPlan } from '@/types/resume';
 
 type Props = {
   plan: LearningPlan;
@@ -10,14 +10,14 @@ type Props = {
 };
 
 const categoryTone: Record<
-  LearningPlan["steps"][number]["category"],
-  { label: string; tone: "ai" | "info" | "attention" | "progress" | "neutral" }
+  LearningPlan['steps'][number]['category'],
+  { label: string; tone: 'ai' | 'info' | 'attention' | 'progress' | 'neutral' }
 > = {
-  skill:         { label: "Skill",         tone: "ai" },
-  portfolio:     { label: "Portfolio",     tone: "info" },
-  certification: { label: "Certification", tone: "attention" },
-  interview:     { label: "Interview",     tone: "progress" },
-  resume:        { label: "Resume",        tone: "neutral" },
+  skill: { label: 'Skill', tone: 'ai' },
+  portfolio: { label: 'Portfolio', tone: 'info' },
+  certification: { label: 'Certification', tone: 'attention' },
+  interview: { label: 'Interview', tone: 'progress' },
+  resume: { label: 'Resume', tone: 'neutral' },
 };
 
 export function LearningPlanCard({ plan, onToggleStep, onReset }: Props) {
@@ -64,19 +64,19 @@ export function LearningPlanCard({ plan, onToggleStep, onReset }: Props) {
               type="button"
               onClick={() => onToggleStep(step.id)}
               className={cn(
-                "group flex w-full items-start gap-3 rounded-card border bg-card p-4 text-left transition-all duration-card",
+                'group flex w-full items-start gap-3 rounded-card border bg-card p-4 text-left transition-all duration-card',
                 step.completed
-                  ? "border-primary/25 bg-primary-tint/40"
-                  : "border-border hover:-translate-y-px hover:border-border-hover hover:shadow-card",
+                  ? 'border-primary/25 bg-primary-tint/40'
+                  : 'border-border hover:-translate-y-px hover:border-border-hover hover:shadow-card',
               )}
             >
               {/* Checkbox */}
               <span
                 className={cn(
-                  "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors duration-card",
+                  'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors duration-card',
                   step.completed
-                    ? "border-primary bg-primary text-text-inverse"
-                    : "border-border-hover bg-card group-hover:border-primary/50",
+                    ? 'border-primary bg-primary text-text-inverse'
+                    : 'border-border-hover bg-card group-hover:border-primary/50',
                 )}
               >
                 {step.completed && <Check size={12} strokeWidth={3} />}
@@ -92,18 +92,16 @@ export function LearningPlanCard({ plan, onToggleStep, onReset }: Props) {
                 </div>
                 <div
                   className={cn(
-                    "mt-2 text-small font-medium leading-snug",
-                    step.completed
-                      ? "text-text-muted line-through"
-                      : "text-text",
+                    'mt-2 text-small font-medium leading-snug',
+                    step.completed ? 'text-text-muted line-through' : 'text-text',
                   )}
                 >
                   {step.title}
                 </div>
                 <p
                   className={cn(
-                    "mt-1 text-small leading-relaxed",
-                    step.completed ? "text-text-muted" : "text-text-secondary",
+                    'mt-1 text-small leading-relaxed',
+                    step.completed ? 'text-text-muted' : 'text-text-secondary',
                   )}
                 >
                   {step.description}

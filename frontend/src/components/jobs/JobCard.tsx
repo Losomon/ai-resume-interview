@@ -1,8 +1,8 @@
-import { MapPin, Bookmark, BookmarkCheck } from "lucide-react";
-import { Card, Badge } from "@/components/ui";
-import { JobMatchScore } from "./JobMatchScore";
-import { cn } from "@/utils/cn";
-import type { Job, JobMatch } from "@/types/resume";
+import { MapPin, Bookmark, BookmarkCheck } from 'lucide-react';
+import { Card, Badge } from '@/components/ui';
+import { JobMatchScore } from './JobMatchScore';
+import { cn } from '@/utils/cn';
+import type { Job, JobMatch } from '@/types/resume';
 
 type Props = {
   job: Job;
@@ -18,28 +18,24 @@ export function JobCard({ job, match, saved, onOpen, onToggleSaved }: Props) {
       {/* Save button */}
       <button
         type="button"
-        aria-label={saved ? "Unsave job" : "Save job"}
+        aria-label={saved ? 'Unsave job' : 'Save job'}
         onClick={(e) => {
           e.stopPropagation();
           onToggleSaved();
         }}
         className={cn(
-          "absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-button",
-          "transition-colors duration-card",
+          'absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-button',
+          'transition-colors duration-card',
           saved
-            ? "text-primary hover:bg-primary-tint"
-            : "text-text-muted hover:bg-bg-secondary hover:text-text",
+            ? 'text-primary hover:bg-primary-tint'
+            : 'text-text-muted hover:bg-bg-secondary hover:text-text',
         )}
       >
         {saved ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
       </button>
 
       {/* Click target */}
-      <button
-        type="button"
-        onClick={onOpen}
-        className="flex flex-1 flex-col items-start text-left"
-      >
+      <button type="button" onClick={onOpen} className="flex flex-1 flex-col items-start text-left">
         <div className="flex w-full items-start gap-3 pr-10">
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-bg-secondary text-[15px] font-semibold text-text">
             {job.companyInitial}
@@ -52,7 +48,7 @@ export function JobCard({ job, match, saved, onOpen, onToggleSaved }: Props) {
               {job.company}
               <span className="text-border-hover">·</span>
               <MapPin size={11} />
-              {job.remote ? "Remote" : job.location}
+              {job.remote ? 'Remote' : job.location}
             </p>
           </div>
         </div>
@@ -65,10 +61,10 @@ export function JobCard({ job, match, saved, onOpen, onToggleSaved }: Props) {
               <span
                 key={t}
                 className={cn(
-                  "rounded-full border px-2.5 py-0.5 text-xs font-medium",
+                  'rounded-full border px-2.5 py-0.5 text-xs font-medium',
                   isMatched
-                    ? "border-primary/25 bg-primary-tint text-green-deep"
-                    : "border-border bg-bg-secondary text-text-secondary",
+                    ? 'border-primary/25 bg-primary-tint text-green-deep'
+                    : 'border-border bg-bg-secondary text-text-secondary',
                 )}
               >
                 {t}

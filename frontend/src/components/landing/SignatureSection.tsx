@@ -73,7 +73,7 @@ export function SignatureSection() {
   const inView = useInView(ref, { once: true, amount: 0.3 });
   const [stage, setStage] = useState(0);
 
-  /* Staged reveal: 0 = idle, 1 = chips in, 2 = sorted, 3 = reclassified, 4 = done */
+  /* Staged reveal: 0 = idle, 1 = chips in, 2 = sorted, 3 = reclassified */
   useEffect(() => {
     if (!inView) return;
     const t1 = setTimeout(() => setStage(1), 300);
@@ -87,20 +87,17 @@ export function SignatureSection() {
   }, [inView]);
 
   return (
-    <section className="relative overflow-hidden bg-bg py-32 lg:py-44">
-      {/* Full-bleed glow */}
-      <div className="pointer-events-none absolute left-1/2 top-1/3 h-[720px] w-[1080px] -translate-x-1/2 bg-glow-green opacity-40 blur-3xl" />
-
+    <section className="bg-bg py-32 lg:py-44">
       <div className="relative mx-auto max-w-[1440px] px-6 lg:px-16">
-        {/* Header — asymmetric, left-aligned */}
+        {/* Header */}
         <div className="mx-auto mb-20 max-w-[720px] text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
             The honest difference
           </p>
           <h2 className="mt-6 font-display text-[40px] leading-[1.05] tracking-[-0.03em] text-text lg:text-[56px]">
-            It shows you what you <em className="not-italic text-primary">actually</em> have.
+            It shows you what you <em className="italic text-primary-hover">actually</em> have.
           </h2>
-          <p className="mt-6 text-[17px] leading-relaxed text-text-secondary">
+          <p className="mx-auto mt-6 max-w-[560px] text-[17px] leading-relaxed text-text-secondary">
             Every other ATS tool tells you to add keywords. We tell you the difference between
             something you already know but didn't write down, and something you genuinely don't have
             yet.
@@ -122,7 +119,7 @@ export function SignatureSection() {
             </div>
 
             {/* Body */}
-            <div className="grid gap-8 bg-bg-secondary p-8 lg:grid-cols-[1fr_360px] lg:p-10">
+            <div className="grid items-start gap-8 bg-bg-secondary p-8 lg:grid-cols-[1fr_360px] lg:p-10">
               {/* LEFT — the JD keywords */}
               <div className="min-w-0">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-muted">
@@ -130,8 +127,7 @@ export function SignatureSection() {
                 </div>
 
                 {/* Unsorted pile (stage 0) */}
-                <div className="relative mt-5 min-h-[320px]">
-                  {/* Stage 0 — everything mixed */}
+                <div className="relative mt-5">
                   {stage === 0 && (
                     <div className="flex flex-wrap gap-2">
                       {JD_KEYWORDS.map((k) => (
@@ -147,15 +143,18 @@ export function SignatureSection() {
                         const meta = GROUP_META[groupKey];
                         const Icon = meta.icon;
 
+                        // At stage 3, Spring Boot moves from evidence into matched.
                         const words =
-                          groupKey === 'evidence' && stage >= 3
+                          groupKey === 'matched' && stage >= 3
                             ? [
-                                ...JD_KEYWORDS.filter(
-                                  (k) => k.group === 'evidence' && k.word !== 'Spring Boot',
-                                ),
+                                ...JD_KEYWORDS.filter((k) => k.group === 'matched'),
                                 JD_KEYWORDS.find((k) => k.word === 'Spring Boot')!,
                               ]
-                            : JD_KEYWORDS.filter((k) => k.group === groupKey);
+                            : groupKey === 'evidence' && stage >= 3
+                              ? JD_KEYWORDS.filter(
+                                  (k) => k.group === 'evidence' && k.word !== 'Spring Boot',
+                                )
+                              : JD_KEYWORDS.filter((k) => k.group === groupKey);
 
                         return (
                           <div key={groupKey}>
@@ -209,10 +208,54 @@ export function SignatureSection() {
                     >
                       <Sparkles size={14} className="mt-0.5 shrink-0 text-primary" />
                       <p className="text-small leading-relaxed text-green-deep">
-                        <span className="font-semibold">Spring Boot moved to evidence</span> —
+                        <span className="font-semibold">Spring Boot moved to matched</span> —
                         because you already list Java. You likely have experience with it, it's just
                         not written down.
                       </p>
+                    </motion.div>
+                  )}
+
+                  {/* How we decide — fills the empty space and teaches the rule */}
+                  {stage >= 3 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6, duration: 0.5 }}
+                      className="mt-8 border-t border-border pt-6"
+                    >
+                      <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-muted">
+                        How we decide
+                      </div>
+                      <ul className="mt-4 flex flex-col gap-3">
+                        <li className="flex items-start gap-3">
+                          <Check size={14} className="mt-0.5 shrink-0 text-green-deep" />
+                          <div>
+                            <div className="text-small font-medium text-text">Matched</div>
+                            <div className="text-xs leading-relaxed text-text-secondary">
+                              The term appears in your resume.
+                            </div>
+                          </div>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <AlertTriangle size={14} className="mt-0.5 shrink-0 text-attention" />
+                          <div>
+                            <div className="text-small font-medium text-text">Missing evidence</div>
+                            <div className="text-xs leading-relaxed text-text-secondary">
+                              You have a related skill, so you may already have this — but it's not
+                              written down.
+                            </div>
+                          </div>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <X size={14} className="mt-0.5 shrink-0 text-problem" />
+                          <div>
+                            <div className="text-small font-medium text-text">Real gap</div>
+                            <div className="text-xs leading-relaxed text-text-secondary">
+                              Nothing related was found. Build it or leave it off — never fake it.
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
                     </motion.div>
                   )}
                 </div>
@@ -259,7 +302,7 @@ export function SignatureSection() {
           </Card>
 
           {/* Caption */}
-          <p className="mt-6 text-center text-xs text-text-muted">
+          <p className="mt-6 text-center text-small text-text-secondary">
             Same rules run in the real analyzer. Deterministic, testable, and open about what it
             doesn't know.
           </p>
@@ -282,7 +325,7 @@ function Chip({
     matched: 'border-primary/25 bg-primary-tint text-green-deep',
     evidence: 'border-attention/25 bg-attention-tint text-attention',
     gap: 'border-problem/25 bg-problem-tint text-problem',
-    moving: 'border-primary bg-primary text-text-inverse shadow-glow',
+    moving: 'border-primary bg-primary text-text-inverse',
   }[state];
 
   return (

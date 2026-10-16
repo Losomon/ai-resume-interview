@@ -6,10 +6,7 @@ import { fadeUp, stagger, viewportOnce } from './motion';
 
 export function FinalCTA() {
   return (
-    <section className="relative overflow-hidden bg-bg py-24 lg:py-32">
-      {/* Green glow behind the panel */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[820px] -translate-x-1/2 -translate-y-1/2 bg-glow-green opacity-50 blur-3xl" />
-
+    <section className="bg-bg py-24 lg:py-32">
       <motion.div
         variants={stagger(0.08)}
         initial="hidden"
@@ -18,16 +15,16 @@ export function FinalCTA() {
         className="relative mx-auto max-w-[720px] px-6 text-center lg:px-10"
       >
         <motion.div variants={fadeUp} className="flex justify-center">
-          <AIMark size={64} glow />
+          <AIMark size={64} glow={false} />
         </motion.div>
 
         <motion.h2
           variants={fadeUp}
-          className="mt-8 text-[34px] font-bold leading-tight tracking-tight text-text lg:text-[48px]"
+          className="mt-8 font-display text-[40px] font-medium leading-[1.08] tracking-[-0.04em] text-text sm:text-[48px] lg:text-[60px]"
         >
-          Build a career that
+          Build a career
           <br />
-          moves with you.
+          <em className="italic text-link-hover">that moves with you.</em>
         </motion.h2>
 
         <motion.p

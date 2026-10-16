@@ -23,11 +23,11 @@ export type AIRewritePanelProps = {
 };
 
 const TONES: { id: AISuggestionTone; label: string }[] = [
-  { id: 'balanced', label: 'Balanced' },
-  { id: 'concise', label: 'Concise' },
-  { id: 'metrics', label: 'Metrics' },
+  { id: 'balanced',   label: 'Balanced' },
+  { id: 'concise',    label: 'Concise' },
+  { id: 'metrics',    label: 'Metrics' },
   { id: 'leadership', label: 'Leadership' },
-  { id: 'technical', label: 'Technical' },
+  { id: 'technical',  label: 'Technical' },
 ];
 
 export function AIRewritePanel({
@@ -48,21 +48,25 @@ export function AIRewritePanel({
   onClose,
   onUndo,
 }: AIRewritePanelProps) {
-  const activeOption = options.find((o) => o.id === activeOptionId) ?? options[0] ?? null;
+  const activeOption =
+    options.find((o) => o.id === activeOptionId) ?? options[0] ?? null;
 
-  const displayText = streaming ? streamedText : (activeOption?.text ?? '');
+  const displayText = streaming ? streamedText : activeOption?.text ?? '';
 
   return (
     <aside
       className={cn(
-        'hidden xl:flex xl:flex-col xl:w-[360px] shrink-0',
-        'border-l border-border bg-card',
+        // Fixed overlay — top: below the builder topbar; right: full height
+        'fixed right-0 top-[72px] bottom-0 z-30 w-[360px]',
+        'hidden xl:flex xl:flex-col',
+        'border-l border-border bg-card shadow-card-hover',
         'transition-transform duration-panel ease-out',
-        open ? 'translate-x-0' : 'translate-x-full opacity-0 pointer-events-none',
+        open ? 'translate-x-0' : 'translate-x-full',
       )}
+      aria-hidden={!open}
     >
       {/* Header */}
-      <div className="flex h-[72px] items-center justify-between border-b border-border px-5">
+      <div className="flex h-[64px] shrink-0 items-center justify-between border-b border-border px-5">
         <div className="flex items-center gap-2">
           <AIMark size={18} />
           <span className="text-small font-semibold text-text">AI Suggestion</span>
@@ -91,7 +95,7 @@ export function AIRewritePanel({
       </div>
 
       {/* Tone selector */}
-      <div className="flex flex-wrap gap-1 border-b border-border px-4 py-3">
+      <div className="flex shrink-0 flex-wrap gap-1 border-b border-border px-4 py-3">
         {TONES.map((t) => (
           <button
             key={t.id}
@@ -103,7 +107,7 @@ export function AIRewritePanel({
               activeTone === t.id
                 ? 'border-primary bg-primary-tint text-green-deep'
                 : 'border-border bg-card text-text-secondary hover:border-border-hover hover:text-text',
-              (loading || streaming) && 'opacity-60 cursor-wait',
+              (loading || streaming) && 'cursor-wait opacity-60',
             )}
           >
             {t.label}
@@ -158,7 +162,7 @@ export function AIRewritePanel({
               </div>
             )}
 
-            {/* Suggested (streaming or final) */}
+            {/* Suggested */}
             <div>
               <div className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-primary">
                 <Sparkles size={12} />
@@ -173,7 +177,7 @@ export function AIRewritePanel({
               >
                 {displayText}
                 {streaming && (
-                  <span className="ml-0.5 inline-block h-3.5 w-0.5 -mb-0.5 animate-pulse bg-green-deep/70" />
+                  <span className="ml-0.5 -mb-0.5 inline-block h-3.5 w-0.5 animate-pulse bg-green-deep/70" />
                 )}
               </p>
             </div>
@@ -195,7 +199,7 @@ export function AIRewritePanel({
 
       {/* Footer */}
       {!loading && !streaming && activeOption && (
-        <div className="flex gap-2 border-t border-border p-4">
+        <div className="flex shrink-0 gap-2 border-t border-border p-4">
           <Button onClick={() => onAccept(activeOption.text)} className="flex-1">
             <Check size={16} />
             Accept

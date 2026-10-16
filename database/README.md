@@ -1,6 +1,6 @@
 # @careerforge/database
 
-The PostgreSQL layer for CareerForge as its own package: 29 tables, migrations, client factory, shared resume-content validation, seed and a verification suite that runs on in-memory Postgres. It knows nothing about Express or the frontend, and never reads `process.env` (only the CLI and seed scripts do).
+The PostgreSQL layer for CareerForge as its own package: schema, migrations, shared validation, client factory, seed and verification. It knows nothing about Express or the frontend, and never reads `process.env` (only the CLI and seed scripts do).
 
 ```text
 database/
@@ -40,47 +40,40 @@ Build the package (`npm run build -w database`) before the backend runs, and reb
 
 ## Commands
 
-| Command                       | What it does                                                                                             |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `npm run generate`            | Diff schema into a new SQL file in `migrations/`. Read it before committing                              |
-| `npm run migrate`             | Apply pending migrations (same command in CI and production)                                             |
-| `npm run seed`                | Demo data for development. Refuses to run when `NODE_ENV=production`                                     |
-| `npm run verify`              | Runs all migrations on in-memory Postgres (PGlite) and checks constraints and cascades. No server needed |
-| `npm run typecheck` / `build` | Type-check / compile to `dist/`                                                                          |
+| Command            | What it does                                                                                                            |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| `npm run generate` | Diff schema into a new SQL file in `migrations/`. Read it before committing                                             |
+| `npm run migrate`  | Apply pending migrations (same command locally, in CI and in production)                                                |
+| `npm run seed`     | Skills catalog, 12 fictional jobs, demo user `demo@careerforge.dev` / `demo-password-123`. Refuses to run in production |
+| `npm run verify`   | Runs every migration on in-memory Postgres and asserts constraints and cascades. No server needed                       |
 
-## Tables (29)
+## The 10 tables
 
-| Area         | Tables                                                                                                                |
-| ------------ | --------------------------------------------------------------------------------------------------------------------- |
-| Identity     | users, user_profiles, user_settings, oauth_accounts, refresh_tokens, password_reset_tokens, email_verification_tokens |
-| Resumes      | resumes, resume_versions, resume_files, ats_analyses                                                                  |
-| Skills       | skills                                                                                                                |
-| Jobs         | jobs, job_matches, saved_jobs                                                                                         |
-| Applications | applications, application_events                                                                                      |
-| Interviews   | interviews, interview_questions, interview_answers                                                                    |
-| Coach        | coach_conversations, coach_messages, learning_plan_steps                                                              |
-| Progress     | readiness_snapshots                                                                                                   |
-| System       | notifications, contact_messages, ai_usage, subscriptions, audit_log                                                   |
+| Table                          | Holds                                                                           |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| `users`, `refresh_tokens`      | accounts; hashed, rotating session tokens                                       |
+| `resumes`                      | one validated JSONB `content` document + `ats_score`                            |
+| `ats_analyses`                 | one row per ATS run, with `model_version`                                       |
+| `interview_sessions`           | config, questions, answers, scores and feedback as one document per session     |
+| `applications`                 | kanban cards: stage, position within the column, which resume was sent          |
+| `coach_conversations`          | one row per user: chat messages + the current learning plan                     |
+| `jobs`, `skills`, `job_skills` | listings, the skill catalog, and the join that answers "which jobs need React?" |
 
 ```mermaid
 erDiagram
   users ||--o{ resumes : owns
-  users ||--o{ skills : has
+  users ||--o{ interview_sessions : takes
   users ||--o{ applications : tracks
   users ||--o{ interviews : takes
   users ||--o{ coach_conversations : starts
   users ||--o{ notifications : receives
   users ||--o{ ai_usage : consumes
   users ||--o{ refresh_tokens : sessions
-  resumes ||--o{ resume_versions : snapshots
-  resumes ||--o{ resume_files : files
-  resumes ||--o{ ats_analyses : analyzed
-  jobs ||--o{ job_matches : scored
+  resumes ||--o{ ats_analyses : analyzed_in
+  jobs ||--o{ job_skills : requires
+  skills ||--o{ job_skills : in
   jobs ||--o{ applications : for
-  applications ||--o{ application_events : timeline
-  interviews ||--o{ interview_questions : asks
-  interview_questions ||--|| interview_answers : answered
-  coach_conversations ||--o{ coach_messages : contains
+  resumes ||--o{ applications : sent_as
 ```
 
 ## Conventions
@@ -116,13 +109,6 @@ erDiagram
 
 Rules: one concern per migration; never edit or delete an applied migration (write a new one); for risky changes use expand, then contract (add the new column, write both, backfill, switch reads, drop the old column in a later release). A new table gets its own schema file using `pk()`, `createdAt()` and `owner()`, an export from `schema/index.ts`, relations if you will join it, and a rule in `test/verify.mjs`.
 
-## Maintenance to schedule
+## Not here yet (add when a feature needs it)
 
-- Delete expired `refresh_tokens`, `password_reset_tokens` and `email_verification_tokens` daily.
-- Decide retention for `coach_messages` and `ats_analyses.job_description` (personal text).
-- Automated backups and a quarterly restore test.
-- Hosted Postgres such as Neon: pooled URL for the API, direct URL for migrations.
-
-## Not included yet
-
-Invoice and payment records beyond `subscriptions`; add them when Stripe is wired in.
+Password-reset tokens, per-user saved jobs, readiness-score history for the dashboard trend, an audit log. Schedule deletion of expired `refresh_tokens`. Decide how long to keep `coach_conversations` and `ats_analyses.job_description` (personal text, doc 10). Hosted Postgres such as Neon: pooled URL for the API, direct URL for migrations.

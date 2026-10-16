@@ -4,12 +4,14 @@ import { motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
 import { Button, Input, AIMark } from '@/components/ui';
 import { AuthLayout } from '@/components/layout/AuthLayout';
+import { isValidEmail } from '@/utils/validation';
 
 const SUPPORT_EMAIL = 'hello@careerforge.ai';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [emailError, setEmailError] = useState<string | undefined>();
 
   function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -78,7 +80,14 @@ export default function ForgotPassword() {
           autoComplete="email"
           placeholder="you@example.com"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (emailError) setEmailError(undefined);
+          }}
+          onBlur={() => {
+            setEmailError(email && !isValidEmail(email) ? 'Enter a valid email address.' : undefined);
+          }}
+          error={emailError}
           required
         />
 

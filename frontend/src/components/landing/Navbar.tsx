@@ -48,7 +48,7 @@ export function Navbar() {
               <a
                 key={l.href}
                 href={l.href}
-                className="rounded-button px-3 py-2 text-small font-medium text-text-secondary transition-colors duration-card hover:bg-bg-secondary hover:text-text"
+                className="rounded-button px-3 py-2 text-small font-medium text-text-secondary underline decoration-transparent underline-offset-4 transition-colors duration-card hover:bg-bg-secondary hover:text-link-hover hover:decoration-link-hover focus-visible:text-link-hover focus-visible:decoration-link-hover"
               >
                 {l.label}
               </a>
@@ -61,7 +61,7 @@ export function Navbar() {
 
             <Link
               to="/login"
-              className="hidden rounded-button px-3 py-2 text-small font-medium text-text-secondary transition-colors duration-card hover:text-text lg:inline-flex"
+              className="hidden rounded-button px-3 py-2 text-small font-medium text-text-secondary underline decoration-transparent underline-offset-4 transition-colors duration-card hover:text-link-hover hover:decoration-link-hover focus-visible:text-link-hover focus-visible:decoration-link-hover lg:inline-flex"
             >
               Sign In
             </Link>
@@ -98,7 +98,7 @@ export function Navbar() {
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="rounded-button px-3 py-2.5 text-small font-medium text-text-secondary transition-colors hover:bg-bg-secondary hover:text-text"
+                  className="rounded-button px-3 py-2.5 text-small font-medium text-text-secondary underline decoration-transparent underline-offset-4 transition-colors hover:bg-bg-secondary hover:text-link-hover hover:decoration-link-hover focus-visible:text-link-hover focus-visible:decoration-link-hover"
                 >
                   {l.label}
                 </a>

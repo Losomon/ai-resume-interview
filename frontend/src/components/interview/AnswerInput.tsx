@@ -1,6 +1,6 @@
-import { Send } from "lucide-react";
-import { Button } from "@/components/ui";
-import { cn } from "@/utils/cn";
+import { Send } from 'lucide-react';
+import { Button } from '@/components/ui';
+import { cn } from '@/utils/cn';
 
 type Props = {
   value: string;
@@ -15,7 +15,7 @@ export function AnswerInput({
   onChange,
   onSubmit,
   submitting,
-  submitLabel = "Submit Answer",
+  submitLabel = 'Submit Answer',
 }: Props) {
   const words = value.trim().split(/\s+/).filter(Boolean).length;
 
@@ -27,10 +27,10 @@ export function AnswerInput({
         rows={6}
         placeholder="Type your answer…"
         className={cn(
-          "w-full rounded-button border border-border bg-card px-4 py-3 text-body leading-relaxed text-text",
-          "placeholder:text-text-muted",
-          "transition-colors duration-card",
-          "focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20",
+          'w-full rounded-button border border-border bg-card px-4 py-3 text-body leading-relaxed text-text',
+          'placeholder:text-text-muted',
+          'transition-colors duration-card',
+          'focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20',
         )}
       />
       <div className="flex items-center justify-between">

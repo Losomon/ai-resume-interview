@@ -7,44 +7,47 @@ export default {
     extend: {
       colors: {
         // Canvas
-        bg: 'var(--bg)',
-        'bg-secondary': 'var(--bg-secondary)',
-        card: 'var(--card)',
-        'card-elevated': 'var(--card-elevated)',
-        border: 'var(--border)',
-        'border-hover': 'var(--border-hover)',
+        bg: 'rgb(var(--cf-bg) / <alpha-value>)',
+        'bg-secondary': 'rgb(var(--cf-bg-secondary) / <alpha-value>)',
+        card: 'rgb(var(--cf-card) / <alpha-value>)',
+        'card-elevated': 'rgb(var(--cf-card-elevated) / <alpha-value>)',
+        border: 'rgb(var(--cf-border) / <alpha-value>)',
+        'border-hover': 'rgb(var(--cf-border-hover) / <alpha-value>)',
 
         // Brand / AI / action
-        primary: 'var(--primary)',
-        'primary-hover': 'var(--primary-hover)',
-        'primary-tint': 'var(--primary-tint)',
+        primary: 'rgb(var(--cf-primary) / <alpha-value>)',
+        'primary-hover': 'rgb(var(--cf-primary-hover) / <alpha-value>)',
+        'primary-tint': 'rgb(var(--cf-primary-tint) / <alpha-value>)',
 
         // Contrast-safe greens
-        green: 'var(--green)',
-        'green-deep': 'var(--green-deep)',
-        'green-tint': 'var(--green-tint)',
+        green: 'rgb(var(--cf-green) / <alpha-value>)',
+        'green-deep': 'rgb(var(--cf-green-deep) / <alpha-value>)',
+        'green-tint': 'rgb(var(--cf-green-tint) / <alpha-value>)',
 
         // Data / info
-        info: 'var(--info)',
-        'info-tint': 'var(--info-tint)',
+        info: 'rgb(var(--cf-info) / <alpha-value>)',
+        'info-tint': 'rgb(var(--cf-info-tint) / <alpha-value>)',
 
         // Semantic states
-        success: 'var(--success)',
-        'success-tint': 'var(--success-tint)',
-        attention: 'var(--attention)',
-        'attention-tint': 'var(--attention-tint)',
-        problem: 'var(--problem)',
-        'problem-tint': 'var(--problem-tint)',
+        success: 'rgb(var(--cf-success) / <alpha-value>)',
+        'success-tint': 'rgb(var(--cf-success-tint) / <alpha-value>)',
+        attention: 'rgb(var(--cf-attention) / <alpha-value>)',
+        'attention-tint': 'rgb(var(--cf-attention-tint) / <alpha-value>)',
+        problem: 'rgb(var(--cf-problem) / <alpha-value>)',
+        'problem-tint': 'rgb(var(--cf-problem-tint) / <alpha-value>)',
 
         // Accent glow
-        glow: 'var(--glow)',
-        'glow-warm': 'var(--glow-warm)',
+        glow: 'rgb(var(--cf-glow) / <alpha-value>)',
+        'glow-warm': 'rgb(var(--cf-glow-warm) / <alpha-value>)',
 
         // Text
-        text: 'var(--text)',
-        'text-secondary': 'var(--text-secondary)',
-        'text-muted': 'var(--text-muted)',
-        'text-inverse': 'var(--text-inverse)',
+        text: 'rgb(var(--cf-text) / <alpha-value>)',
+        'text-secondary': 'rgb(var(--cf-text-secondary) / <alpha-value>)',
+        'text-muted': 'rgb(var(--cf-text-muted) / <alpha-value>)',
+        'text-inverse': 'rgb(var(--cf-text-inverse) / <alpha-value>)',
+        'link-hover': 'rgb(var(--cf-link-hover) / <alpha-value>)',
+        'pricing-brown': 'rgb(var(--cf-pricing-brown) / <alpha-value>)',
+        'pricing-brown-hover': 'rgb(var(--cf-pricing-brown-hover) / <alpha-value>)',
       },
 
       borderRadius: {

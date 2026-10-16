@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { Button, Card, Badge } from "@/components/ui";
-import { slideInLeft, scaleReveal, viewportOnce } from "./motion";
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { Button, Card, Badge } from '@/components/ui';
+import { slideInLeft, scaleReveal, viewportOnce } from './motion';
 
 export function ResumeSection() {
   return (
@@ -22,15 +22,15 @@ export function ResumeSection() {
             tells your story clearly.
           </h2>
           <p className="mt-5 max-w-[480px] text-[17px] leading-relaxed text-text-secondary">
-            Every bullet rewritten to be specific, measurable, and honest. AI
-            suggests — you decide. Never fabricate a single line.
+            Every bullet rewritten to be specific, measurable, and honest. AI suggests — you decide.
+            Never fabricate a single line.
           </p>
 
           <ul className="mt-7 flex flex-col gap-3">
             {[
-              "Live preview as you type",
-              "AI rewrites that add metrics, not fluff",
-              "Three template-ready layouts",
+              'Live preview as you type',
+              'AI rewrites that add metrics, not fluff',
+              'Three template-ready layouts',
             ].map((t) => (
               <li key={t} className="flex items-center gap-3 text-small text-text-secondary">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
@@ -71,20 +71,18 @@ export function ResumeSection() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-muted">
                 Experience
               </div>
-              <div className="text-small font-medium text-text">
-                Senior Software Engineer
-              </div>
+              <div className="text-small font-medium text-text">Senior Software Engineer</div>
               <div className="text-xs text-text-muted">Tech Solutions Inc.</div>
               <p className="mt-1 text-small leading-relaxed text-text-secondary">
-                Improved API performance by 38% through query optimization and
-                caching layer redesign.
+                Improved API performance by 38% through query optimization and caching layer
+                redesign.
               </p>
 
               <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-text-muted">
                 Skills
               </div>
               <div className="flex flex-wrap gap-1.5">
-                {["Java", "Spring Boot", "React", "PostgreSQL"].map((s) => (
+                {['Java', 'Spring Boot', 'React', 'PostgreSQL'].map((s) => (
                   <span
                     key={s}
                     className="rounded-full border border-border bg-bg-secondary px-2.5 py-0.5 text-xs text-text-secondary"
@@ -112,8 +110,7 @@ export function ResumeSection() {
               Make this achievement more measurable.
             </p>
             <p className="mt-2 text-xs leading-relaxed text-green-deep/80">
-              "Improved API performance by <strong>38%</strong> through query
-              optimization…"
+              "Improved API performance by <strong>38%</strong> through query optimization…"
             </p>
           </motion.div>
         </motion.div>
