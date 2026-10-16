@@ -1,3 +1,7 @@
-import { drizzle } from "drizzle-orm/node-postgres"; import pg from "pg"; import { config } from "../config.js"; import * as schema from "./schema.js";
-export const pool = new pg.Pool({ connectionString: config.DATABASE_URL, max: 10 });
+import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { env } from '../config/env';
+import * as schema from './schema';
+
+export const pool = new Pool({ connectionString: env.DATABASE_URL });
 export const db = drizzle(pool, { schema });
