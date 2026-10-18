@@ -1,2 +1,7 @@
-import { db } from "../cli/env.js"; import { skills } from "../schema/index.js"; import { SKILL_CATALOG } from "../catalog.js";
-export const seedSkills = () => db.insert(skills).values(SKILL_CATALOG.map((name) => ({ name }))).onConflictDoNothing();
+/**
+ * Job requirements are currently stored in jobs.skills.
+ * User-owned skills are created when a user adds skills to their profile.
+ */
+export async function seedSkills(): Promise<void> {
+  // No global skills table is currently defined.
+}
