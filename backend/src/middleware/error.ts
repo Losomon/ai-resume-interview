@@ -8,6 +8,10 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     res.status(400).json({ error: { code: "VALIDATION_ERROR", message: "Please check the highlighted fields", fields } }); return;
   }
   console.error(err);
-  res.status(500).json({ error: { message: env.NODE_ENV === 'production' ? 'Server error' : String(err?.message ?? err) } });
+  res.status(500).json({ error: { message: process.env.NODE_ENV === 'production' ? 'Server error' : String(err?.message ?? err) } });
 };
+
+
+
+
 

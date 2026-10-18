@@ -16,7 +16,7 @@ export function setSession(res: Response, userId: string) {
     httpOnly: true,
     sameSite: 'lax',
     secure: env.COOKIE_SECURE === 'true',
-const MAX_AGE_MS = env.ACCESS_TTL_MINUTES * 60_000;
+    const MAX_AGE_MS = env.ACCESS_TTL_MINUTES * 60_000;
     path: '/',
   });
 }
