@@ -11,7 +11,7 @@ declare module 'express-serve-static-core' {
 }
 
 export function setSession(res: Response, userId: string) {
-  const token = jwt.sign({ sub: userId }, env.JWT_SECRET, { expiresIn: ${env.ACCESS_TTL_MINUTES}m });
+  const token = jwt.sign({ sub: userId }, env.JWT_SECRET, { expiresIn: env.ACCESS_TTL_MINUTES * 60 });
   res.cookie(COOKIE_NAME, token, {
     httpOnly: true,
     sameSite: 'lax',
@@ -41,3 +41,6 @@ export const uid = (req: Request): string => {
   if (!req.userId) throw new AppError(401, 'Not authenticated');
   return req.userId;
 };
+
+
+
