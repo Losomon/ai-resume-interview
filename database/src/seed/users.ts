@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { db } from "../cli/env.js";
 import { users, resumes } from "../schema/index.js";
-import { resumeContent } from "../validation/index.js";
+import { resumeContent } from "../content.js";
 
 export const DEMO = {
   email: "demo@careerforge.dev",
