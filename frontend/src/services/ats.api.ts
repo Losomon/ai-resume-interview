@@ -5,12 +5,7 @@ import type {
   ATSMissing,
   ATSScoreBreakdown,
 } from "@/types/resume";
-
-const LATENCY = 1100;
-
-function delay<T>(value: T): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), LATENCY));
-}
+import { api } from "@/lib/api";
 
 /* ---------- keyword extraction ---------- */
 
@@ -60,7 +55,6 @@ function matchKeywords(resume: Resume, keywords: string[]): ATSKeywordMatch[] {
 
   return keywords.map((keyword) => {
     const matched = haystack.includes(keyword);
-    // needsEvidence: not matched, but the user has related skills listed
     const looksRelated =
       !matched &&
       [...resumeSkills].some(
@@ -120,8 +114,6 @@ function buildBreakdown(
   return { overall, keywords, experience, formatting, skills };
 }
 
-/* ---------- missing / strengths ---------- */
-
 function buildMissing(matches: ATSKeywordMatch[]): ATSMissing[] {
   return matches
     .filter((m) => !m.matched)
@@ -138,10 +130,12 @@ function buildStrengths(
 ): string[] {
   const out: string[] = [];
   if (breakdown.keywords >= 80) out.push("Strong keyword alignment with the job description.");
-  if (breakdown.experience >= 80) out.push("Experience bullets include measurable outcomes.");
-  if (resume.skills.length >= 8) out.push("Broad and specific skills section.");
-  if (resume.summary.length > 120) out.push("Detailed professional summary.");
-  if (out.length === 0) out.push("Resume has the core sections in place â€” ready to refine.");
+  if (breakdown.experience >= 70) out.push("Good use of role experience to support the job.");
+  if (breakdown.skills >= 70) out.push("Solid coverage of relevant technical skills.");
+  if (breakdown.formatting >= 80) out.push("Clean, complete resume structure.");
+  if (out.length === 0) {
+    out.push("A few tweaks will help this resume match more closely.");
+  }
   return out;
 }
 
@@ -161,23 +155,18 @@ function buildSuggestions(
     out.push("Expand the skills section to at least 10 relevant items.");
   }
   if (breakdown.formatting < 80) {
-    out.push("Fill in missing fields â€” summary, headline, or end dates.");
+    out.push("Fill in missing fields — summary, headline, or end dates.");
   }
 
   const evidenceOnly = missing.filter((m) => m.kind === "evidence");
   if (evidenceOnly.length > 0) {
     out.push(
-      `You may already have experience with ${evidenceOnly
-        .slice(0, 3)
-        .map((m) => m.keyword)
-        .join(", ")} â€” make it explicit if so.`,
+      You may already have experience with  — make it explicit if so.,
     );
   }
 
   return out.slice(0, 4);
 }
-
-/* ---------- public API ---------- */
 
 export const atsApi = {
   async analyze(resume: Resume, jobDescription: string): Promise<ATSAnalysis> {
@@ -185,22 +174,33 @@ export const atsApi = {
       throw new Error("Please paste a job description to analyze.");
     }
 
-    const keywords = extractKeywords(jobDescription);
-    const matches = matchKeywords(resume, keywords);
-    const score = buildBreakdown(resume, matches);
-    const missing = buildMissing(matches);
-    const strengths = buildStrengths(resume, score);
-    const suggestions = buildSuggestions(score, missing);
+    try {
+      return await api<ATSAnalysis>('/ats/analyze', {
+        method: 'POST',
+        body: JSON.stringify({
+          resumeId: resume.id,
+          jobDescription,
+        }),
+      });
+    } catch (e) {
+      // Fallback to local analysis if backend not available
+      const keywords = extractKeywords(jobDescription);
+      const matches = matchKeywords(resume, keywords);
+      const score = buildBreakdown(resume, matches);
+      const missing = buildMissing(matches);
+      const strengths = buildStrengths(resume, score);
+      const suggestions = buildSuggestions(score, missing);
 
-    return delay({
-      resumeId: resume.id,
-      jobDescription,
-      score,
-      matches,
-      missing,
-      strengths,
-      suggestions,
-      analyzedAt: new Date().toISOString(),
-    });
+      return {
+        resumeId: resume.id,
+        jobDescription,
+        score,
+        matches,
+        missing,
+        strengths,
+        suggestions,
+        analyzedAt: new Date().toISOString(),
+      } as ATSAnalysis;
+    }
   },
 };

@@ -1,94 +1,38 @@
 import type { Resume } from '@/types/resume';
-
-const STORAGE_KEY = 'careerforge-resumes';
-const LATENCY = 400;
-
-function delay<T>(value: T): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), LATENCY));
-}
-
-function read(): Resume[] {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]') as Resume[];
-  } catch {
-    return [];
-  }
-}
-
-function write(resumes: Resume[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(resumes));
-}
-
-function makeId() {
-  return crypto.randomUUID();
-}
-
-function emptyResume(title: string): Resume {
-  return {
-    id: makeId(),
-    title,
-    fullName: '',
-    headline: '',
-    summary: '',
-    experience: [],
-    education: [],
-    skills: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-}
+import { api } from '@/lib/api';
 
 export const resumeApi = {
   async list(): Promise<Resume[]> {
-    return delay(read().sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)));
+    return api<Resume[]>('/resumes');
   },
 
   async get(id: string): Promise<Resume | null> {
-    const found = read().find((r) => r.id === id) ?? null;
-    return delay(found);
+    return api<Resume>(/resumes/);
   },
 
   async create(title: string): Promise<Resume> {
-    const next = emptyResume(title || 'Untitled Resume');
-    const all = read();
-    all.push(next);
-    write(all);
-    return delay(next);
+    return api<Resume>('/resumes', {
+      method: 'POST',
+      body: JSON.stringify({ title }),
+    });
   },
 
   async update(id: string, patch: Partial<Resume>): Promise<Resume> {
-    const all = read();
-    const idx = all.findIndex((r) => r.id === id);
-    if (idx === -1) throw new Error('Resume not found');
-    all[idx] = { ...all[idx], ...patch, updatedAt: new Date().toISOString() };
-    write(all);
-    return delay(all[idx]);
+    return api<Resume>(/resumes/, {
+      method: 'PATCH',
+      body: JSON.stringify(patch),
+    });
   },
 
   async remove(id: string): Promise<void> {
-    const all = read().filter((r) => r.id !== id);
-    write(all);
-    return delay(undefined);
+    return api<void>(/resumes/, {
+      method: 'DELETE',
+    });
   },
 
   async duplicate(id: string): Promise<Resume> {
-    const all = read();
-    const source = all.find((r) => r.id === id);
-    if (!source) throw new Error('Resume not found');
-
-    const now = new Date().toISOString();
-    const copy: Resume = {
-      ...source,
-      id: makeId(),
-      title: `Copy of ${source.title}`,
-      createdAt: now,
-      updatedAt: now,
-      // Fresh ATS score — old score was for the old resume
-      atsScore: undefined,
-    };
-
-    all.push(copy);
-    write(all);
-    return delay(copy);
+    return api<Resume>(/resumes//duplicate, {
+      method: 'POST',
+    });
   },
 };
