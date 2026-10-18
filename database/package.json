@@ -12,12 +12,10 @@
     "typecheck": "tsc --noEmit",
     "generate": "drizzle-kit generate",
     "migrate": "tsx src/cli/migrate.ts",
-    "seed": "tsx src/cli/seed.ts",
     "studio": "drizzle-kit studio",
     "verify": "node test/verify.mjs"
   },
   "dependencies": {
-    "bcryptjs": "^3.0.3",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.45.3",
     "pg": "^8.13.1",
